@@ -1,0 +1,11 @@
+	- Grade grid better look, maybe a grey gradient
+	- Provide a better description of the Course
+	- Better font
+	- Is the disclaimer compulsory maybe provide explinations within the grades. 
+	- Provide an "out of" grade ??/10
+	- Explain what the applicable
+	- Disclaimer should be a seperate tab but designed of importance.
+
+
+	- Most recent classes (sort)
+	- 
