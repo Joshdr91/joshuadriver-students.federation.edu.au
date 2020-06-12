@@ -1,0 +1,90 @@
+<html class="gr__fdlgrades_federation_edu_au"><head>
+    
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+      <title>Federation University fdlGrades &gt;</title>
+      <head>
+        <link rel ="stylesheet" href="CSS/Design.css">
+		
+		
+
+        
+		<img src="images/FedUni_logo.svg.png" alt="Federation Logo" class="logo" align="left">
+
+         <script language="javascript">
+    
+      window.onerror = blockError;
+      
+      function blockError(){
+        return true;
+      }//endfunction
+
+      
+      function studentplancheck(studentplanid, courseplanid, studentid){
+        newWindow=window.open("studentplancheck.php?studentplanid=" + studentplanid + "&courseplanid=" + courseplanid + "&studentid=" + studentid + "&openerform=''","fdlmstudentplancheck","resizable=yes, scrollbars=yes, menubar=yes, width=" + sWidth *.9  + ", height=" + sHeight *.8 + ", top=" + sTop + ", left=" + sLeft);
+        newWindow.focus();
+      }
+      
+      function unitdescription(locationid, termid, unitid){
+        temp=window.open("../unitdescription.php?locationid=" + locationid + "&termid=" + termid + "&unitid=" + unitid + "&type=Z","_blank","location=no, menubar=yes, scrollbars=yes,  resizable=yes, width=" + sWidth *.9  + ", height=" + sHeight *.80 + ", top=" + sTop + ", left=" + sLeft + "");
+      }//endfunction
+      
+    </script>
+
+
+
+
+    <style>@media print {#ghostery-purple-box {display:none !important}}</style></head>
+
+      <body data-gr-c-s-loaded="true">
+
+        <form name="frmStudent" method="post">
+
+        <style>
+          span.boldred {color:red; font-weight:bold;}
+          span.boldbigred {color:red; font-size: 14; font-weight:bold;}
+        </style>
+		
+
+        <table class="grading-table" cellspacing="0" cellpadding="6" >
+        <tbody>
+
+      <td colspan="16" class = "profile" >
+            <b>Student ID:</b>&nbsp;30346495&nbsp;&nbsp;&nbsp;&nbsp;<b>Study Plan:</b>&nbsp;<a href="javascript:studentplancheck('108493','1100','30346495')">Click here</a>          </td>
+
+      <tr class="Types">
+        <td rowspan="2"><b>Term</b></td>
+        <td rowspan="2"><b>Course</b></td>
+        <td rowspan="2"><b>Type</b></td>
+        <td colspan="12"><b>Assessment</b></td>
+        <td rowspan="2"><b>Messages</b></td>
+      </tr>
+
+
+
+      
+      
+      <tr class="Numbers">
+        <td><b>1</b></td>
+        <td><b>2</b></td>
+        <td><b>3</b></td>
+        <td><b>4</b></td>
+        <td><b>5</b></td>
+        <td><b>6</b></td>
+        <td><b>7</b></td>
+        <td><b>8</b></td>
+        <td><b>9</b></td>
+        <td><b>10</b></td>
+        <td><b>11</b></td>
+        <td><b>12</b></td>
+      </tr>
+
+               
+        </tbody></table>
+      </form>
+
+    
+    
+  
+
+  </body></html>
