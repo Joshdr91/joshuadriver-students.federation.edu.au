@@ -95,7 +95,7 @@ class basePage
 
     public function pdo_connect()
     {
-
+        //Repetitive code (Reference 122)
         $server = $GLOBALS['fdlconfig']['mysql']['server'];
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
         $username = $GLOBALS['fdlconfig']['mysql']['username'];
@@ -119,7 +119,7 @@ class basePage
     {
 
         global $db;
-
+        // Could fix something about this so that we dont have to retype it again.
         $server = $GLOBALS['fdlconfig']['mysql']['server'];
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
         $username = $GLOBALS['fdlconfig']['mysql']['username'];
