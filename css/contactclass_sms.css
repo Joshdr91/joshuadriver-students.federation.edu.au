@@ -1,0 +1,77 @@
+body {
+    font-family: arial, sans-serif;
+    width: 98%;
+}
+
+form.chooser {
+    padding: 1em 0;
+    text-align: center;
+}
+
+table.results {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.results td, table.results th {
+    padding: 8px;
+    font-size: 14px;
+}
+
+table.results th {
+    background-color: #c0c0c0;
+}
+
+#comment {
+    width: 75%;
+}
+
+table.error {
+    border: 0px;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.error td, table.error th {
+    border: 0px;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+    background-color: yellow;
+}
+
+span.hlp {
+    font-family: Arial;
+    font-size: 18;
+}
+
+span.ital {
+    font-style: italic;
+    font-size: 14;
+}
+
+p.warning {
+    color: red;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 14;
+    background-color: yellow;
+}
+
+p.output {
+    color: black;
+    font-family: Arial;
+    font-size: 14;
+    text-align: left;
+}
+
+td {
+    font-family: Arial;
+    font-size: 14;
+}

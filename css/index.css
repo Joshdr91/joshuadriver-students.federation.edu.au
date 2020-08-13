@@ -1,0 +1,24 @@
+span.boldred {
+    color: red;
+    font-weight: bold;
+}
+
+span.bigblue {
+    color: blue;
+    font-size: 18;
+}
+
+span.bigred {
+    color: red;
+    font-size: 18;
+    font-weight: bold;
+}
+
+span.red {
+    color: red;
+}
+
+td {
+    font-family: Arial;
+    font-size: 14;
+}

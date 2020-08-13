@@ -1,0 +1,199 @@
+
+
+
+td {
+	font-family: "Arial"; 
+	font-size: 12;
+	padding: 5px;
+}
+
+.infomation {
+	text-align: center;
+}
+
+.logo{
+	width: 25%;
+	height: auto;
+	background-repeat: no-repeat;
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-top: 1px;	
+	
+}
+
+.hovermsg {
+	color:white; 
+	background-color:#041243;
+	margin-left: 41px;
+	
+}
+
+
+
+.grading-table{
+	background-color: #FFFFFF;
+	width: 100%;
+	border : 1px; dotted color-name;
+}
+
+
+
+.feilds {
+	width: 6%;
+}
+
+
+
+.ID {
+	padding-left:23px;
+}
+
+
+
+
+.Numbers {
+	width: 5%;
+	background-color:#041243;
+	text-align: center;
+	font-weight: bold;
+	font-family:"Arial";
+
+}
+
+.Disclaimer {
+	text-align: right;
+
+}
+
+
+
+/*Mobile phone table css */
+
+	@media
+	  only screen 
+    and (max-width: 600px), (min-device-width: 550px) 
+    and (max-device-width: 600px)  {
+
+    	.logo {
+    		display: none;
+    	}
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+    tr {
+      margin: 0 1 1rem 0;
+    }
+      
+    tr:nth-child(odd) {
+      background: #ccc;
+    }
+    
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 3px solid #eee;
+			position: relative;
+			padding-left: 50%;
+			border: 0.5px solid #d3d3d3;
+		}
+
+		td:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 0;
+			left: 6px;
+			width: 45%;
+			padding-right: 10px;
+			white-space: nowrap;
+		}
+
+		table {
+  			border-collapse: collapse;
+		}
+
+		tr { 
+  			border: solid;
+  			border-width: 1px 0;
+		}
+
+		table tr th{
+			display: none;
+			border: none;
+		}
+
+		/*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. 
+		*/
+		td:nth-of-type(1):before { content: "Term:"; 
+	padding-top: 7.5px;}
+		td:nth-of-type(2):before { content: "Course:";
+	padding-top: 7.5px;}
+		td:nth-of-type(3):before { content: "Type:";
+	padding-top: 7.5px; }
+		td:nth-of-type(4):before { content: "1:";
+	padding-top: 7.5px; }
+		td:nth-of-type(5):before { content: "2:"; 
+	padding-top: 7.5px;}
+		td:nth-of-type(6):before { content: "3:";
+	padding-top: 7.5px; }
+		td:nth-of-type(7):before { content: "4:";
+	padding-top: 7.5px; }
+		td:nth-of-type(8):before { content: "5:";
+	padding-top: 7.5px;}
+		td:nth-of-type(9):before { content: "6:"; 
+	padding-top: 7.5px;}
+		td:nth-of-type(10):before { content: "7:";
+	padding-top: 7.5px;}
+		td:nth-of-type(11):before { content: "8:";
+	padding-top: 7.5px;}
+		td:nth-of-type(12):before { content: "9:";
+	padding-top: 7.5px;}
+		td:nth-of-type(13):before { content: "10:";
+	padding-top: 7.5px;}
+		td:nth-of-type(14):before { content: "11:";
+	padding-top: 7.5px;}
+		td:nth-of-type(15):before { content: "12:";
+	padding-top: 7.5px;}
+
+	
+	.Types{
+		display: none;
+	}
+
+	.Numbers{
+		display: none;
+	}
+
+	.importantlink{
+		padding-left: 100px
+	}
+
+	.hovermsg{
+		display: none;
+	}
+	}
+
+
+
+body {
+  	font-family: "Open Sans", sans-serif;
+}
+
+th, td {
+	background: #eee; padding: 8px
+}
+
+
+

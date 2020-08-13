@@ -1,0 +1,95 @@
+body {
+    margin-top: 0.27em;
+}
+
+#menutab1 {
+    line-height: 8px
+}
+
+#menutab2 {
+    padding-left: 15px;
+    line-height: 12px
+}
+
+#menutab3 {
+    padding-left: 30px;
+    line-height: 12px
+}
+
+#menutab4 {
+    padding-left: 45px;
+    line-height: 12px
+}
+
+#menutab5 {
+    padding-left: 60px;
+    line-height: 12px
+}
+
+#menutab6 {
+    padding-left: 75px;
+    line-height: 12px
+}
+
+span.small {
+    line-height: 8px
+}
+
+td {
+    font-family: Arial;
+    font-size: 12;
+}
+
+/**
+*/
+
+a img:hover {
+    cursor: pointer;
+}
+
+#menutab1:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    user-select: none;
+}
+
+#dynamicMenu {
+    font-family: Arial;
+    font-size: 12;
+}
+
+#dynamicMenu ul {
+    list-style-type: none;
+    padding: 0 15px;
+}
+
+#dynamicMenu li {
+    padding: 5px 0;
+}
+
+#dynamicMenu a {
+    color: blue;
+}
+
+li.hide {
+    display: none;
+}
+
+li.show {
+    display: block;
+}
+
+input#q:focus {
+    opacity: 1;
+}
+
+input#q {
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 5px;
+    margin: 10px 5px;
+}
+
+::-ms-clear {
+    display: none;
+}

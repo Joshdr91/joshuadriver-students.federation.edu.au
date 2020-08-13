@@ -1,0 +1,22 @@
+td {
+    font-family: Arial;
+    font-size: 14;
+}
+
+span.error {
+    color: red;
+    font-family: Arial;
+    font-size: 12;
+}
+
+span.processing {
+    color: green;
+    font-family: Arial;
+    font-size: 12;
+}
+
+span.warning {
+    color: maroon;
+    font-family: Arial;
+    font-size: 12;
+}
