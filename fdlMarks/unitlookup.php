@@ -16,7 +16,7 @@ class unitlookup_page extends basePage
         // If the attribute is present, its value must be a valid MIME type.
         // Source goes to: https://www.quora.com/What-is-the-difference-between-script-language-JavaScript-and-script-type-text-JavaScript-in-HTML-file?share=1
         if (isset($_POST["btnCancel"])) {
-            echo "<script type="text/javascript"> this.close(); </script>";
+            echo "<script type=javascript> this.close(); </script>";
         }
         ?>
 
@@ -58,7 +58,7 @@ class unitlookup_page extends basePage
         }
         if ($_GET["coursetype"]) {
             $coursetype = $_GET["coursetype"];
-        }
+        } 
         if ($_GET["unitid"]) {
 
             $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
@@ -78,7 +78,7 @@ class unitlookup_page extends basePage
             $name = stripslashes($row["name"]);
             $level = $row["level"];
             $creditpoint = $row["creditpoint"];
-            $gradingbasis = $row["gradingbasis"];
+            $gradingbasis = $row["gradingbasis"]; 
 
             $requisitefinal = getRequisite($unit, $roundbracket = false, $csreq = false, $ignoreubsas = false, $reqeffectivetermid = '');
 
@@ -173,8 +173,7 @@ class unitlookup_page extends basePage
                     $leveldisplay = 'Advanced';
                     break;
                 default:
-                    $leveldisplay = 'N/A'
-                    break    
+                    $leveldisplay = 'N/A';
             }
             echo '</td></tr>';
             echo '<tr><td width="*" bgcolor="#C0C0C0"><b>Level</b></td>';
@@ -231,5 +230,4 @@ $heading = "fdlMarks --> " . $_SESSION["mrkysinstitution"] . " --> Course Lookup
 $p->display_html_header($heading);
 $p->display_page();
 $p->display_html_footer();
-
-?>
+?> 

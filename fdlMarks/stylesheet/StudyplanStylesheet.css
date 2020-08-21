@@ -1,0 +1,11 @@
+
+      span.big {font-size: 16}
+      span.small {font-size: 12}
+      span.tiny {font-size: 10}
+      span.tinyred { font-size: 10; color:red}
+      span.boldred {color:red; font-weight:bold}
+      span.red {color:red}
+      span.green {color:green}
+      span.purple {color:purple}
+      span.maroon {color:maroon}
+      td {font-family: Arial; font-size: 14}

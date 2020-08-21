@@ -9,7 +9,6 @@ define('_escunderscoreOFF', false);
 
 class basePage
 {
-
     public function basePageFunction()
     { // Constructor.
         if (!isset($_SESSION['timeout'])) {
@@ -47,11 +46,9 @@ class basePage
             }
         }
         return true;
-
     }
     public function escapeinput($in, $escpercent, $escunderscore)
     {
-
         $out = trim($in);
         $banned = array(
             ';',
@@ -81,11 +78,9 @@ class basePage
             $out = str_replace('_', "\_", $out);
         }
         return $out;
-
     }
     public function pdo_connect()
     {
-
         $server = $GLOBALS['fdlconfig']['mysql']['server'];
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
         $username = $GLOBALS['fdlconfig']['mysql']['username'];
@@ -97,17 +92,14 @@ class basePage
             return false;
         }
         return $conn;
-
     }
     public function pdo_error($pdoerrorinfo)
     {
-
         $message = '';
 
         $temp = $pdoerrorinfo;
 
         return $pdoerrorinfo[2];
-
     }
     public function db_connect()
     { // Check that we can connect to the host and talk to the database.
@@ -127,7 +119,6 @@ class basePage
         mysqli_set_charset($db, 'utf8');
 
         return $db;
-
     }
     public function display_html_header($title)
     { // Set the page up.
@@ -157,7 +148,6 @@ if (!empty($title)) { // Only output title if one provided.
 }
     public function display_message($action)
     {
-
         if ($action == "wait") {
             $_SESSION["mrkmessage"] = 'PLEASE WAIT WHILE YOUR REQUEST IS PROCESSED';
         }
@@ -165,7 +155,6 @@ if (!empty($title)) { // Only output title if one provided.
             $_SESSION["mrkmessage"] = '';
         }
         echo "<script language='javascript'> parent.fmeMessage.location.replace('message.php')</script>";
-
     }
 }
 ?>

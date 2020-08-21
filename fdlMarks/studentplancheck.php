@@ -21,8 +21,9 @@ class studentplancheck_page extends basePage
 
         global $p, $db, $message;
 
-     //Install of Javascript (Allows data from student extract into table)
-    echo '<script language="javascript">
+    
+    
+        '<script language="javascript">
 
     window.onerror = blockError;
 
@@ -50,42 +51,22 @@ class studentplancheck_page extends basePage
 
     </head>';
 
-        echo '<body topmargin="1">';
-
-        echo '<form name="frmstudentplancheck" method="post">
-
+    //echo
+    '<body topmargin="1">';
+    //echo
+    '<form name="frmstudentplancheck" method="post">
+    
+    <link rel="stylesheet/StudyplanStylesheet.css" type="text/css" href="mystyle.css">
     <style type="text/css" media="screen">
-      span.big {font-size: 16}
-      span.small {font-size: 12}
-      span.tiny {font-size: 10}
-      span.tinyred { font-size: 10; color:red}
-      span.boldred {color:red; font-weight:bold}
-      span.red {color:red}
-      span.green {color:green}
-      span.purple {color:purple}
-      span.maroon {color:maroon}
-      td {font-family: Arial; font-size: 14}
       DIV.printonly {display: none;}
     </style>
-
     <style  type="text/css" media="print">
-      span.big {font-size: 16}
-      span.small {font-size: 12}
-      span.tiny {font-size: 10}
-      span.tinyred { font-size: 10; color:red}
-      span.boldred {color:red; font-weight:bold}
-      span.red {color:red}
-      span.green {color:green}
-      span.purple {color:purple}
-      span.maroon {color:maroon}
-      td {font-family: Arial; font-size: 14}
       DIV.printonly {font-weight: bold;}
     </style>';
 
         $locationid = $_SESSION["studentplan"]["locationid"];
         $strandid = $_SESSION["studentplan"]["strandid"];
 
-        // If the subject is either Approved - Failed else if none of them, then its still pending. 
         $status = $_SESSION["studentplan"]["status"];
         switch ($_SESSION["studentplan"]["status"]) {
             case 'A':
@@ -131,10 +112,8 @@ class studentplancheck_page extends basePage
                 $status = 'Pending';
             break;
         }
+        
         echo '<div class="printonly"><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" style="font-weight: bold; font-size: 40;">This is an unofficial study plan</td></tr></table></div>';
-
-
-        // Save delete or cancel any kinds of electives chosen by the user
         echo '<table align="center" bgcolor="#e6e6fa" width="100%" border="1" bordercolor="#0000FF" cellpadding="4" cellspacing="0">';
         echo '<tr>';
         echo '<td align="center" colspan="2"><br>';
@@ -157,14 +136,12 @@ class studentplancheck_page extends basePage
 
         echo '<tr>';
         $lastname = strtoupper($_SESSION["studentplan"]["lastname"]);
-        $othernames = $_SESSION["studentplan"]["othernames"];
-        //Present lastname and first name student details
-        echo '<td width="10%"><b>Student:</b></td><td>' . $_SESSION["studentplan"]["studentid"] . ' - ' . $othernames . ' ' . $lastname '</td></tr>';
+        $othernames = ($_SESSION["studentplan"]["othernames"]);
+        echo '<td width="10%"><b>Student:</b></td><td>' $_SESSION["studentplan"]["studentid"] . ' - ' . $othernames . ' ' . $lastname '</td></tr>';
         $locationid = $_SESSION["studentplan"]["locationid"];
         echo '</td></tr><tr><td><b>Location: </b></td>' ;
         echo '<td>' . $locationid '</td>';
         echo "</tr>";
-
 
         $planlocationid = $_SESSION["studentplan"]["planlocationid"];
 
@@ -173,7 +150,6 @@ class studentplancheck_page extends basePage
         echo '</td></tr></td>';
         echo '<tr><td><b>Status:</b>';
         echo '<td>' . $status'</td></tr>';
-
         echo '</table>';
 
         // Process unit items
@@ -322,9 +298,7 @@ class studentplancheck_page extends basePage
                             $unitname = '<a href="javascript:courseplanelectivelookup(\'' . $_SESSION["studentplan"]["courseplanid"] . '\',\'' . $unitidlist . '\',\'optUnitid' . $key . '\',\'frmstudentplancheck\',\'' . $_SESSION["studentplan"]["studentplanid"] . '\',\'' . $nbr . '\',\'\')">' . $unit . '</a>';
                         }
                     }
-                } 
-
-                else {
+                } else {
                     $unitname = $unit;
                 }
 
@@ -473,10 +447,8 @@ class studentplancheck_page extends basePage
             }
             
             if ($uufound) { 
-
-                //if found one (anyone) means term has been loaded at location so now look for unit
+                //if found one means term at location so now look for unit
                 $tempunitid = $row["unitid"];
-
                 $sql = "select count(*) as unitcount
                 from unituser
                 where locationid = '$locationid'
@@ -769,7 +741,6 @@ class studentplancheck_page extends basePage
         echo '<td>Level of Study Course differs from that expected for this program (Warning only)</td>';
         echo '</tr>';
 
-        // Extra table? Make it one?
         echo '</table>';
         echo '<td><table border="0" cellpadding="4" cellspacing="0">';
         echo '<tr>';
@@ -1432,11 +1403,14 @@ class studentplancheck_page extends basePage
             //validate level rules - error
             if (in_array($_SESSION["studentplan"]["status"], array('A', 'P', 'N', 'R'))) {
                 include_once "../validatelevels.php";
-            }
-            //validate requisite rules - error (note: studentplanunit used in common code includes that follow is built elsewhere.)
-            if (in_array($_SESSION["studentplan"]["status"], array('A', 'P', 'N', 'R'))) {
                 include_once "../validaterequisites.php";
             }
+            //validate requisite rules - error (note: studentplanunit used in common code includes that follow is built elsewhere.)
+
+            //if (in_array($_SESSION["studentplan"]["status"], array('A', 'P', 'N', 'R'))) {
+                //include_once "../validaterequisites.php";
+            //}
+
             //validate course rules - error
             if (empty($_SESSION["studentplan"]["unitrulewaivenote"]) && in_array($_SESSION["studentplan"]["status"], array('A', 'P', 'N', 'R'))) {
 
@@ -1522,10 +1496,10 @@ class studentplancheck_page extends basePage
 
         }
     }
-    public function __construct()
-    {
+    //public function __construct()
+    //{
         basePage::basePageFunction();
-    }
+    //}
 }
 // Instantiate this page
 $p = new studentplancheck_page();
@@ -1533,10 +1507,8 @@ $p = new studentplancheck_page();
 if (empty($_SESSION["mrkaccessallowed"])) {
     exit;
 }
-$p->process_page();
-
-// Output page.
 $heading = "fdlMarks --> " . $_SESSION["mrksysinstitution"] . " --> Study Plan Check";
-$p->display_html_header($heading);
+//$p->display_html_header($heading);
 $p->display_page();
-$p->display_html_footer();
+$p->process_page();
+//$p->display_html_footer();

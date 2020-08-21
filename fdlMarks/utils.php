@@ -4,7 +4,6 @@
 
 function getDueDate($arglocationid, $argtermid, $argtaskno, $argdueweek, $argsplitweek, $argdueday, $argduetime)
 {
-
     global $p, $db;
 
     if ($argdueweek == 'Other') {
@@ -63,11 +62,9 @@ function getDueDate($arglocationid, $argtermid, $argtaskno, $argdueweek, $argspl
     $duedate = mktime($hour, $minute, 0, date('m', $termdate), date('d', $termdate) + $argdueday - 1, date('Y', $termdate));
 
     return $duedate;
-
 }
 function late_penalty($argrow, $argtaskarray, $argtaskno)
 {
-
     $duedate = '';
     if (empty($argtaskarray[$argtaskno]["dueday"])) {
         $argtaskarray[$argtaskno]["dueday"] = '4';
@@ -179,11 +176,9 @@ function late_penalty($argrow, $argtaskarray, $argtaskno)
         return 1;
     }
     return 0;
-
 }
 function getSystemLink($systemlinkid)
 {
-
     global $p, $db;
 
     $sql = "select *
@@ -202,7 +197,6 @@ function getSystemLink($systemlinkid)
 }
 function getUnit($unitid, &$unitname, &$unitlevel, &$unitcreditpoint, &$unitasced, &$unitsubdisciplineid, &$unitdisciplineid, &$unitacaddivid, &$unitgradingbasis, &$unitprofessionalengagement, &$weboutline, &$nosupplementary)
 {
-
     global $p, $db;
 
     $sql = "select u.*, d.disciplineid, ad.acaddivid
@@ -248,7 +242,6 @@ function getUnit($unitid, &$unitname, &$unitlevel, &$unitcreditpoint, &$unitasce
 }
 function getLevel($minimumlevel, $maximumlevel)
 {
-
     if (empty($minimumlevel) || empty($maximumlevel)) {
         return '';
     }
@@ -316,5 +309,4 @@ function getLevel($minimumlevel, $maximumlevel)
         $level = $level . $maximumlevel . '99 level';
     }
     return $level;
-
 }

@@ -4,7 +4,6 @@ include_once "basePage.php";
 
 class courseplanelectivelookup_page extends basePage
 {
-
     public function display_page()
     { // Body of page.
 
@@ -18,7 +17,7 @@ class courseplanelectivelookup_page extends basePage
         echo '
     <script language="javascript">
 
-      window.onerror = blockError;
+      window.onerror = blockError; 
 
       function blockError(){
         return true;
@@ -37,9 +36,7 @@ class courseplanelectivelookup_page extends basePage
         newWindow=window.open("help.php?goto=admcrseprgstructeleclkup","fdlghelp","resizable=yes, scrollbars=yes, menubar=yes, width=" + sWidth *.9  + ", height=" + sHeight *.8 + ", top=" + sTop + ", left=" + sLeft + "");
         newWindow.focus();
       }
-    </script>';
-
-        ?>
+    </script>'; ?>
     </head>
 
     <body topmargin="1" onload='document.frmcourseplanelectivelookup.txtDescription.focus()'>
@@ -121,7 +118,6 @@ class courseplanelectivelookup_page extends basePage
 
                 $selectable = true;
                 if (mysqli_num_rows($unitidsql_ok)) {
-
                     $unitidrow = mysqli_fetch_array($unitidsql_ok) or die(basename(__FILE__, '.php') . "-05: " . mysqli_error($db));
 
                     $temp = explode('|', $usedunitid);
@@ -146,7 +142,6 @@ class courseplanelectivelookup_page extends basePage
                     $orunitidsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-06: " . mysqli_error($db));
 
                     if (mysqli_num_rows($orunitidsql_ok)) {
-
                         $orunitidrow = mysqli_fetch_array($orunitidsql_ok) or die(basename(__FILE__, '.php') . "-07: " . mysqli_error($db));
 
                         $temp = explode('|', $usedunitid);
@@ -206,20 +201,16 @@ class courseplanelectivelookup_page extends basePage
                     }
                 }
                 echo '</td></tr>';
-
             }
             echo '</table>';
-        }
-        ?>
+        } ?>
 
       </form>
 
     <?php
-
     }
     public function process_page()
     {
-
         if (isset($_POST["btnCancel"])) {
             echo "<script language='javascript'> this.close(); </script>";
         }

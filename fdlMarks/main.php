@@ -5,13 +5,10 @@ include_once "utils.php";
 
 class marks_page extends basePage
 {
-
     public function display_page()
     { // Body of page.
 
-        global $p, $db, $studentdetails;
-
-        ?>
+        global $p, $db, $studentdetails; ?>
 
     <script language="javascript">
 
@@ -35,18 +32,28 @@ class marks_page extends basePage
 
 
     <!-- The main headings !-->
-        <b class="hovermsg">&nbsp;Hover your cursor over the assessment mark to see the assessment details&nbsp;</b>
+    <html>
+        <b class="hovermsg" align="center">&nbsp;Hover your cursor over the assessment mark to see the assessment details&nbsp;</b>
         <img src="images/FedUni_logo.svg.png" alt="Federation Logo" class="logo" align="left">
         <link rel="stylesheet" type="text/css" href="stylesheet/Design.css">
         <link rel ="Icon Page" href="images/favicon.ico">
         <table border-collapse="collapse" border="1" border="1px" class="grading-table" cellspacing="0" cellpadding="6">
+    </html>
         <style>@media print {#ghostery-purple-box {display:none !important}}</style>
-        
-    
+        <!--If refresh is pressed go back to log-in  -->
+        <script language="javascript">
+            function document.onkeydown() {
+            if (event.keyCode == 116) {
+            alert("MOVING AWAY");
+            window.location.href="/choice_page/"; 
+            event.keyCode = 0; 
+            event.cancelBubble = true; 
+            return false; } 
+            }       
+        </script>
     <?php
-    
-    // Connect to the database or if the database does not connect then supply error
-    $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
+        // Connect to the database or if the database does not connect then supply error
+        $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
 
 
 
@@ -64,39 +71,34 @@ class marks_page extends basePage
                       and cp.strandid = '$strandid'";
 
                       
-    $spsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-02: " . mysqli_error($db));
+        $spsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-02: " . mysqli_error($db));
 
 
 
-        if (mysqli_num_rows($spsql_ok) > 0) 
-        {
+        if (mysqli_num_rows($spsql_ok) > 0) {
             $sprow = mysqli_fetch_array($spsql_ok) or die(basename(__FILE__, '.php') . "-03: " . mysqli_error($db));
             $studentplanid = $sprow["studentplanid"];
             $courseplanid = $sprow["courseplanid"];
-            echo '<b>Student ID:</b>&nbsp;' . $studentid . '&nbsp;&nbsp;&nbsp;&nbsp;<b class="StudyPlan">Study Plan:</b>&nbsp;
+            echo '<b align="center">Student ID:</b>&nbsp;' . $studentid . '&nbsp;&nbsp;&nbsp;&nbsp;<b class="StudyPlan" align="center">Study Plan:</b>&nbsp;
             <a href="javascript:studentplancheck(\'' . $studentplanid . '\',\'' . $courseplanid . '\',\'' . $studentid . '\')">Click here</a>';
-        } 
-
-        else 
-        {
+        } else {
             echo '<b align= "center" class="ID">Student ID:</b>&nbsp;' . $studentid . '&nbsp;&nbsp;&nbsp;&nbsp;<b>Study Plan:</b>&nbsp;Unavailable. Contact Program Coordinator.';
-        }
-        ?>
+            echo $studentdetails;
+        } ?>
 
         <?php
-        echo $studentdetails;
-        ?>
+        echo $studentdetails; ?>
         </table>
 
     
     <?php
-}
+    }
     
 
     public function converttograde($argmark, $argweight, $argtype)
-    { 
+    {
         
-        //Grading system  - Satisfactory OR Unsatisfactory (Only for particular Subjects)        
+        //Grading system  - Satisfactory OR Unsatisfactory (Only for particular Subjects)
         if ($argtype == 'H') {
             if (empty($argmark)) {
                 $grade = 'U';
@@ -114,7 +116,7 @@ class marks_page extends basePage
         // Mark / The grade of work  = The Percentage of work
         $percent = $argmark / $argweight;
 
-        //Marking grade 
+        //Marking grade
         $grade = '&nbsp;';
         switch (true) {
             case $percent >= 0 && $percent < 0.4:
@@ -143,7 +145,6 @@ class marks_page extends basePage
 
 
     public function process_form()
-
     { // Validate fields and if ok proceed to grades form.
 
         global $p, $db, $studentdetails;
@@ -173,8 +174,10 @@ class marks_page extends basePage
             return false;
         }
 
+
         //The display feilds on table
-        $studentdetails =  
+        $studentdetails =
+
         '
         <tr class="Types">
          <th rowspan="2">Term</th>
@@ -185,23 +188,24 @@ class marks_page extends basePage
         </tr>
       
         <tr class="Numbers">
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>1</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>2</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>3</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>4</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>5</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>6</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>7</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>8</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>9</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>10</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>11</b></td>
-         <td width="5%" align="center" bgcolor="#C0C0C0"><b>12</b></td>
-      </tr>';
+         <td width="5%" align="center"><b>1</b></td>
+         <td width="5%" align="center"><b>2</b></td>
+         <td width="5%" align="center"><b>3</b></td>
+         <td width="5%" align="center"><b>4</b></td>
+         <td width="5%" align="center"><b>5</b></td>
+         <td width="5%" align="center"><b>6</b></td>
+         <td width="5%" align="center"><b>7</b></td>
+         <td width="5%" align="center"><b>8</b></td>
+         <td width="5%" align="center"><b>9</b></td>
+         <td width="5%" align="center"><b>10</b></td>
+         <td width="5%" align="center"><b>11</b></td>
+         <td width="5%" align="center"><b>12</b></td>
+      </tr>'
+      ;
 
         for ($i = 0; $i < mysqli_num_rows($sql_ok); $i++) {
-        // Looks for the amount of rows in the table
-        // If table is not found then display ERROR            
+            // Looks for the amount of rows in the table
+            // If table is not found then display ERROR
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-06: " . mysqli_error($db));
 
             $moderationtype = '';
@@ -282,8 +286,6 @@ class marks_page extends basePage
 
             $ssql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-12: " . mysqli_error($db));
 
-            // Need to use case, this should improve the coding by a ton (Over 600 lines)
-            // Helps find what assignments are due and takes into account of the time it takes to complete said due assignment. 
 
             $mrktask = array();
             for ($sidx = 0; $sidx < mysqli_num_rows($ssql_ok); $sidx++) {
@@ -313,16 +315,12 @@ class marks_page extends basePage
                 }
                 $mrktask[$num]["marks"] = $srow['marks'];
             }
-            // Raw
-            // Need to use case, this should improve the coding by a ton (Over 600 lines)
-            // Helps find what assignments are due and takes into account of the time it takes to complete said due assignment. 
             $duedate = getDueDate($locationid, $termid, 1, $cleaneddue, $mrktask[$num]["splitweek"], $mrktask[$num]["dueday"], $mrktask[$num]["duetime"]);
             if (!empty($row["tpp01"]) && empty($mrktask[1]["marks"])) {
                 $tpp01 = "NA";
             } elseif (empty($row["tpp01"])) {
                 $tpp01 = "&nbsp;";
             } elseif (empty($row["plg01"]) || $row["plg01"] == '5') {
-
                 $lateadjusted = $row["tpp01"] - (late_penalty($row, $mrktask, 1) * $mrktask[1]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -346,7 +344,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp02"])) {
                 $tpp02 = "&nbsp;";
             } elseif (empty($row["plg02"]) || $row["plg02"] == '5') {
-
                 $lateadjusted = $row["tpp02"] - (late_penalty($row, $mrktask, 2) * $mrktask[2]["weight"]);
 
                 if ($lateadjusted < 0) {
@@ -371,7 +368,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp03"])) {
                 $tpp03 = "&nbsp;";
             } elseif (empty($row["plg03"]) || $row["plg03"] == '5') {
-
                 $lateadjusted = $row["tpp03"] - (late_penalty($row, $mrktask, 3) * $mrktask[3]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -395,7 +391,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp04"])) {
                 $tpp04 = "&nbsp;";
             } elseif (empty($row["plg04"]) || $row["plg04"] == '5') {
-
                 $lateadjusted = $row["tpp04"] - (late_penalty($row, $mrktask, 4) * $mrktask[4]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -419,7 +414,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp05"])) {
                 $tpp05 = "&nbsp;";
             } elseif (empty($row["plg05"]) || $row["plg05"] == '5') {
-
                 $lateadjusted = $row["tpp05"] - (late_penalty($row, $mrktask, 5) * $mrktask[5]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -443,7 +437,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp06"])) {
                 $tpp06 = "&nbsp;";
             } elseif (empty($row["plg06"]) || $row["plg06"] == '5') {
-
                 $lateadjusted = $row["tpp06"] - (late_penalty($row, $mrktask, 6) * $mrktask[6]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -467,7 +460,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp07"])) {
                 $tpp07 = "&nbsp;";
             } elseif (empty($row["plg07"]) || $row["plg07"] == '5') {
-
                 $lateadjusted = $row["tpp07"] - (late_penalty($row, $mrktask, 7) * $mrktask[7]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -491,7 +483,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp08"])) {
                 $tpp08 = "&nbsp;";
             } elseif (empty($row["plg08"]) || $row["plg08"] == '5') {
-
                 $lateadjusted = $row["tpp08"] - (late_penalty($row, $mrktask, 8) * $mrktask[8]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -516,7 +507,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp09"])) {
                 $tpp09 = "&nbsp;";
             } elseif (empty($row["plg09"]) || $row["plg09"] == '5') {
-
                 $lateadjusted = $row["tpp09"] - (late_penalty($row, $mrktask, 9) * $mrktask[9]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -541,7 +531,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp10"])) {
                 $tpp10 = "&nbsp;";
             } elseif (empty($row["plg10"]) || $row["plg10"] == '5') {
-
                 $lateadjusted = $row["tpp10"] - (late_penalty($row, $mrktask, 10) * $mrktask[10]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -566,7 +555,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp11"])) {
                 $tpp11 = "&nbsp;";
             } elseif (empty($row["plg11"]) || $row["plg11"] == '5') {
-
                 $lateadjusted = $row["tpp11"] - (late_penalty($row, $mrktask, 11) * $mrktask[11]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -591,7 +579,6 @@ class marks_page extends basePage
             } elseif (empty($row["tpp12"])) {
                 $tpp12 = "&nbsp;";
             } elseif (empty($row["plg12"]) || $row["plg12"] == '5') {
-
                 $lateadjusted = $row["tpp12"] - (late_penalty($row, $mrktask, 12) * $mrktask[12]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -616,7 +603,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod01"])) {
                 $mod01 = "&nbsp;";
             } elseif (empty($row["plg01"]) || $row["plg01"] == '5') {
-
                 $lateadjusted = $row["mod01"] - (late_penalty($row, $mrktask, 1) * $mrktask[1]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -640,7 +626,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod02"])) {
                 $mod02 = "&nbsp;";
             } elseif (empty($row["plg02"]) || $row["plg02"] == '5') {
-
                 $lateadjusted = $row["mod02"] - (late_penalty($row, $mrktask, 2) * $mrktask[2]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -664,7 +649,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod03"])) {
                 $mod03 = "&nbsp;";
             } elseif (empty($row["plg03"]) || $row["plg03"] == '5') {
-
                 $lateadjusted = $row["mod03"] - (late_penalty($row, $mrktask, 3) * $mrktask[3]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -712,7 +696,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod05"])) {
                 $mod05 = "&nbsp;";
             } elseif (empty($row["plg05"]) || $row["plg05"] == '5') {
-
                 $lateadjusted = $row["mod05"] - (late_penalty($row, $mrktask, 5) * $mrktask[5]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -736,7 +719,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod06"])) {
                 $mod06 = "&nbsp;";
             } elseif (empty($row["plg06"]) || $row["plg06"] == '5') {
-
                 $lateadjusted = $row["mod06"] - (late_penalty($row, $mrktask, 6) * $mrktask[6]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -760,7 +742,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod07"])) {
                 $mod07 = "&nbsp;";
             } elseif (empty($row["plg07"]) || $row["plg07"] == '5') {
-
                 $lateadjusted = $row["mod07"] - (late_penalty($row, $mrktask, 7) * $mrktask[7]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -783,7 +764,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod08"])) {
                 $mod08 = "&nbsp;";
             } elseif (empty($row["plg08"]) || $row["plg08"] == '5') {
-
                 $lateadjusted = $row["mod08"] - (late_penalty($row, $mrktask, 8) * $mrktask[8]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -807,7 +787,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod09"])) {
                 $mod09 = "&nbsp;";
             } elseif (empty($row["plg09"]) || $row["plg09"] == '5') {
-
                 $lateadjusted = $row["mod09"] - (late_penalty($row, $mrktask, 9) * $mrktask[9]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -831,7 +810,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod10"])) {
                 $mod10 = "&nbsp;";
             } elseif (empty($row["plg10"]) || $row["plg10"] == '5') {
-
                 $lateadjusted = $row["mod10"] - (late_penalty($row, $mrktask, 10) * $mrktask[10]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -855,7 +833,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod11"])) {
                 $mod11 = "&nbsp;";
             } elseif (empty($row["plg11"]) || $row["plg11"] == '5') {
-
                 $lateadjusted = $row["mod11"] - (late_penalty($row, $mrktask, 11) * $mrktask[11]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -880,7 +857,6 @@ class marks_page extends basePage
             } elseif (empty($row["mod12"])) {
                 $mod12 = "&nbsp;";
             } elseif (empty($row["plg12"]) || $row["plg12"] == '5') {
-
                 $lateadjusted = $row["mod12"] - (late_penalty($row, $mrktask, 12) * $mrktask[12]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
@@ -898,7 +874,7 @@ class marks_page extends basePage
             } else {
                 $mod12 = "PLG";
             }
-            //End here. 
+            //End here.
 
 
             $message = "&nbsp;";
@@ -1095,7 +1071,7 @@ class marks_page extends basePage
           <td title="' . $titltpp12 . $mrktask[12]["description"] . ' - Weight: ' . $mrktask[12]["weight"] . '%" align="right" ' . $bgtpp12 . '>'
                     . $tpp12 .
                     '</td>
-          <td rowspan="2 width="*" align="left" ' . $bgmessage . '>'
+          <td rowspan="2" width="*" align="left" ' . $bgmessage . '>'
                     . $message .
                     '</td>
         </tr>
@@ -1141,12 +1117,9 @@ class marks_page extends basePage
                     . $mod12 .
                     '</td>
         </tr>
-             ';
-            
+        ';
             }
-            
             $studentdetails = $studentdetails . $studentdetailstemp;
-
         }
     }
     public function __construct()
@@ -1154,10 +1127,8 @@ class marks_page extends basePage
         basePage::basePageFunction();
     }
 }
-// Instantiate this page
 $p = new marks_page();
 
-// If the session of Markaccess is empty then exit. 
 if (empty($_SESSION["mrkaccessallowed"])) {
     exit;
 }
@@ -1166,12 +1137,8 @@ if (empty($_SESSION["mrkaccessallowed"])) {
 $p->process_form();
 
 // Output page.
-$heading = "fdlMarks --> " . $_SESSION["mrksysinstitution"];
-$p->display_html_header($heading);
 $p->display_page();
-$p->display_html_footer();
 
 // Initialise for next time around.
-$_SESSION["mrkmsg"] = '';
-
+$_SESSION['mrkmsg'] = '';
 ?>
