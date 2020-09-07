@@ -1,12 +1,11 @@
 <?php
+require_once "basePage.php";
+require_once "../requisiteutils.php";
 
-include_once "basePage.php";
-include_once "../requisiteutils.php";
-
-class unitlookup_page extends basePage
+class Unitlookup_page extends basePage
 {
 
-    public function display_page()
+public function Display_page()
     { // Body of page.
 
         global $p, $db, $message;
@@ -15,35 +14,47 @@ class unitlookup_page extends basePage
         // Using <Script language = "Javascript"> greatly depreciated
         // If the attribute is present, its value must be a valid MIME type.
         // Source goes to: https://www.quora.com/What-is-the-difference-between-script-language-JavaScript-and-script-type-text-JavaScript-in-HTML-file?share=1
-        if (isset($_POST["btnCancel"])) {
+if (isset($_POST["btnCancel"])) {
             echo "<script type=javascript> this.close(); </script>";
-        }
-        ?>
+}
+?>
 
 
-    <script type = "text/Javascript">
+<script type="text/Javascript">
 
-      window.onerror = blockError;
+    window.onerror = blockError;
 
       function blockError(){
         return true;
       }
-    </script>
+</script>
 
-    </head>
+</head>
 
-    <body topmargin="1">
+<body topmargin="1">
 
-      <form name="frmunitlookup" method="post">
+    <form name="frmunitlookup" method="post">
 
         <style>
-          /* Font design */
-          span.small {font-size: 11}
-          span.boldred {color:red; font-weight:bold}
-          span.red {color:red}
+        /* Font design */
+        span.small {
+            font-size: 11
+        }
 
-          /* Primary Font Style */ 
-          td {font-family: Arial; font-size: 14}
+        span.boldred {
+            color: red;
+            font-weight: bold
+        }
+
+        span.red {
+            color: red
+        }
+
+        /* Primary Font Style */
+        td {
+            font-family: Arial;
+            font-size: 14
+        }
         </style>
 
 
@@ -75,13 +86,18 @@ class unitlookup_page extends basePage
             } else {
                 $found = false;
             }
+            
+            $name = ""; 
+            $row = "";
+
             $name = stripslashes($row["name"]);
             $level = $row["level"];
             $creditpoint = $row["creditpoint"];
             $gradingbasis = $row["gradingbasis"]; 
 
             $requisitefinal = getRequisite($unit, $roundbracket = false, $csreq = false, $ignoreubsas = false, $reqeffectivetermid = '');
-
+            //Test
+            return array ($found);
         }
         echo '<br><table align="center"  bgcolor="#e6e6fa" width="80%" border="1" bordercolor="#0000FF" cellpadding="3" cellspacing="0">';
         echo '<tr>';
@@ -89,7 +105,9 @@ class unitlookup_page extends basePage
 
         echo '<input type="submit" name="btnCancel" value="Cancel"><br><br>';
 
-        if ($found) {
+        //Test
+        $name = "";
+        if ($found = true) {
             echo '<tr><td align="center"><br>' . $unit . ' ' . $name . '<br><br>';
             echo '</td></tr>';
             $sql = "select uod.content
@@ -113,6 +131,10 @@ class unitlookup_page extends basePage
 
                 $unitsummary = stripslashes($unitrow["content"]);
             }
+            
+            $requisitefinal = "";
+            $unitsummary = ""; 
+
             echo '<tr><td width="*" bgcolor="#C0C0C0"><b>Description</b></td>';
             echo '</td></tr>';
             echo '<tr><td><br>' . strip_tags($unitsummary) . '<br><br>';
@@ -161,20 +183,25 @@ class unitlookup_page extends basePage
                 }
             }
 
+           
             //If the level is null, then present as N/A
+            $level = "";
             switch ($level) {
-                case 'I':
+            case 'I':
                     $leveldisplay = 'Introductory';
-                    break;
-                case 'M':
+                break;
+            case 'M':
                     $leveldisplay = 'Intermediate';
-                    break;
-                case 'A':
+                break;
+            case 'A':
                     $leveldisplay = 'Advanced';
-                    break;
-                default:
+                break;
+            default:
                     $leveldisplay = 'N/A';
             }
+            
+            $creditpoint = "";
+
             echo '</td></tr>';
             echo '<tr><td width="*" bgcolor="#C0C0C0"><b>Level</b></td>';
             echo '</td></tr>';
@@ -185,49 +212,49 @@ class unitlookup_page extends basePage
             echo '<tr><td><br>' . $creditpoint . '<br><br>';
 
             // Identifies any missing grades.
+            $gradingbasis = "";
             switch ($gradingbasis) {
-                case 'G':
+            case 'G':
                     $gradingbasisdisplay = 'Graded (HD, D, C, etc.)';
-                    break;
-                case 'P':
+                break;
+            case 'P':
                     $gradingbasisdisplay = 'Research Pass / Not Pass (O, P, F etc.)';
-                    break;
-                case 'S':
+                break;
+            case 'S':
                     $gradingbasisdisplay = 'Ungraded (S, UN, etc.)';
-                    break;
-                default:
-                    $gradingbasisdisplay = 'Not Available (N/A)'
+                break;
+            default:
+                    $gradingbasisdisplay = 'Not Available (N/A)';
             }
             echo '</td></tr>';
 
             echo '<tr><td width="*" bgcolor="#C0C0C0"><b>Grading Basis</b></td>';
             echo '</td></tr>';
             echo '<tr><td><br>' . $gradingbasisdisplay . '<br><br>';
+            echo '</td></tr></table></form>';
+        }
+
+        //test
+
+        function _construct() {
+        
+            basePage::basePageFunction();
 
         }
-            echo '</td></tr></table>';
+        
 
+        // Instantiate this page
+        $p = new unitlookup_page();
+
+        if(empty($_SESSION["mrkaccessallowed"])) {
+            exit;
+        }
+        
+        // Output page.
+        $heading = "fdlMarks --> " . $_SESSION["mrkysinstitution"] . "Course Lookup";
+        $p->display_page();
         ?>
-
-      </form>
-
-    <?php
-
-    }
-    public function __construct()
-    {
-        basePage::basePageFunction();
+        
+        
     }
 }
-// Instantiate this page
-$p = new unitlookup_page();
-
-if (empty($_SESSION["mrkaccessallowed"])) {
-    exit;
-}
-// Output page.
-$heading = "fdlMarks --> " . $_SESSION["mrkysinstitution"] . " --> Course Lookup";
-$p->display_html_header($heading);
-$p->display_page();
-$p->display_html_footer();
-?> 

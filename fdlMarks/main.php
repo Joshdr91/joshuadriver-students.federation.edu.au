@@ -1,11 +1,11 @@
 <?php
 
-include_once "basePage.php";
-include_once "utils.php";
+require_once "basePage.php";
+require_once "utils.php";
 
-class marks_page extends basePage
+class Marks_page extends basePage
 {
-    public function display_page()
+    public function Display_page()
     { // Body of page.
 
         global $p, $db, $studentdetails; ?>
@@ -27,7 +27,7 @@ class marks_page extends basePage
         temp=window.open("../unitdescription.php?locationid=" + locationid + "&termid=" + termid + "&unitid=" + unitid + "&type=Z","_blank","location=no, menubar=yes, scrollbars=yes,  resizable=yes, width=" + sWidth *.9  + ", height=" + sHeight *.80 + ", top=" + sTop + ", left=" + sLeft + "");
       }
 
-  	</script>
+</script>
 
 
 
@@ -50,9 +50,9 @@ class marks_page extends basePage
             event.cancelBubble = true; 
             return false; } 
             }       
-        </script>
-    <?php
-        // Connect to the database or if the database does not connect then supply error
+</script>
+        <?php
+        // Connect to the database or =! supply error
         $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
 
 
@@ -119,24 +119,24 @@ class marks_page extends basePage
         //Marking grade
         $grade = '&nbsp;';
         switch (true) {
-            case $percent >= 0 && $percent < 0.4:
+        case $percent >= 0 && $percent < 0.4:
                 $grade = 'F';
-                break;
-            case $percent >= 0.4 && $percent < 0.5:
+            break;
+        case $percent >= 0.4 && $percent < 0.5:
                 $grade = 'MF';
-                break;
-            case $percent >= 0.5 && $percent < 0.6:
+            break;
+        case $percent >= 0.5 && $percent < 0.6:
                 $grade = 'P';
-                break;
-            case $percent >= 0.6 && $percent < 0.7:
+            break;
+        case $percent >= 0.6 && $percent < 0.7:
                 $grade = 'C';
-                break;
-            case $percent >= 0.7 && $percent < 0.8:
+            break;
+        case $percent >= 0.7 && $percent < 0.8:
                 $grade = 'D';
-                break;
-            case $percent >= 0.8:
+            break;
+        case $percent >= 0.8:
                 $grade = 'HD';
-                break;
+            break;
         }
         return $grade;
     }
@@ -155,7 +155,7 @@ class marks_page extends basePage
         $studentid = $_SESSION["mrkstudentid"];
 
 
-        // Connect to the database or if the database does not connect then supply error
+        // Connect to the database or =! connect then supply error
         $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-04: " . mysqli_error($db));
 
         $sql = "select *
@@ -166,7 +166,6 @@ class marks_page extends basePage
 
         
 
-        // Connect to the database or if the database does not connect then supply error
         $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-05: " . mysqli_error($db));
 
         if (mysqli_num_rows($sql_ok) == 0) { // No record found.
@@ -176,9 +175,8 @@ class marks_page extends basePage
 
 
         //The display feilds on table
-        $studentdetails =
-
-        '
+        $studentdetails 
+            = '
         <tr class="Types">
          <th rowspan="2">Term</th>
          <th rowspan="2">Course</th>
@@ -201,7 +199,7 @@ class marks_page extends basePage
          <td width="5%" align="center"><b>11</b></td>
          <td width="5%" align="center"><b>12</b></td>
       </tr>'
-      ;
+        ;
 
         for ($i = 0; $i < mysqli_num_rows($sql_ok); $i++) {
             // Looks for the amount of rows in the table
@@ -232,7 +230,6 @@ class marks_page extends basePage
                 $subdisciplineid = $unitrow["subdisciplineid"];
             }
 
-            //only show didnotpass if failing and if published term.
             $showdidnotpass = false;
             $published = false;
 
@@ -269,7 +266,7 @@ class marks_page extends basePage
                 $marksaccess = $subdisciplinerow["marksaccess"];
                 $convertmarktograde = $subdisciplinerow["convertmarktograde"];
                 $unitname = $subdisciplinerow["unitname"];
-            }
+            } 
             $sql = "select description
                     ,`type`
                     ,weight

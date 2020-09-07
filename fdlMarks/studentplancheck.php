@@ -904,11 +904,11 @@ class studentplancheck_page extends basePage
             $_SESSION["studentplan"] = null;
             $_SESSION["studentplanunit"] = null;
             unset($_SESSION["studentplan"], $_SESSION["studentplanunit"]);
-            echo "<script language='javascript'> this.close(); </script>";
+            echo "<script type="text/javascript"> this.close(); </script>";
         }
         $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-36: " . mysqli_error($db));
 
-        if (!isset($_POST["hidFirstTime"])) { //First time in
+        if (!isset($_POST["hidFirstTime"])) { //First time
             $_SESSION["studentplan"] = array();
             $_SESSION["studentplanunit"] = array();
             $_SESSION["oldcreditunit"] = array();
