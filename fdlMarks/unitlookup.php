@@ -1,11 +1,34 @@
 <?php
+/**
+ * Php version 7.2.10
+ *
+ * @category Unitlook_Up_Display
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au 
+ */
 require_once "basePage.php";
 require_once "../requisiteutils.php";
 
-class Unitlookup_page extends basePage
+/**
+ * Undocumented class
+ * 
+ * @category Unitlook_Up_Display
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au
+ */
+class Unitlookup_Page extends basePage
 {
 
-public function Display_page()
+    /**
+     * Display_Page function
+     *
+     * @return void
+     */
+    public function Display_page()
     { // Body of page.
 
         global $p, $db, $message;
@@ -14,10 +37,9 @@ public function Display_page()
         // Using <Script language = "Javascript"> greatly depreciated
         // If the attribute is present, its value must be a valid MIME type.
         // Source goes to: https://www.quora.com/What-is-the-difference-between-script-language-JavaScript-and-script-type-text-JavaScript-in-HTML-file?share=1
-if (isset($_POST["btnCancel"])) {
+        if (isset($_POST["btnCancel"])) {
             echo "<script type=javascript> this.close(); </script>";
-}
-?>
+        } ?>
 
 
 <script type="text/Javascript">
@@ -69,9 +91,8 @@ if (isset($_POST["btnCancel"])) {
         }
         if ($_GET["coursetype"]) {
             $coursetype = $_GET["coursetype"];
-        } 
+        }
         if ($_GET["unitid"]) {
-
             $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
 
             $sql = "select *
@@ -87,17 +108,17 @@ if (isset($_POST["btnCancel"])) {
                 $found = false;
             }
             
-            $name = ""; 
+            $name = "";
             $row = "";
 
             $name = stripslashes($row["name"]);
             $level = $row["level"];
             $creditpoint = $row["creditpoint"];
-            $gradingbasis = $row["gradingbasis"]; 
+            $gradingbasis = $row["gradingbasis"];
 
             $requisitefinal = getRequisite($unit, $roundbracket = false, $csreq = false, $ignoreubsas = false, $reqeffectivetermid = '');
             //Test
-            return array ($found);
+            return array($found);
         }
         echo '<br><table align="center"  bgcolor="#e6e6fa" width="80%" border="1" bordercolor="#0000FF" cellpadding="3" cellspacing="0">';
         echo '<tr>';
@@ -133,7 +154,7 @@ if (isset($_POST["btnCancel"])) {
             }
             
             $requisitefinal = "";
-            $unitsummary = ""; 
+            $unitsummary = "";
 
             echo '<tr><td width="*" bgcolor="#C0C0C0"><b>Description</b></td>';
             echo '</td></tr>';
@@ -234,15 +255,18 @@ if (isset($_POST["btnCancel"])) {
             echo '</td></tr></table></form>';
         }
 
-        //test
-
-        function _construct() {
         
+        /**
+         * __construct function
+         *
+         * @return void
+         */
+        function __construct()
+        {
             basePage::basePageFunction();
-
         }
-        
-
+    }
+}
         // Instantiate this page
         $p = new unitlookup_page();
 
@@ -253,8 +277,8 @@ if (isset($_POST["btnCancel"])) {
         // Output page.
         $heading = "fdlMarks --> " . $_SESSION["mrkysinstitution"] . "Course Lookup";
         $p->display_page();
-        ?>
-        
-        
-    }
-}
+?>
+
+        }
+        }
+        }

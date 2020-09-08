@@ -2,10 +2,11 @@
 
 require_once "basePage.php";
 require_once "utils.php";
-class login_page extends basePage
+class Login_page extends basePage
 {
-    public function display_page()
-    { // Body of page.
+    public function Display_page()
+    { 
+        // Body of page.
 
         global $p, $db;
 
@@ -155,8 +156,23 @@ function blockError() {
                   on ad.acaddivid = d.acaddivid
               order by ad.acaddivid, d.disciplineshortname, sd.subdisciplineshortname";
 
+            /**
+             *
+             * Description for function
+             *
+             * @param    type  $sql Description
+             * @param    type  $pdo Description
+             *
+             * @return      type
+             *
+             */
 
-            $pdostmt = $pdo->prepare($sql);
+            function db_prepare($sql, $pdo) 
+            {
+                $pdostmt = $pdo->prepare($sql);
+                return array($pdostmt);
+            }
+
             $pdostmt->execute() or die(basename(__FILE__, '.php') . "-05: " . $p->pdo_error($pdostmt->errorinfo()));
             $i = 0;
             while ($row = $pdostmt->fetch(PDO::FETCH_ASSOC)) {
@@ -252,17 +268,20 @@ function blockError() {
         }
 
 
+
         $usr = $_POST["txtUsername"];
         $pwd = $_POST["txtPassword"];
-
         $sql = "select *
             from student
             where studentid = :usr";
 
         $pdostmt = $pdo->prepare($sql);
-        $pdostmt->execute(array(':usr' => $usr)) or die(basename(__FILE__, '.php') . "-06: " . $p->pdo_error($pdostmt->errorinfo()));
-
+        $pdostmt->execute(array(':usr'=> $usr)) OR die(basename(__FILE__, '.php')."-06: ". $p->pdo_error($pdostmt->errorinfo()));
+        
         $row = $pdostmt->fetchALL(PDO::FETCH_ASSOC);
+        
+        $locked = $row[0]['locked'];
+        $debt = $row[0]['debt'];
 
         if ($loginerror) {
             $_SESSION["mrkmsg"];
@@ -289,15 +308,17 @@ function blockError() {
         $_SESSION["mrkstudentid"] = $usr;
         echo "<script language='javascript'> document.location=\"main.php\"; </script>";
     }
+
     public function __construct()
     {
         basePage::basePageFunction();
     }
 }
+
 // Instantiate this page
 $p = new login_page();
 
-// If form has been submitted validate fields and move on, otherwise initialise some work fields.
+// If form has been submitted validate fields, otherwise initialise some work fields.
 $_SESSION["mrkaccessallowed"] = 'no';
 $p->process_form();
 

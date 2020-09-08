@@ -1,11 +1,31 @@
 <?php
+/**
+ * Php version 7.2.10 
+ * 
+ * @category DisplayPage
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au
+ * 
+ */
+require_once "basePage.php";
 
-include_once "basePage.php";
 
-class courseplanelectivelookup_page extends basePage
+/**
+ * Course plan look up display for theme. 
+ * 
+ * @category DisplayPage
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au
+ */
+class CoursePlanElectiveLookUp_Page extends basePage
 {
-    public function display_page()
-    { // Body of page.
+    public function display_Page()
+    { 
+        // Body of page.
 
         global $p, $db, $message;
 
@@ -37,18 +57,39 @@ class courseplanelectivelookup_page extends basePage
         newWindow.focus();
       }
     </script>'; ?>
-    </head>
+</head>
 
-    <body topmargin="1" onload='document.frmcourseplanelectivelookup.txtDescription.focus()'>
+<body topmargin="1" onload='document.frmcourseplanelectivelookup.txtDescription.focus()'>
 
-      <form name="frmcourseplanelectivelookup" method="post">
+    <form name="frmcourseplanelectivelookup" method="post">
 
         <style>
-          span.small {font-family: Arial; font-size: 12}
-          span.smallred {font-family: Arial; font-size: 12; color:red}
-          span.boldred {color:red; font-weight:bold}
-          td {font-family: Arial; font-size: 14}
-          span.hlp {font-family: Arial; font-size: 18}
+        span {
+            font-family: Arial;
+            font-size: 12
+        }
+
+        span.small {
+            font-size: 12
+        }
+
+        span.smallred {
+            font-size: 12;
+            color: red
+        }
+
+        span.boldred {
+            color: red;
+            font-weight: bold
+        }
+
+        td {
+            font-size: 14
+        }
+
+        span.hlp {
+            font-size: 18
+        }
         </style>
 
 
@@ -205,21 +246,32 @@ class courseplanelectivelookup_page extends basePage
             echo '</table>';
         } ?>
 
-      </form>
+    </form>
 
     <?php
     }
-    public function process_page()
+    
+    /**
+     * Process_page function
+     *
+     * @return void
+     */
+    public function process_Page()
     {
         if (isset($_POST["btnCancel"])) {
             echo "<script language='javascript'> this.close(); </script>";
         }
     }
+
+    /**
+     * __construct Function
+     */
     public function __construct()
     {
         basePage::basePageFunction();
     }
 }
+
 // Instantiate this page
 $p = new courseplanelectivelookup_page();
 
@@ -229,8 +281,8 @@ if (empty($_SESSION["mrkaccessallowed"])) {
 $p->process_page();
 
 // Output page.
-$heading = "fdlMarks --> " . $_SESSION["mrksysinstitution"] . " --> Specialisation Elective Lookup";
-$p->display_html_header($heading);
+// $heading = "fdlMarks --> " . $_SESSION["mrksysinstitution"] . " --> Specialisation Elective Lookup";
+// $p->display_html_header($heading);
 $p->display_page();
 $p->display_html_footer();
 

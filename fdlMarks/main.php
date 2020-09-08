@@ -5,7 +5,7 @@ require_once "utils.php";
 
 class Marks_page extends basePage
 {
-    public function Display_page()
+    public function display_Page()
     { // Body of page.
 
         global $p, $db, $studentdetails; ?>
@@ -40,17 +40,10 @@ class Marks_page extends basePage
         <table border-collapse="collapse" border="1" border="1px" class="grading-table" cellspacing="0" cellpadding="6">
     </html>
         <style>@media print {#ghostery-purple-box {display:none !important}}</style>
-        <!--If refresh is pressed go back to log-in  -->
-        <script language="javascript">
-            function document.onkeydown() {
-            if (event.keyCode == 116) {
-            alert("MOVING AWAY");
-            window.location.href="/choice_page/"; 
-            event.keyCode = 0; 
-            event.cancelBubble = true; 
-            return false; } 
-            }       
+        
+
 </script>
+
         <?php
         // Connect to the database or =! supply error
         $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
@@ -91,14 +84,22 @@ class Marks_page extends basePage
         </table>
 
     
-    <?php
+        <?php
     }
     
-
-    public function converttograde($argmark, $argweight, $argtype)
+    /**
+     * Undocumented function
+     *
+     * @param [INT]     $argmark   Overall mark
+     * @param [VARCHAR] $argweight Weight of the mark
+     * @param [INT]     $argtype   Type of assignment **REDUNDANT**
+     * 
+     * @return void
+     */
+    public function convertToGrade($argmark, $argweight, $argtype)
     {
         
-        //Grading system  - Satisfactory OR Unsatisfactory (Only for particular Subjects)
+        //Grading system  - Satisfactory OR Unsatisfactory (Only Particular Subjects)
         if ($argtype == 'H') {
             if (empty($argmark)) {
                 $grade = 'U';
@@ -143,9 +144,14 @@ class Marks_page extends basePage
 
 
 
-
-    public function process_form()
-    { // Validate fields and if ok proceed to grades form.
+    /**
+     * Procces_form function
+     *
+     * @return void
+     */
+    public function process_Form()
+    { 
+        // Validate fields and if ok proceed to grades form.
 
         global $p, $db, $studentdetails;
 
@@ -163,8 +169,6 @@ class Marks_page extends basePage
             where studentid = '$studentid'
             and ifnull(dropped,'') = ''
             order by termid desc, locationid, unitid";
-
-        
 
         $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-05: " . mysqli_error($db));
 
@@ -250,7 +254,7 @@ class Marks_page extends basePage
             $termid = $row["termid"];
             $unitid = $row["unitid"];
 
-            //Get subdiscipline settings
+            //Subdiscipline settings
             $marksaccess = '';
             $convertmarktograde = '';
             $ssql = "select s.marksaccess, s.convertmarktograde, u.name as unitname
@@ -318,17 +322,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp01"])) {
                 $tpp01 = "&nbsp;";
             } elseif (empty($row["plg01"]) || $row["plg01"] == '5') {
-                $lateadjusted = $row["tpp01"] - (late_penalty($row, $mrktask, 1) * $mrktask[1]["weight"]);
+                $lateadjusted = $row["tpp01"] - (late_Penalty($row, $mrktask, 1) * $mrktask[1]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp01 = $p->converttograde($lateadjusted, $mrktask[1]["weight"], $mrktask[1]["type"]);
+                    $tpp01 = $p->convertToGrade($lateadjusted, $mrktask[1]["weight"], $mrktask[1]["type"]);
                 } else {
                     $tpp01 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp01 = "";
-                if (late_penalty($row, $mrktask, 1)) {
+                if (late_Penalty($row, $mrktask, 1)) {
                     $bgtpp01 = 'bgcolor="#CCFF00"';
                     $titltpp01 = "LATE PENALTY\n\n";
                 }
@@ -341,18 +345,18 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp02"])) {
                 $tpp02 = "&nbsp;";
             } elseif (empty($row["plg02"]) || $row["plg02"] == '5') {
-                $lateadjusted = $row["tpp02"] - (late_penalty($row, $mrktask, 2) * $mrktask[2]["weight"]);
+                $lateadjusted = $row["tpp02"] - (late_Penalty($row, $mrktask, 2) * $mrktask[2]["weight"]);
 
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp02 = $p->converttograde($lateadjusted, $mrktask[2]["weight"], $mrktask[2]["type"]);
+                    $tpp02 = $p->convertToGrade($lateadjusted, $mrktask[2]["weight"], $mrktask[2]["type"]);
                 } else {
                     $tpp02 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp02 = "";
-                if (late_penalty($row, $mrktask, 2)) {
+                if (late_Penalty($row, $mrktask, 2)) {
                     $bgtpp02 = 'bgcolor="#CCFF00"';
                     $titltpp02 = "LATE PENALTY\n\n";
                 }
@@ -365,17 +369,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp03"])) {
                 $tpp03 = "&nbsp;";
             } elseif (empty($row["plg03"]) || $row["plg03"] == '5') {
-                $lateadjusted = $row["tpp03"] - (late_penalty($row, $mrktask, 3) * $mrktask[3]["weight"]);
+                $lateadjusted = $row["tpp03"] - (late_Penalty($row, $mrktask, 3) * $mrktask[3]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp03 = $p->converttograde($lateadjusted, $mrktask[3]["weight"], $mrktask[3]["type"]);
+                    $tpp03 = $p->convertToGrade($lateadjusted, $mrktask[3]["weight"], $mrktask[3]["type"]);
                 } else {
                     $tpp03 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp03 = "";
-                if (late_penalty($row, $mrktask, 3)) {
+                if (late_Penalty($row, $mrktask, 3)) {
                     $bgtpp03 = 'bgcolor="#CCFF00"';
                     $titltpp03 = "LATE PENALTY\n\n";
                 }
@@ -388,17 +392,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp04"])) {
                 $tpp04 = "&nbsp;";
             } elseif (empty($row["plg04"]) || $row["plg04"] == '5') {
-                $lateadjusted = $row["tpp04"] - (late_penalty($row, $mrktask, 4) * $mrktask[4]["weight"]);
+                $lateadjusted = $row["tpp04"] - (late_Penalty($row, $mrktask, 4) * $mrktask[4]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp04 = $p->converttograde($lateadjusted, $mrktask[4]["weight"], $mrktask[4]["type"]);
+                    $tpp04 = $p->convertToGrade($lateadjusted, $mrktask[4]["weight"], $mrktask[4]["type"]);
                 } else {
                     $tpp04 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp04 = "";
-                if (late_penalty($row, $mrktask, 4)) {
+                if (late_Penalty($row, $mrktask, 4)) {
                     $bgtpp04 = 'bgcolor="#CCFF00"';
                     $titltpp04 = "LATE PENALTY\n\n";
                 }
@@ -411,17 +415,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp05"])) {
                 $tpp05 = "&nbsp;";
             } elseif (empty($row["plg05"]) || $row["plg05"] == '5') {
-                $lateadjusted = $row["tpp05"] - (late_penalty($row, $mrktask, 5) * $mrktask[5]["weight"]);
+                $lateadjusted = $row["tpp05"] - (late_Penalty($row, $mrktask, 5) * $mrktask[5]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp05 = $p->converttograde($lateadjusted, $mrktask[5]["weight"], $mrktask[5]["type"]);
+                    $tpp05 = $p->convertToGrade($lateadjusted, $mrktask[5]["weight"], $mrktask[5]["type"]);
                 } else {
                     $tpp05 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp05 = "";
-                if (late_penalty($row, $mrktask, 5)) {
+                if (late_Penalty($row, $mrktask, 5)) {
                     $bgtpp05 = 'bgcolor="#CCFF00"';
                     $titltpp05 = "LATE PENALTY\n\n";
                 }
@@ -434,17 +438,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp06"])) {
                 $tpp06 = "&nbsp;";
             } elseif (empty($row["plg06"]) || $row["plg06"] == '5') {
-                $lateadjusted = $row["tpp06"] - (late_penalty($row, $mrktask, 6) * $mrktask[6]["weight"]);
+                $lateadjusted = $row["tpp06"] - (late_Penalty($row, $mrktask, 6) * $mrktask[6]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp06 = $p->converttograde($lateadjusted, $mrktask[6]["weight"], $mrktask[6]["type"]);
+                    $tpp06 = $p->convertToGrade($lateadjusted, $mrktask[6]["weight"], $mrktask[6]["type"]);
                 } else {
                     $tpp06 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp06 = "";
-                if (late_penalty($row, $mrktask, 6)) {
+                if (late_Penalty($row, $mrktask, 6)) {
                     $bgtpp06 = 'bgcolor="#CCFF00"';
                     $titltpp06 = "LATE PENALTY\n\n";
                 }
@@ -457,17 +461,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp07"])) {
                 $tpp07 = "&nbsp;";
             } elseif (empty($row["plg07"]) || $row["plg07"] == '5') {
-                $lateadjusted = $row["tpp07"] - (late_penalty($row, $mrktask, 7) * $mrktask[7]["weight"]);
+                $lateadjusted = $row["tpp07"] - (late_Penalty($row, $mrktask, 7) * $mrktask[7]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp07 = $p->converttograde($lateadjusted, $mrktask[7]["weight"], $mrktask[7]["type"]);
+                    $tpp07 = $p->convertToGrade($lateadjusted, $mrktask[7]["weight"], $mrktask[7]["type"]);
                 } else {
                     $tpp07 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp07 = "";
-                if (late_penalty($row, $mrktask, 7)) {
+                if (late_Penalty($row, $mrktask, 7)) {
                     $bgtpp07 = 'bgcolor="#CCFF00"';
                     $titltpp07 = "LATE PENALTY\n\n";
                 }
@@ -480,17 +484,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp08"])) {
                 $tpp08 = "&nbsp;";
             } elseif (empty($row["plg08"]) || $row["plg08"] == '5') {
-                $lateadjusted = $row["tpp08"] - (late_penalty($row, $mrktask, 8) * $mrktask[8]["weight"]);
+                $lateadjusted = $row["tpp08"] - (late_Penalty($row, $mrktask, 8) * $mrktask[8]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp08 = $p->converttograde($lateadjusted, $mrktask[8]["weight"], $mrktask[8]["type"]);
+                    $tpp08 = $p->convertToGrade($lateadjusted, $mrktask[8]["weight"], $mrktask[8]["type"]);
                 } else {
                     $tpp08 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp08 = "";
-                if (late_penalty($row, $mrktask, 8)) {
+                if (late_Penalty($row, $mrktask, 8)) {
                     $bgtpp08 = 'bgcolor="#CCFF00"';
                     $titltpp08 = "LATE PENALTY\n\n";
                 }
@@ -504,17 +508,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp09"])) {
                 $tpp09 = "&nbsp;";
             } elseif (empty($row["plg09"]) || $row["plg09"] == '5') {
-                $lateadjusted = $row["tpp09"] - (late_penalty($row, $mrktask, 9) * $mrktask[9]["weight"]);
+                $lateadjusted = $row["tpp09"] - (late_Penalty($row, $mrktask, 9) * $mrktask[9]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp09 = $p->converttograde($lateadjusted, $mrktask[9]["weight"], $mrktask[9]["type"]);
+                    $tpp09 = $p->convertToGrade($lateadjusted, $mrktask[9]["weight"], $mrktask[9]["type"]);
                 } else {
                     $tpp09 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp09 = "";
-                if (late_penalty($row, $mrktask, 9)) {
+                if (late_Penalty($row, $mrktask, 9)) {
                     $bgtpp09 = 'bgcolor="#CCFF00"';
                     $titltpp09 = "LATE PENALTY\n\n";
                 }
@@ -528,17 +532,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp10"])) {
                 $tpp10 = "&nbsp;";
             } elseif (empty($row["plg10"]) || $row["plg10"] == '5') {
-                $lateadjusted = $row["tpp10"] - (late_penalty($row, $mrktask, 10) * $mrktask[10]["weight"]);
+                $lateadjusted = $row["tpp10"] - (late_Penalty($row, $mrktask, 10) * $mrktask[10]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp10 = $p->converttograde($lateadjusted, $mrktask[10]["weight"], $mrktask[10]["type"]);
+                    $tpp10 = $p->convertToGrade($lateadjusted, $mrktask[10]["weight"], $mrktask[10]["type"]);
                 } else {
                     $tpp10 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp10 = "";
-                if (late_penalty($row, $mrktask, 10)) {
+                if (late_Penalty($row, $mrktask, 10)) {
                     $bgtpp10 = 'bgcolor="#CCFF00"';
                     $titltpp10 = "LATE PENALTY\n\n";
                 }
@@ -552,17 +556,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp11"])) {
                 $tpp11 = "&nbsp;";
             } elseif (empty($row["plg11"]) || $row["plg11"] == '5') {
-                $lateadjusted = $row["tpp11"] - (late_penalty($row, $mrktask, 11) * $mrktask[11]["weight"]);
+                $lateadjusted = $row["tpp11"] - (late_Penalty($row, $mrktask, 11) * $mrktask[11]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp11 = $p->converttograde($lateadjusted, $mrktask[11]["weight"], $mrktask[11]["type"]);
+                    $tpp11 = $p->convertToGrade($lateadjusted, $mrktask[11]["weight"], $mrktask[11]["type"]);
                 } else {
                     $tpp11 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgas11 = "";
-                if (late_penalty($row, $mrktask, 11)) {
+                if (late_Penalty($row, $mrktask, 11)) {
                     $bgtpp11 = 'bgcolor="#CCFF00"';
                     $titltpp11 = "LATE PENALTY\n\n";
                 }
@@ -576,17 +580,17 @@ class Marks_page extends basePage
             } elseif (empty($row["tpp12"])) {
                 $tpp12 = "&nbsp;";
             } elseif (empty($row["plg12"]) || $row["plg12"] == '5') {
-                $lateadjusted = $row["tpp12"] - (late_penalty($row, $mrktask, 12) * $mrktask[12]["weight"]);
+                $lateadjusted = $row["tpp12"] - (late_Penalty($row, $mrktask, 12) * $mrktask[12]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $tpp12 = $p->converttograde($lateadjusted, $mrktask[12]["weight"], $mrktask[12]["type"]);
+                    $tpp12 = $p->convertToGrade($lateadjusted, $mrktask[12]["weight"], $mrktask[12]["type"]);
                 } else {
                     $tpp12 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgtpp12 = "";
-                if (late_penalty($row, $mrktask, 12)) {
+                if (late_Penalty($row, $mrktask, 12)) {
                     $bgtpp12 = 'bgcolor="#CCFF00"';
                     $titltpp12 = "LATE PENALTY\n\n";
                 }
@@ -600,17 +604,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod01"])) {
                 $mod01 = "&nbsp;";
             } elseif (empty($row["plg01"]) || $row["plg01"] == '5') {
-                $lateadjusted = $row["mod01"] - (late_penalty($row, $mrktask, 1) * $mrktask[1]["weight"]);
+                $lateadjusted = $row["mod01"] - (late_Penalty($row, $mrktask, 1) * $mrktask[1]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod01 = $p->converttograde($lateadjusted, $mrktask[1]["weight"], $mrktask[1]["type"]);
+                    $mod01 = $p->convertToGrade($lateadjusted, $mrktask[1]["weight"], $mrktask[1]["type"]);
                 } else {
                     $mod01 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod01 = "";
-                if (late_penalty($row, $mrktask, 1)) {
+                if (late_Penalty($row, $mrktask, 1)) {
                     $bgmod01 = 'bgcolor="#CCFF00"';
                     $titlmod01 = "LATE PENALTY\n\n";
                 }
@@ -623,17 +627,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod02"])) {
                 $mod02 = "&nbsp;";
             } elseif (empty($row["plg02"]) || $row["plg02"] == '5') {
-                $lateadjusted = $row["mod02"] - (late_penalty($row, $mrktask, 2) * $mrktask[2]["weight"]);
+                $lateadjusted = $row["mod02"] - (late_Penalty($row, $mrktask, 2) * $mrktask[2]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod02 = $p->converttograde($lateadjusted, $mrktask[2]["weight"], $mrktask[2]["type"]);
+                    $mod02 = $p->convertToGrade($lateadjusted, $mrktask[2]["weight"], $mrktask[2]["type"]);
                 } else {
                     $mod02 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod02 = "";
-                if (late_penalty($row, $mrktask, 2)) {
+                if (late_Penalty($row, $mrktask, 2)) {
                     $bgmod02 = 'bgcolor="#CCFF00"';
                     $titlmod02 = "LATE PENALTY\n\n";
                 }
@@ -646,17 +650,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod03"])) {
                 $mod03 = "&nbsp;";
             } elseif (empty($row["plg03"]) || $row["plg03"] == '5') {
-                $lateadjusted = $row["mod03"] - (late_penalty($row, $mrktask, 3) * $mrktask[3]["weight"]);
+                $lateadjusted = $row["mod03"] - (late_Penalty($row, $mrktask, 3) * $mrktask[3]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod03 = $p->converttograde($lateadjusted, $mrktask[3]["weight"], $mrktask[3]["type"]);
+                    $mod03 = $p->convertToGrade($lateadjusted, $mrktask[3]["weight"], $mrktask[3]["type"]);
                 } else {
                     $mod03 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod03 = "";
-                if (late_penalty($row, $mrktask, 3)) {
+                if (late_Penalty($row, $mrktask, 3)) {
                     $bgmod03 = 'bgcolor="#CCFF00"';
                     $titlmod03 = "LATE PENALTY\n\n";
                 }
@@ -670,17 +674,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod04"])) {
                 $mod04 = "&nbsp;";
             } elseif (empty($row["plg04"]) || $row["plg04"] == '5') {
-                $lateadjusted = $row["mod04"] - (late_penalty($row, $mrktask, 4) * $mrktask[4]["weight"]);
+                $lateadjusted = $row["mod04"] - (late_Penalty($row, $mrktask, 4) * $mrktask[4]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod04 = $p->converttograde($lateadjusted, $mrktask[4]["weight"], $mrktask[4]["type"]);
+                    $mod04 = $p->convertToGrade($lateadjusted, $mrktask[4]["weight"], $mrktask[4]["type"]);
                 } else {
                     $mod04 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod04 = "";
-                if (late_penalty($row, $mrktask, 4)) {
+                if (late_Penalty($row, $mrktask, 4)) {
                     $bgmod04 = 'bgcolor="#CCFF00"';
                     $titlmod04 = "LATE PENALTY\n\n";
                 }
@@ -693,17 +697,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod05"])) {
                 $mod05 = "&nbsp;";
             } elseif (empty($row["plg05"]) || $row["plg05"] == '5') {
-                $lateadjusted = $row["mod05"] - (late_penalty($row, $mrktask, 5) * $mrktask[5]["weight"]);
+                $lateadjusted = $row["mod05"] - (late_Penalty($row, $mrktask, 5) * $mrktask[5]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod05 = $p->converttograde($lateadjusted, $mrktask[5]["weight"], $mrktask[5]["type"]);
+                    $mod05 = $p->convertToGrade($lateadjusted, $mrktask[5]["weight"], $mrktask[5]["type"]);
                 } else {
                     $mod05 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod05 = "";
-                if (late_penalty($row, $mrktask, 5)) {
+                if (late_Penalty($row, $mrktask, 5)) {
                     $bgmod05 = 'bgcolor="#CCFF00"';
                     $titlmod05 = "LATE PENALTY\n\n";
                 }
@@ -716,17 +720,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod06"])) {
                 $mod06 = "&nbsp;";
             } elseif (empty($row["plg06"]) || $row["plg06"] == '5') {
-                $lateadjusted = $row["mod06"] - (late_penalty($row, $mrktask, 6) * $mrktask[6]["weight"]);
+                $lateadjusted = $row["mod06"] - (late_Penalty($row, $mrktask, 6) * $mrktask[6]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod06 = $p->converttograde($lateadjusted, $mrktask[6]["weight"], $mrktask[6]["type"]);
+                    $mod06 = $p->convertToGrade($lateadjusted, $mrktask[6]["weight"], $mrktask[6]["type"]);
                 } else {
                     $mod06 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod06 = "";
-                if (late_penalty($row, $mrktask, 6)) {
+                if (late_Penalty($row, $mrktask, 6)) {
                     $bgmod06 = 'bgcolor="#CCFF00"';
                     $titlmod06 = "LATE PENALTY\n\n";
                 }
@@ -739,16 +743,16 @@ class Marks_page extends basePage
             } elseif (empty($row["mod07"])) {
                 $mod07 = "&nbsp;";
             } elseif (empty($row["plg07"]) || $row["plg07"] == '5') {
-                $lateadjusted = $row["mod07"] - (late_penalty($row, $mrktask, 7) * $mrktask[7]["weight"]);
+                $lateadjusted = $row["mod07"] - (late_Penalty($row, $mrktask, 7) * $mrktask[7]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod07 = $p->converttograde($lateadjusted, $mrktask[7]["weight"], $mrktask[7]["type"]);
+                    $mod07 = $p->convertToGrade($lateadjusted, $mrktask[7]["weight"], $mrktask[7]["type"]);
                 } else {
                     $mod07 = sprintf("%.1f", $lateadjusted);
                 }
-                if (late_penalty($row, $mrktask, 7)) {
+                if (late_Penalty($row, $mrktask, 7)) {
                     $bgmod07 = 'bgcolor="#CCFF00"';
                     $titlmod07 = "LATE PENALTY\n\n";
                 }
@@ -761,17 +765,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod08"])) {
                 $mod08 = "&nbsp;";
             } elseif (empty($row["plg08"]) || $row["plg08"] == '5') {
-                $lateadjusted = $row["mod08"] - (late_penalty($row, $mrktask, 8) * $mrktask[8]["weight"]);
+                $lateadjusted = $row["mod08"] - (late_Penalty($row, $mrktask, 8) * $mrktask[8]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod08 = $p->converttograde($lateadjusted, $mrktask[8]["weight"], $mrktask[8]["type"]);
+                    $mod08 = $p->convertToGrade($lateadjusted, $mrktask[8]["weight"], $mrktask[8]["type"]);
                 } else {
                     $mod08 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod08 = "";
-                if (late_penalty($row, $mrktask, 8)) {
+                if (late_Penalty($row, $mrktask, 8)) {
                     $bgmod08 = 'bgcolor="#CCFF00"';
                     $titlmod08 = "LATE PENALTY\n\n";
                 }
@@ -784,17 +788,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod09"])) {
                 $mod09 = "&nbsp;";
             } elseif (empty($row["plg09"]) || $row["plg09"] == '5') {
-                $lateadjusted = $row["mod09"] - (late_penalty($row, $mrktask, 9) * $mrktask[9]["weight"]);
+                $lateadjusted = $row["mod09"] - (late_Penalty($row, $mrktask, 9) * $mrktask[9]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod09 = $p->converttograde($lateadjusted, $mrktask[9]["weight"], $mrktask[9]["type"]);
+                    $mod09 = $p->convertToGrade($lateadjusted, $mrktask[9]["weight"], $mrktask[9]["type"]);
                 } else {
                     $mod09 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod09 = "";
-                if (late_penalty($row, $mrktask, 9)) {
+                if (late_Penalty($row, $mrktask, 9)) {
                     $bgmod09 = 'bgcolor="#CCFF00"';
                     $titlmod09 = "LATE PENALTY\n\n";
                 }
@@ -807,17 +811,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod10"])) {
                 $mod10 = "&nbsp;";
             } elseif (empty($row["plg10"]) || $row["plg10"] == '5') {
-                $lateadjusted = $row["mod10"] - (late_penalty($row, $mrktask, 10) * $mrktask[10]["weight"]);
+                $lateadjusted = $row["mod10"] - (late_Penalty($row, $mrktask, 10) * $mrktask[10]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod10 = $p->converttograde($lateadjusted, $mrktask[10]["weight"], $mrktask[10]["type"]);
+                    $mod10 = $p->convertToGrade($lateadjusted, $mrktask[10]["weight"], $mrktask[10]["type"]);
                 } else {
                     $mod10 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod10 = "";
-                if (late_penalty($row, $mrktask, 10)) {
+                if (late_Penalty($row, $mrktask, 10)) {
                     $bgmod10 = 'bgcolor="#CCFF00"';
                     $titlmod10 = "LATE PENALTY\n\n";
                 }
@@ -830,17 +834,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod11"])) {
                 $mod11 = "&nbsp;";
             } elseif (empty($row["plg11"]) || $row["plg11"] == '5') {
-                $lateadjusted = $row["mod11"] - (late_penalty($row, $mrktask, 11) * $mrktask[11]["weight"]);
+                $lateadjusted = $row["mod11"] - (late_Penalty($row, $mrktask, 11) * $mrktask[11]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod11 = $p->converttograde($lateadjusted, $mrktask[11]["weight"], $mrktask[11]["type"]);
+                    $mod11 = $p->convertToGrade($lateadjusted, $mrktask[11]["weight"], $mrktask[11]["type"]);
                 } else {
                     $mod11 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod11 = "";
-                if (late_penalty($row, $mrktask, 11)) {
+                if (late_Penalty($row, $mrktask, 11)) {
                     $bgmod11 = 'bgcolor="#CCFF00"';
                     $titlmod11 = "LATE PENALTY\n\n";
                 }
@@ -854,17 +858,17 @@ class Marks_page extends basePage
             } elseif (empty($row["mod12"])) {
                 $mod12 = "&nbsp;";
             } elseif (empty($row["plg12"]) || $row["plg12"] == '5') {
-                $lateadjusted = $row["mod12"] - (late_penalty($row, $mrktask, 12) * $mrktask[12]["weight"]);
+                $lateadjusted = $row["mod12"] - (late_Penalty($row, $mrktask, 12) * $mrktask[12]["weight"]);
                 if ($lateadjusted < 0) {
                     $lateadjusted = 0;
                 }
                 if ($convertmarktograde) {
-                    $mod12 = $p->converttograde($lateadjusted, $mrktask[12]["weight"], $mrktask[12]["type"]);
+                    $mod12 = $p->convertToGrade($lateadjusted, $mrktask[12]["weight"], $mrktask[12]["type"]);
                 } else {
                     $mod12 = sprintf("%.1f", $lateadjusted);
                 }
                 $bgmod12 = "";
-                if (late_penalty($row, $mrktask, 12)) {
+                if (late_Penalty($row, $mrktask, 12)) {
                     $bgmod12 = 'bgcolor="#CCFF00"';
                     $titlmod12 = "LATE PENALTY\n\n";
                 }
@@ -874,7 +878,7 @@ class Marks_page extends basePage
             //End here.
 
 
-            $message = "&nbsp;";
+            $message = " ";
 
             if (!empty($row["message"])) {
                 $message = "<span class='boldred'>" . stripslashes($row["message"]) . "</span>";
@@ -1119,18 +1123,23 @@ class Marks_page extends basePage
             $studentdetails = $studentdetails . $studentdetailstemp;
         }
     }
+
+    /**
+     * Funtion __construct. 
+     */
     public function __construct()
     {
         basePage::basePageFunction();
     }
 }
+
 $p = new marks_page();
 
 if (empty($_SESSION["mrkaccessallowed"])) {
     exit;
 }
 
-// If form has been submitted validate fields and move on, otherwise initialise some work fields.
+// If form has been submitted fields then move on, or initialise some work fields.
 $p->process_form();
 
 // Output page.
