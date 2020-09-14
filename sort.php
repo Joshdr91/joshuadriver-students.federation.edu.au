@@ -1,5 +1,22 @@
 <?php
+/**
+ * Php version 7.4
+ *
+ * @category Unitlook_Up_Display
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au 
+ */
 
+/**
+ * Undocumented function
+ *
+ * @param [type] $x 
+ * @param [type] $y
+ * 
+ * @return void
+ */
 function sorttask($x, $y)
 {
     if (in_array($_SESSION[$_GET["trid"] . "usertype"], array('C','S','X','T'))) {
@@ -81,131 +98,300 @@ function sorttask($x, $y)
       $sortfield = 'mod12';
       break;
     }//endcase
-  }//endelse
-
+    }//endelse
+    /**
+     * Undocumented function
+     *
+     * @param [type] $x jg;lkdfjg
+     * @param [type] $y
+     * 
+     * @return void
+     */
     function sortname($x, $y)
     {
-  if ($x[$sortfield]==$y[$sortfield]) {
-      return (sortName($x, $y));
-  }//endif
-    elseif ($x[$sortfield] < $y[$sortfield]) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
+        if ($x[$sortfield]==$y[$sortfield]) {
+            return (sortName($x, $y));
+        }//endif
+        elseif ($x[$sortfield] < $y[$sortfield]) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * 
+ * @return void
+ */
+    function sortAdmission($x, $y)
+    {
+        if ($x['sacode']==$y['sacode']) {
+            return (sortAdmissionvalue($x, $y));
+        }//endif
+        elseif ($x['sacode'] < $y['sacode']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
 
-function sortAdmission($x, $y)
-{
-    if ($x['sacode']==$y['sacode']) {
-        return (sortAdmissionvalue($x, $y));
-    }//endif
-    elseif ($x['sacode'] < $y['sacode']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAdmissionvalue($x, $y)
-{
-    if ($x['saattributevalue']==$y['saattributevalue']) {
-        return (sortTotal($x, $y));
-    }//endif
-    elseif ($x['saattributevalue'] < $y['saattributevalue']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAdmittype($x, $y)
-{
-    if ($x['admittype']==$y['admittype']) {
-        return (sortName($x, $y));
-    }//endif
-    elseif ($x['admittype'] < $y['admittype']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAssessment($x, $y)
-{
-    $sortfield = $_SESSION[$_GET["trid"] . "assessment"];
-    if ($x[$sortfield]==$y[$sortfield]) {
-        return 0;
-    }//endif
-    elseif ($x[$sortfield] < $y[$sortfield]) {
-        return 1;
-    }//endelseif
-    else {
-        return -1;
-    }//endelse
-}//endfunction
-
-function sortApplDaysNew($x, $y)
-{
-    if ($x['days']==$y['days']) {
-        return 0;
-    }//endif
-    elseif ($x['days'] < $y['days']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortApplDaysOld($x, $y)
-{
-    if ($x['days']==$y['days']) {
-        return 0;
-    }//endif
-    elseif ($x['days'] < $y['days']) {
-        return 1;
-    }//endelseif
-    else {
-        return -1;
-    }//endelse
-}//endfunction
-
-function sortApplStrandid($x, $y)
-{
-    if ($x['strandid']==$y['strandid']) {
-        return 0;
-    }//endif
-    elseif ($x['strandid'] < $y['strandid']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortApplStudentid($x, $y)
-{
-    if ($x['studentid']==$y['studentid']) {
-        return (sortApplStrandid($x, $y));
-    }//endif
-    elseif ($x['studentid'] < $y['studentid']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAttAttributeDetail($x, $y)
-{
-    if ($x['uadsequence']==$y['uadsequence']) {
-        if ($x['unitid']==$y['unitid']) {
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * 
+ * @return void
+ */
+    function sortAdmissionvalue($x, $y)
+    {
+        if ($x['saattributevalue']==$y['saattributevalue']) {
+            return (sortTotal($x, $y));
+        }//endif
+        elseif ($x['saattributevalue'] < $y['saattributevalue']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * 
+ * @return void
+ */
+    function sortAdmittype($x, $y)
+    {
+        if ($x['admittype']==$y['admittype']) {
+            return (sortName($x, $y));
+        }//endif
+        elseif ($x['admittype'] < $y['admittype']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortAssessment($x, $y)
+    {
+        $sortfield = $_SESSION[$_GET["trid"] . "assessment"];
+        if ($x[$sortfield]==$y[$sortfield]) {
             return 0;
+        }//endif
+        elseif ($x[$sortfield] < $y[$sortfield]) {
+            return 1;
+        }//endelseif
+        else {
+            return -1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortApplDaysNew($x, $y)
+    {
+        if ($x['days']==$y['days']) {
+            return 0;
+        }//endif
+        elseif ($x['days'] < $y['days']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortApplDaysOld($x, $y)
+    {
+        if ($x['days']==$y['days']) {
+            return 0;
+        }//endif
+        elseif ($x['days'] < $y['days']) {
+            return 1;
+        }//endelseif
+        else {
+            return -1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortApplStrandid($x, $y)
+    {
+        if ($x['strandid']==$y['strandid']) {
+            return 0;
+        }//endif
+        elseif ($x['strandid'] < $y['strandid']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }
+}//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortApplStudentid($x, $y)
+    {
+        if ($x['studentid']==$y['studentid']) {
+            return (sortApplStrandid($x, $y));
+        }//endif
+        elseif ($x['studentid'] < $y['studentid']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortAttAttributeDetail($x, $y)
+    {
+        if ($x['uadsequence']==$y['uadsequence']) {
+            if ($x['unitid']==$y['unitid']) {
+                return 0;
+            }//endif
+            elseif ($x['unitid'] < $y['unitid']) {
+                return -1;
+            }//endelseif
+            else {
+                return 1;
+            }//endelse
+        }//endif
+  elseif ($x['uadsequence'] < $y['uadsequence']) {
+      return -1;
+  }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortAttAttribute($x, $y)
+    {
+        if ($x['uasequence']==$y['uasequence']) {
+            return (sortAttAttributeDetail($x, $y));
+        }//endif
+        elseif ($x['uasequence'] < $y['uasequence']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortAttCategory($x, $y)
+    {
+        if ($x['uacsequence']==$y['uacsequence']) {
+            return (sortAttAttribute($x, $y));
+        }//endif
+        elseif ($x['uacsequence'] < $y['uacsequence']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortAttLevel($x, $y)
+    {
+        if ($x['uallabel']==$y['uallabel']) {
+            return (sortAttCategory($x, $y));
+        }//endif
+        elseif ($x['uallabel'] < $y['uallabel']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortAttStandard($x, $y)
+    {
+        if ($x['unitattributestandardversionid']==$y['unitattributestandardversionid']) {
+            return (sortAttCategory($x, $y));
+        }//endif
+        elseif ($x['unitattributestandardversionid'] < $y['unitattributestandardversionid']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * 
+ * @return void
+ */
+    function sortAttUnit($x, $y)
+    {
+        if ($x['unitid']==$y['unitid']) {
+            return (sortAttCategory($x, $y));
         }//endif
         elseif ($x['unitid'] < $y['unitid']) {
             return -1;
@@ -213,170 +399,140 @@ function sortAttAttributeDetail($x, $y)
         else {
             return 1;
         }//endelse
-    }//endif
-  elseif ($x['uadsequence'] < $y['uadsequence']) {
-      return -1;
-  }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAttAttribute($x, $y)
-{
-    if ($x['uasequence']==$y['uasequence']) {
-        return (sortAttAttributeDetail($x, $y));
-    }//endif
-    elseif ($x['uasequence'] < $y['uasequence']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAttCategory($x, $y)
-{
-    if ($x['uacsequence']==$y['uacsequence']) {
-        return (sortAttAttribute($x, $y));
-    }//endif
-    elseif ($x['uacsequence'] < $y['uacsequence']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAttLevel($x, $y)
-{
-    if ($x['uallabel']==$y['uallabel']) {
-        return (sortAttCategory($x, $y));
-    }//endif
-    elseif ($x['uallabel'] < $y['uallabel']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAttStandard($x, $y)
-{
-    if ($x['unitattributestandardversionid']==$y['unitattributestandardversionid']) {
-        return (sortAttCategory($x, $y));
-    }//endif
-    elseif ($x['unitattributestandardversionid'] < $y['unitattributestandardversionid']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortAttUnit($x, $y)
-{
-    if ($x['unitid']==$y['unitid']) {
-        return (sortAttCategory($x, $y));
-    }//endif
-    elseif ($x['unitid'] < $y['unitid']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortBirthCountry($x, $y)
-{
-    if ($x['birthcountry']==$y['birthcountry']) {
-        return 0;
-    }//endif
-    elseif ($x['birthcountry'] < $y['birthcountry']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortCitizenship($x, $y)
-{
-    if ($x['citizenship']==$y['citizenship']) {
-        return 0;
-    }//endif
-    elseif ($x['citizenship'] < $y['citizenship']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortClassid($x, $y)
-{
-    if ($x['classid']==$y['classid']) {
-        return (sortName($x, $y));
-    }//endif
-    elseif ($x['classid'] < $y['classid']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortCOECode($x, $y)
-{
-    if ($x['COECode']==$y['COECode']) {
-        return (sortTotal($x, $y));
-    }//endif
-    elseif ($x['COECode'] < $y['COECode']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortCohort($x, $y)
-{
-    if ($x['cohort']==$y['cohort']) {
-        return (sortName($x, $y));
-    }//endif
-    elseif ($x['cohort'] < $y['cohort']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortStrandid($x, $y)
-{
-    if ($x['strandid']==$y['strandid']) {
-        return (sortName($x, $y));
-    }//endif
-    elseif ($x['strandid'] < $y['strandid']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
-
-function sortCSImportIndex($x, $y)
-{
-    if ($x['index']==$y['index']) {
-        return 0;
-    }//endif
-    elseif ($x['index'] < $y['index']) {
-        return -1;
-    }//endelseif
-    else {
-        return 1;
-    }//endelse
-}//endfunction
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortBirthCountry($x, $y)
+    {
+        if ($x['birthcountry']==$y['birthcountry']) {
+            return 0;
+        }//endif
+        elseif ($x['birthcountry'] < $y['birthcountry']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortCitizenship($x, $y)
+    {
+        if ($x['citizenship']==$y['citizenship']) {
+            return 0;
+        }//endif
+        elseif ($x['citizenship'] < $y['citizenship']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortClassid($x, $y)
+    {
+        if ($x['classid']==$y['classid']) {
+            return (sortName($x, $y));
+        }//endif
+        elseif ($x['classid'] < $y['classid']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortCOECode($x, $y)
+    {
+        if ($x['COECode']==$y['COECode']) {
+            return (sortTotal($x, $y));
+        }//endif
+        elseif ($x['COECode'] < $y['COECode']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortCohort($x, $y)
+    {
+        if ($x['cohort']==$y['cohort']) {
+            return (sortName($x, $y));
+        }//endif
+        elseif ($x['cohort'] < $y['cohort']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortStrandid($x, $y)
+    {
+        if ($x['strandid']==$y['strandid']) {
+            return (sortName($x, $y));
+        }//endif
+        elseif ($x['strandid'] < $y['strandid']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
+/**
+ * Undocumented function
+ *
+ * @param [type] $x
+ * @param [type] $y
+ * @return void
+ */
+    function sortCSImportIndex($x, $y)
+    {
+        if ($x['index']==$y['index']) {
+            return 0;
+        }//endif
+        elseif ($x['index'] < $y['index']) {
+            return -1;
+        }//endelseif
+        else {
+            return 1;
+        }//endelse
+    }//endfunction
 
 function sortCSImportStudentid($x, $y)
 {
@@ -1203,4 +1359,4 @@ function sortUnitid($x, $y)
     else {
         return 1;
     }//endelse
-}//endfunction
+}
