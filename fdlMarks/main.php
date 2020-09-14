@@ -1,12 +1,37 @@
 <?php
-
+/**
+ * Php version 7.2.10 
+ * 
+ * @category DisplayPage
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au
+ */
 require_once "basePage.php";
 require_once "utils.php";
 
-class Marks_page extends basePage
+/**
+ * Mark_page
+ * 
+ * @category DisplayPage
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au
+ */
+
+class Marks_Page extends basePage
 {
-    public function display_Page()
-    { // Body of page.
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function displayPage()
+    { 
+        // Body of page.
 
         global $p, $db, $studentdetails; ?>
 
@@ -19,7 +44,7 @@ class Marks_page extends basePage
       }
 
 
-      function studentplancheck(studentplanid, courseplanid, studentid){
+      function studentPlanCheck(studentplanid, courseplanid, studentid){
         newWindow=window.open("studentplancheck.php?studentplanid=" + studentplanid + "&courseplanid=" + courseplanid + "&studentid=" + studentid + "&openerform=''","fdlmstudentplancheck","resizable=yes, scrollbars=yes, menubar=yes, width=" + sWidth *.9  + ", height=" + sHeight *.8 + ", top=" + sTop + ", left=" + sLeft);
         newWindow.focus();
       }
@@ -46,7 +71,7 @@ class Marks_page extends basePage
 
         <?php
         // Connect to the database or =! supply error
-        $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
+        $sql_ok = $p->db_Connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
 
 
 
@@ -149,7 +174,7 @@ class Marks_page extends basePage
      *
      * @return void
      */
-    public function process_Form()
+    public function processForm()
     { 
         // Validate fields and if ok proceed to grades form.
 
@@ -160,9 +185,9 @@ class Marks_page extends basePage
         $studentdetails = '';
         $studentid = $_SESSION["mrkstudentid"];
 
-
+        
         // Connect to the database or =! connect then supply error
-        $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-04: " . mysqli_error($db));
+        $sql_ok = $p->db_Connect() or die(basename(__FILE__, '.php') . "-04: " . mysqli_error($db));
 
         $sql = "select *
             from unitstudent
@@ -227,15 +252,14 @@ class Marks_page extends basePage
 
             $unitsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-07: " . mysqli_error($db));
 
+            $showdidnotpass = false;
+            $published = false;
 
             if (mysqli_num_rows($unitsql_ok) > 0) {
                 $unitrow = mysqli_fetch_array($unitsql_ok) or die(basename(__FILE__, '.php') . "-08: " . mysqli_error($db));
                 $moderationtype = $unitrow["moderationtype"];
                 $subdisciplineid = $unitrow["subdisciplineid"];
             }
-
-            $showdidnotpass = false;
-            $published = false;
 
             $sql = "select *
               from term
@@ -244,12 +268,14 @@ class Marks_page extends basePage
 
             $termsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-09: " . mysqli_error($db));
 
+            
             if (mysqli_num_rows($termsql_ok) > 0) {
                 $published = true;
             }
             if (mysqli_num_rows($termsql_ok) > 0 && ($row["grade"] == 'MF' || $row["grade"] == 'F' || $row["grade"] == 'U' || $row["grade"] == 'ZN' || $row["grade"] == 'AD' || $row["grade"] == 'TD')) {
                 $showdidnotpass = true;
             }
+
             $locationid = $row["locationid"];
             $termid = $row["termid"];
             $unitid = $row["unitid"];
@@ -316,7 +342,10 @@ class Marks_page extends basePage
                 }
                 $mrktask[$num]["marks"] = $srow['marks'];
             }
+            
+            // $duedate is declared but not used.
             $duedate = getDueDate($locationid, $termid, 1, $cleaneddue, $mrktask[$num]["splitweek"], $mrktask[$num]["dueday"], $mrktask[$num]["duetime"]);
+            
             if (!empty($row["tpp01"]) && empty($mrktask[1]["marks"])) {
                 $tpp01 = "NA";
             } elseif (empty($row["tpp01"])) {
@@ -411,7 +440,7 @@ class Marks_page extends basePage
             }
             $duedate = getDueDate($locationid, $termid, 5, $cleaneddue, $mrktask[$num]["splitweek"], $mrktask[$num]["dueday"], $mrktask[$num]["duetime"]);
             if (!empty($row["tpp05"]) && empty($mrktask[5]["marks"])) {
-                $tpp05 = "NA";
+                $tpp05 = "";
             } elseif (empty($row["tpp05"])) {
                 $tpp05 = "&nbsp;";
             } elseif (empty($row["plg05"]) || $row["plg05"] == '5') {
@@ -878,7 +907,7 @@ class Marks_page extends basePage
             //End here.
 
 
-            $message = " ";
+            $message = "NA";
 
             if (!empty($row["message"])) {
                 $message = "<span class='boldred'>" . stripslashes($row["message"]) . "</span>";
@@ -908,7 +937,7 @@ class Marks_page extends basePage
                 and ul.udstatus = 'P'";
 
             $udsql_ok = mysqli_query($db, $udsql) or die(basename(__FILE__, '.php') . "-14: " . mysqli_error($db));
-
+            $unitname = "";
             if (mysqli_num_rows($udsql_ok) == 0) {
                 $unitiddisplay = '<span title="' . $unitname . '">' . $row["unitid"] . '</span>';
             } else {
@@ -1131,7 +1160,7 @@ class Marks_page extends basePage
     {
         basePage::basePageFunction();
     }
-}
+} 
 
 $p = new marks_page();
 
@@ -1140,10 +1169,10 @@ if (empty($_SESSION["mrkaccessallowed"])) {
 }
 
 // If form has been submitted fields then move on, or initialise some work fields.
-$p->process_form();
+$p->processForm();
 
 // Output page.
-$p->display_page();
+$p->displaypage();
 
 // Initialise for next time around.
 $_SESSION['mrkmsg'] = '';

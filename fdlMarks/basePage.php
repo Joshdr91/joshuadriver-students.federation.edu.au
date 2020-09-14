@@ -1,16 +1,27 @@
 <?php
-
+/**
+ * 
+ */
 require_once '../host/config.php';
 
-define('_escpercentON', true);
-define('_escpercentOFF', false);
-define('_escunderscoreON', true);
-define('_escunderscoreOFF', false);
+define('_ESCPERCENTON', true);
+define('_ESCPERCENTOFF', false);
+define('_ESCUNDERSCOREON', true);
+define('_ESCUNDERSCOREOFF', false);
 
-class basePage
+/**
+ * Undocumented class
+ */
+class BasePage
 {
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function basePageFunction()
-    { // Constructor.
+    { 
+        // Constructor.
         if (!isset($_SESSION['timeout'])) {
             session_start();
         }
@@ -20,8 +31,17 @@ class basePage
         set_time_limit(0);
         error_reporting(1);
     }
+    /**
+     * Undocumented function
+     *
+     * @param [type] $argAdminLevel Admin level
+     * @param [type] $argUserType   User Permissions
+     * 
+     * @return void
+     */
     public function access_denied($argAdminLevel, $argUserType)
-    { // Check that we have come from a valid page.
+    { 
+        // Check that we have come from a valid page.
 
         if (!isset($_SESSION["mrkaccessallowed"]) || $_SESSION["mrkaccessallowed"] != 'yes') {
             return true;
@@ -47,6 +67,15 @@ class basePage
         }
         return true;
     }
+    /**
+     * Undocumented function
+     *
+     * @param [type] $in            Integer
+     * @param [type] $escpercent    Percentage
+     * @param [type] $escunderscore Under score
+     * 
+     * @return void
+     */
     public function escapeinput($in, $escpercent, $escunderscore)
     {
         $out = trim($in);
@@ -77,9 +106,10 @@ class basePage
         if ($escunderscore && stripos($out, '_') != false) {
             $out = str_replace('_', "\_", $out);
         }
+        // With return type void returns string but should not return anything.
         return $out;
     }
-    public function pdo_connect()
+    public function pdo_Connect()
     {
         $server = $GLOBALS['fdlconfig']['mysql']['server'];
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
@@ -93,16 +123,27 @@ class basePage
         }
         return $conn;
     }
+    /**
+     * Undocumented function
+     *
+     * @param [type] $pdoerrorinfo error infomatics
+     * 
+     * @return void
+     */
     public function pdo_error($pdoerrorinfo)
     {
-        $message = '';
-
+        //$message = '';
         $temp = $pdoerrorinfo;
-
         return $pdoerrorinfo[2];
     }
-    public function db_connect()
-    { // Check that we can connect to the host and talk to the database.
+    /**
+     * db_connect function
+     *
+     * @return void
+     */
+    public function db_Connect()
+    { 
+        // Check that we can connect to the host and talk to the database.
 
         global $db;
 
@@ -110,18 +151,26 @@ class basePage
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
         $username = $GLOBALS['fdlconfig']['mysql']['username'];
         $password = $GLOBALS['fdlconfig']['mysql']['password'];
-
+        
+        
         $db = mysqli_connect($server, $username, $password, $dbname);
 
         if (mysqli_connect_error()) {
             return false;
         }
         mysqli_set_charset($db, 'utf8');
-
         return $db;
     }
-    public function display_html_header($title)
-    { // Set the page up.
+    /**
+     * Undocumented function
+     *
+     * @param [type] $title Title of html header
+     * 
+     * @return void
+     */
+    public function display_Html_Header($title)
+    { 
+        // Set the page up.
         ?>
 
   <html>
@@ -129,24 +178,37 @@ class basePage
 
       <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
-      <?php
-if (!empty($title)) { // Only output title if one provided.
+        <?php
+        if (!empty($title)) { // Only output title if one provided.
             echo "<title>$title</title>";
         }
         ?>
 
-  <?php
-}
+        <?php
+    }
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function display_html_footer()
-    { // Close the page off.
+    { 
+        // Close the page off.
         ?>
 
     </body>
   </html>
 
-  <?php
-}
-    public function display_message($action)
+        <?php
+    }
+    /**
+     * Undocumented function
+     *
+     * @param [type] $action Actions
+     * 
+     * @return void
+     */
+    public function display_Message($action)
     {
         if ($action == "wait") {
             $_SESSION["mrkmessage"] = 'PLEASE WAIT WHILE YOUR REQUEST IS PROCESSED';

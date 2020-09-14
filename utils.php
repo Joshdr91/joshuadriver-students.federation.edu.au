@@ -1,14 +1,16 @@
 <?php
-
-include_once("vendor/autoload.php");
+/**
+ * 
+ */
+require_once 'vendor/autoload.php';
 require_once 'host/config.php';
 
 // static TRID
 define('_TRID', '5EF');
 
   //subdisciplineid, locationid, and termid constants
-  define('_allOFF', false);
-  define('_allON', true);
+  define('_ALLOFF', false);
+  define('_ALLON', true);
   define('_checkarchiveOFF', false);
   define('_checkarchiveON', true);
   define('_coursetypeOFF', false);
@@ -2044,7 +2046,7 @@ define('_TRID', '5EF');
                   $coordinatorid = $row["coordinator"];
               }//endif
           }//endelse
-
+      $coordinatorid = "";
       $sql = "select *
               from coordinator as crd
                 inner join user as usr
@@ -2070,7 +2072,7 @@ define('_TRID', '5EF');
 
           $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-029: ".mysqli_error($db));
       }//endelse
-
+      $sql_ok = "";
       if (mysqli_num_rows($sql_ok) > 0) {
           $utlemail='';
           for ($i=0; $i < mysqli_num_rows($sql_ok); $i++) {
@@ -2794,8 +2796,9 @@ define('_TRID', '5EF');
                   }//endif
                   $message = $message . '<br><b>Attachment:</b> '.$path;
               }//endif
-              else {
-                  if (!$boundarycreated) {
+              $boundarycreated = "";
+              // Else
+                if (!$boundarycreated) {
                       $boundarycreated = true;
                       // Generate a boundary string
                       $semi_rand = md5(time());
@@ -3010,7 +3013,7 @@ define('_TRID', '5EF');
       if (!$preview && $attachment) {
           $message .= "--{$mime_boundary}--";//tidy up for all attachements. out of if statement just in case no generated letter.
       }//endif
-  }//endfunction
+      //endfunction
   
   function commontemplatefields(& $predefinedtext, $studentid, $studentname, $studentaddress, $studentemails, $strandid, $strandname, $locationid, $locationname, $acaddivid, $acaddivshortname, $acaddivlongname, $termid, $semester, $year, $subdisciplineid)
   {
@@ -3181,7 +3184,8 @@ define('_TRID', '5EF');
   function getLetterTemplate($templateid, & $pdf, & $tmppdf, & $specialpdf, $letterdata, $studentdata, $termdata, $stranddata, $unitdata, $subdisciplinedata, $locationdata, $fieldsdata, $previewdata)
   {
       global $p, $db;
-    
+      //Unidentified Variable
+      $utlutlexamshecup = "";
       $studentid = $studentdata[0];
       $termid = $termdata[0];
       $semester = $termdata[1];
@@ -4271,6 +4275,7 @@ define('_TRID', '5EF');
               }//endif
           }//endif
           else {
+              $desc ="";
               echo "\n" . 'No ' . $desc . ' date set for ' . $sem;
           }//end else
       }

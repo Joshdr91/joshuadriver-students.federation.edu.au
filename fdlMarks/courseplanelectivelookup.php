@@ -7,7 +7,6 @@
  * @author   Spencer Booth-Jeffs <email@email.com>
  * @license  Federation University
  * @link     federation.edu.au
- * 
  */
 require_once "basePage.php";
 
@@ -23,13 +22,18 @@ require_once "basePage.php";
  */
 class CoursePlanElectiveLookUp_Page extends basePage
 {
-    public function display_Page()
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */   
+    public function displayPage()
     { 
         // Body of page.
 
         global $p, $db, $message;
 
-        $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
+        $sql_ok = $p->db_Connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
 
         $formname = $_GET["formname"];
         $fieldname = $_GET["fieldname"];
@@ -235,6 +239,7 @@ class CoursePlanElectiveLookUp_Page extends basePage
                     $selectedorunitidname = 'chkorunitidchosen' . $i;
                     $selectedorunitid = "<input type='checkbox' onclick='javascript:returnunitid(\"$orunitid\")' name='$selectedorunitidname'>";
 
+                    $orunitidname = "";
                     if ($selectable) {
                         echo '&nbsp;&nbsp;<span style="color:magenta; font-weight:bold;">OR</span>&nbsp;&nbsp;' . $orunitidname . '&nbsp;' . $selectedorunitid;
                     } else {
@@ -248,15 +253,15 @@ class CoursePlanElectiveLookUp_Page extends basePage
 
     </form>
 
-    <?php
+        <?php
     }
     
     /**
-     * Process_page function
+     *  Function
      *
      * @return void
      */
-    public function process_Page()
+    public function processPage()
     {
         if (isset($_POST["btnCancel"])) {
             echo "<script language='javascript'> this.close(); </script>";
@@ -278,12 +283,11 @@ $p = new courseplanelectivelookup_page();
 if (empty($_SESSION["mrkaccessallowed"])) {
     exit;
 }
-$p->process_page();
+$p->processPage();
 
 // Output page.
 // $heading = "fdlMarks --> " . $_SESSION["mrksysinstitution"] . " --> Specialisation Elective Lookup";
 // $p->display_html_header($heading);
-$p->display_page();
-$p->display_html_footer();
+$p->displayPage();
 
 ?>

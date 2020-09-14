@@ -24,12 +24,13 @@ class Unitlookup_Page extends basePage
 {
 
     /**
-     * Display_Page function
+     * DisplayPage function
      *
      * @return void
      */
-    public function Display_page()
-    { // Body of page.
+    public function displayPage()
+    { 
+        // Body of page.
 
         global $p, $db, $message;
 
@@ -56,7 +57,7 @@ class Unitlookup_Page extends basePage
 <body topmargin="1">
 
     <form name="frmunitlookup" method="post">
-
+    <title>FDL Grades</title>
         <style>
         /* Font design */
         span.small {
@@ -93,17 +94,17 @@ class Unitlookup_Page extends basePage
             $coursetype = $_GET["coursetype"];
         }
         if ($_GET["unitid"]) {
-            $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
+            $sql_ok = $p->db_connect() or die(basename(__FILE__, '.php') . "-01: " . mySqli_Error($db));
 
             $sql = "select *
                     from unit
                     where unitid = '$unit'";
 
-            $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-02: " . mysqli_error($db));
+            $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-02: " . mySqli_Error($db));
 
             $found = true;
-            if (mysqli_num_rows($sql_ok) > 0) {
-                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-03: " . mysqli_error($db));
+            if (mySqli_Num_Rows($sql_ok) > 0) {
+                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-03: " . mySqli_Error($db));
             } else {
                 $found = false;
             }
@@ -145,10 +146,10 @@ class Unitlookup_Page extends basePage
                     and uo.`status` = 'P'
                     and uod.uotype = 'summ'";
 
-            $unitsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-04: " . mysqli_error($db));
+            $unitsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-04: " . mySqli_Error($db));
 
-            if (mysqli_num_rows($unitsql_ok) > 0) {
-                $unitrow = mysqli_fetch_array($unitsql_ok) or die(basename(__FILE__, '.php') . "-05: " . mysqli_error($db));
+            if (mySqli_Num_Rows($unitsql_ok) > 0) {
+                $unitrow = mysqli_fetch_array($unitsql_ok) or die(basename(__FILE__, '.php') . "-05: " . mySqli_Error($db));
 
                 $unitsummary = stripslashes($unitrow["content"]);
             }
@@ -179,10 +180,10 @@ class Unitlookup_Page extends basePage
                     and uo.`status` = 'P'
                     and uod.uotype = 'prglvl'";
 
-            $unitsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-06: " . mysqli_error($db));
+            $unitsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-06: " . mySqli_Error($db));
 
-            if (mysqli_num_rows($unitsql_ok) > 0) {
-                $unitrow = mysqli_fetch_array($unitsql_ok) or die(basename(__FILE__, '.php') . "-07: " . mysqli_error($db));
+            if (mySqli_Num_Rows($unitsql_ok) > 0) {
+                $unitrow = mysqli_fetch_array($unitsql_ok) or die(basename(__FILE__, '.php') . "-07: " . mySqli_Error($db));
 
                 if (!empty($unitrow["content"])) {
                     $temp = explode('|', $unitrow["content"]);
@@ -270,13 +271,14 @@ class Unitlookup_Page extends basePage
         // Instantiate this page
         $p = new unitlookup_page();
 
-        if(empty($_SESSION["mrkaccessallowed"])) {
-            exit;
-        }
+        
+if(empty($_SESSION["mrkaccessallowed"])) {
+    exit;
+}
         
         // Output page.
-        $heading = "fdlMarks --> " . $_SESSION["mrkysinstitution"] . "Course Lookup";
-        $p->display_page();
+        //$heading = "fdlMarks --> " . $_SESSION["mrkysinstitution"]."Course Lookup";
+        $p->displayPage();
 ?>
 
         }
