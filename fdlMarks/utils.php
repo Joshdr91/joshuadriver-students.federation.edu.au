@@ -1,7 +1,29 @@
 <?php
+/**
+ * Undocumented function
+ * Php version 7.2.10
+ * 
+ * @category DisplayPage
+ * @package  Fdlmarks_Courseplanelectivelookuppage_Class
+ * @author   Spencer Booth-Jeffs <email@email.com>
+ * @license  Federation University
+ * @link     federation.edu.au
+ */
+//Had to place these two functions in the same directory as calling script 
 
-//Had to place these two functions in the same directory as calling script (i.e. fdlMarks directory) because call to fdlGrades version ofthese functions returned incorrect value in spite of the fact that the arguments were exactly the same. Bizarre.
-
+/**
+ * Function getDueDate
+ *
+ * @param [type] $arglocationid Location Identification
+ * @param [type] $argtermid     Term Identification
+ * @param [type] $argtaskno     Task Number
+ * @param [type] $argdueweek    Due Assignment Week
+ * @param [type] $argsplitweek  Split Week
+ * @param [type] $argdueday     Due date
+ * @param [type] $argduetime    Due Time
+ * 
+ * @return void
+ */
 function getDueDate($arglocationid, $argtermid, $argtaskno, $argdueweek, $argsplitweek, $argdueday, $argduetime)
 {
     global $p, $db;
@@ -19,8 +41,9 @@ function getDueDate($arglocationid, $argtermid, $argtaskno, $argdueweek, $argspl
         $argduetime = '16:00';
     }
     if (!is_numeric($argdueweek)) { // We can't do anything if the due week was not an actual week number (e.g. they may have a range)
-        return 0;
+        return null;
     }
+
     $splitweeksql = '';
     if (!empty($argsplitweek)) {
         $splitweeksql = " and lti.locationtermitemid = $argsplitweek ";
@@ -34,27 +57,29 @@ function getDueDate($arglocationid, $argtermid, $argtaskno, $argdueweek, $argspl
             and upper(lti.description) = 'WEEK " . $argdueweek . "'"
         . $splitweeksql;
 
-    $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-01: " . mysqli_error($db));
+    $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-01: " . mySqli_Error($db));
 
     if (mysqli_num_rows($sql_ok) !== 0) { // Record found.
 
-        $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-02: " . mysqli_error($db));
+        $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-02: " . mySqli_Error($db));
 
         if (empty($row['termdate'])) {
-            return 0; // Can't determine the date when the task was due.
+            return null; 
+            // Can't determine the date when the task was due.
         } else {
             $temp = $row['termdate'];
         }
     } else {
-        return 0; // Can't determine the date when the task was due.
+        return null;
     }
+    $temp = "";
     $termdate = strtotime($temp);
 
     if (empty($termdate)) {
-        return 0; // Can't determine the date when the task was due.
+        return 0; 
     }
     if (!checkdate(date('m', $termdate), date('d', $termdate), date('Y', $termdate))) {
-        return 0; // Can't determine the date when the task was due.
+        return 0; 
     }
     $hour = substr($argduetime, 0, strpos($argduetime, ':'));
     $minute = substr($argduetime, strpos($argduetime, ':') + 1, 2);
@@ -63,7 +88,16 @@ function getDueDate($arglocationid, $argtermid, $argtaskno, $argdueweek, $argspl
 
     return $duedate;
 }
-function late_penalty($argrow, $argtaskarray, $argtaskno)
+/**
+ * Undocumented function
+ *
+ * @param [type] $argrow       Grow
+ * @param [type] $argtaskarray Task Array
+ * @param [type] $argtaskno    Task Number
+ * 
+ * @return void
+ */
+function Late_penalty($argrow, $argtaskarray, $argtaskno)
 {
     $duedate = '';
     if (empty($argtaskarray[$argtaskno]["dueday"])) {
@@ -76,54 +110,54 @@ function late_penalty($argrow, $argtaskarray, $argtaskno)
         return 0;
     }
     switch ($argtaskno) {
-        case 1:
+    case 1:
             $submitteddate = $argrow["sub01"];
             $extension = $argrow["ext01"];
-            break;
-        case 2:
+        break;
+    case 2:
             $submitteddate = $argrow["sub02"];
             $extension = $argrow["ext02"];
-            break;
-        case 3:
+        break;
+    case 3:
             $submitteddate = $argrow["sub03"];
             $extension = $argrow["ext03"];
-            break;
-        case 4:
+        break;
+    case 4:
             $submitteddate = $argrow["sub04"];
             $extension = $argrow["ext04"];
-            break;
-        case 5:
+        break;
+    case 5:
             $submitteddate = $argrow["sub05"];
             $extension = $argrow["ext05"];
-            break;
-        case 6:
+        break;
+    case 6:
             $submitteddate = $argrow["sub06"];
             $extension = $argrow["ext06"];
-            break;
-        case 7:
+        break;
+    case 7:
             $submitteddate = $argrow["sub07"];
             $extension = $argrow["ext07"];
-            break;
-        case 8:
+        break;
+    case 8:
             $submitteddate = $argrow["sub08"];
             $extension = $argrow["ext08"];
-            break;
-        case 9:
+        break;
+    case 9:
             $submitteddate = $argrow["sub09"];
             $extension = $argrow["ext09"];
-            break;
-        case 10:
+        break;
+    case 10:
             $submitteddate = $argrow["sub10"];
             $extension = $argrow["ext10"];
-            break;
-        case 11:
+        break;
+    case 11:
             $submitteddate = $argrow["sub11"];
             $extension = $argrow["ext11"];
-            break;
-        case 12:
+        break;
+    case 12:
             $submitteddate = $argrow["sub12"];
             $extension = $argrow["ext12"];
-            break;
+        break;
     }
     if (!$submitteddate) {
         return 0;
@@ -131,6 +165,7 @@ function late_penalty($argrow, $argtaskarray, $argtaskno)
     if (empty($argtaskarray[$argtaskno]["duetime"])) {
         $duetime = '16:00';
     }
+    $argduetime = "";
     $hour = substr($argduetime, 0, strpos($duetime, ':'));
     $second = substr($duetime, strpos($duetime, ':') + 1, 2);
 
@@ -177,6 +212,14 @@ function late_penalty($argrow, $argtaskarray, $argtaskno)
     }
     return 0;
 }
+/**
+ * Undocumented function
+ * Get system link through the system directory 
+ * 
+ * @param [boo] $systemlinkid System ID
+ * 
+ * @return void
+ */
 function getSystemLink($systemlinkid)
 {
     global $p, $db;
@@ -186,15 +229,33 @@ function getSystemLink($systemlinkid)
             where systemlinkid = '$systemlinkid'
             and ifnull(hide,'') = ''";
 
-    $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-03: " . mysqli_error($db));
+    $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-03: " . mySqli_Error($db));
 
     if (mysqli_num_rows($sql_ok) > 0) {
-        $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-04: " . mysqli_error($db));
+        $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-04: " . mySqli_Error($db));
         return stripslashes($row['link']);
     } else {
         return false;
     }
 }
+/**
+ * Undocumented function
+ *
+ * @param [type] $unitid                     Unit Identification
+ * @param [type] $unitname                   Unit name
+ * @param [type] $unitlevel                  Unit levels
+ * @param [type] $unitcreditpoint            Credit points
+ * @param [type] $unitasced                  Accessed
+ * @param [type] $unitsubdisciplineid        Sub Discipline ID
+ * @param [type] $unitdisciplineid           Discipline ID
+ * @param [type] $unitacaddivid              ID
+ * @param [type] $unitgradingbasis           Grading Basis
+ * @param [type] $unitprofessionalengagement Proffessional Engagment   
+ * @param [type] $weboutline                 Web Outline
+ * @param [type] $nosupplementary            Suplementry Exam.
+ * 
+ * @return void
+ */
 function getUnit($unitid, &$unitname, &$unitlevel, &$unitcreditpoint, &$unitasced, &$unitsubdisciplineid, &$unitdisciplineid, &$unitacaddivid, &$unitgradingbasis, &$unitprofessionalengagement, &$weboutline, &$nosupplementary)
 {
     global $p, $db;
@@ -209,8 +270,9 @@ function getUnit($unitid, &$unitname, &$unitlevel, &$unitcreditpoint, &$unitasce
                 on ad.acaddivid = d.acaddivid
             where u.unitid = '$unitid'";
 
-    $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-05: " . mysqli_error($db));
+    $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php') . "-05: " . mySqli_Error($db));
 
+    //Parameter #1 $link of function mysqli_num_rows expects mysqli_result, bool|mysqli_result given.
     if (mysqli_num_rows($sql_ok) == 0) { // No record found.
         $unitname = '';
         $unitlevel = '';
@@ -225,7 +287,7 @@ function getUnit($unitid, &$unitname, &$unitlevel, &$unitcreditpoint, &$unitasce
         $nosupplementary = '';
         return false;
     } else {
-        $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-06: " . mysqli_error($db));
+        $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php') . "-06: " . mySqli_Error($db));
         $unitname = stripslashes($row["name"]);
         $unitlevel = $row["level"];
         $unitcreditpoint = $row["creditpoint"];
@@ -237,74 +299,84 @@ function getUnit($unitid, &$unitname, &$unitlevel, &$unitcreditpoint, &$unitasce
         $unitprofessionalengagement = $row["professionalengagement"];
         $weboutline = $row["weboutline"];
         $nosupplementary = $row["nosupplementary"];
-        return true;
     }
+        return true;
 }
+}
+/**
+ * GetLevel function
+ *
+ * @param [type] $minimumlevel Maximum Level
+ * @param [type] $maximumlevel Minimum Level
+ * 
+ * @return void 
+ */
 function getLevel($minimumlevel, $maximumlevel)
 {
+    //Function getLevel() with return type void returns string but should not return anything.
     if (empty($minimumlevel) || empty($maximumlevel)) {
-        return '';
+        return null;
     }
     if ($_SESSION[$_GET["trid"] . "sysunitdigits"] == '4') {
         switch ($minimumlevel) {
-            case '1':
+        case '1':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '2':
+            break;
+        case '2':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '3':
+            break;
+        case '3':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '4':
+            break;
+        case '4':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '5':
+            break;
+        case '5':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '6':
+            break;
+        case '6':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '7':
+            break;
+        case '7':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '8':
+            break;
+        case '8':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
-            case '9':
+            break;
+        case '9':
                 $level = ' at ' . $minimumlevel . '000-';
-                break;
+            break;
         }
         $level = $level . $maximumlevel . '999 level';
     } elseif ($_SESSION[$_GET["trid"] . "sysunitdigits"] == '3') {
         switch ($minimumlevel) {
-            case '1':
+        case '1':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '2':
+            break;
+        case '2':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '3':
+            break;
+        case '3':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '4':
+            break;
+        case '4':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '5':
+            break;
+        case '5':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '6':
+            break;
+        case '6':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '7':
+            break;
+        case '7':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '8':
+            break;
+        case '8':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
-            case '9':
+            break;
+        case '9':
                 $level = ' at ' . $minimumlevel . '00-';
-                break;
+            break;
         }
         $level = $level . $maximumlevel . '99 level';
     }
