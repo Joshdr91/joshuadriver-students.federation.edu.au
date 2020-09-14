@@ -186,7 +186,7 @@
 
       $previousreqgroup = '';
       $requnits = '{';
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+    for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-008: ".mysqli_error($db));
 
           $reqgroup = $reqrow["reqgroup"];
@@ -200,60 +200,60 @@
               $requnits = $requnits . ' subject-area';
               $temp = str_replace('{', '{At least ' . $previouscreditpoints . ' credit points from ', $requnits);
               switch ($previousreqminimumlevel) {
-          case '':
-          case '#':
-          case '0':
-            $temp = $temp . ' at any level';
-            break;
-          default:
-            $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
-            break;
+            case '':
+            case '#':
+            case '0':
+                    $temp = $temp . ' at any level';
+                break;
+            default:
+                $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
+                break;
         }//endswitch
               $temp = $temp . '} ';
               $corequisitefinal = $corequisitefinal . $temp;
-
               $requnits = '{';
-          }//endif
+          }
+         //endif
 
-          if ($optionality) {
-              if ($requnits == '{') {
+        if ($optionality) {
+            if ($requnits == '{') {
                   $requnits = $requnits . $requnitid;
-              }//endif
-              else {
+            }//endif
+            else {
                   $requnits = $requnits . ' or ' . $requnitid;
-              }//endelse
-          }//endif
-      else {
-          if ($requnits == '{') {
-              $requnits = $requnits . $requnitid;
-          }//endif
-          else {
-              $requnits = $requnits . ' and ' . $requnitid;
-          }//endelse
-      }//endelse
+            }//endelse
+        }//endif
+        else {
+            if ($requnits == '{') {
+                $requnits = $requnits . $requnitid;
+            }//endif
+            else {
+                $requnits = $requnits . ' and ' . $requnitid;
+            }//endelse
+        }//endelse
 
-      $previousreqgroup = $reqgroup;
+        $previousreqgroup = $reqgroup;
           $previouscreditpoints=$creditpoints;
           $previousreqminimumlevel=$reqminimumlevel;
           $previousreqmaximumlevel=$reqmaximumlevel;
       }//endfor
 
-      if ($previousreqgroup) {
+    if ($previousreqgroup) {
           $requnits = $requnits . ' subject-area';
           $temp = str_replace('{', '{At least ' . $creditpoints . ' credit points from ', $requnits);
           switch ($reqminimumlevel) {
         case '':
         case '#':
         case '0':
-          $temp = $temp . ' at any level';
-          break;
+            $temp = $temp . ' at any level';
+            break;
         default:
-          $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
-          break;
-      }//endswitch
+            $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
+            break;
+          }//endswitch
           $temp = $temp . '} ';
           $corequisitefinal = $corequisitefinal . $temp;
-      }//endif
+        }//endif
 
       //Category: credit point / gpalevel / subject-area
       //Corequisite
@@ -270,7 +270,7 @@
 
       $previousreqgroup = '';
       $requnits = '{';
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+    for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-010: ".mysqli_error($db));
 
           $reqgroup = $reqrow["reqgroup"];
@@ -279,7 +279,7 @@
           $creditpoints = $reqrow["creditpoints"];
           $reqminimumlevel = $reqrow["reqminimumlevel"];
 
-          if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
+        if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
               $requnits = $requnits . ' subject-area';
               $temp = str_replace('{', '{At least ' . $previouscreditpoints . ' credit points from ', $requnits);
               $temp = $temp . ' at GPA ' . $previousreqminimumlevel  . ' or above';
@@ -287,37 +287,37 @@
               $corequisitefinal = $corequisitefinal . $temp;
 
               $requnits = '{';
-          }//endif
+        }//endif
 
-          if ($optionality) {
-              if ($requnits == '{') {
+        if ($optionality) {
+            if ($requnits == '{') {
                   $requnits = $requnits . $requnitid;
-              }//endif
-              else {
+            }//endif
+            else {
                   $requnits = $requnits . ' or ' . $requnitid;
-              }//endelse
-          }//endif
-      else {
-          if ($requnits == '{') {
-              $requnits = $requnits . $requnitid;
-          }//endif
-          else {
-              $requnits = $requnits . ' and ' . $requnitid;
-          }//endelse
-      }//endelse
+            }//endelse
+        }//endif
+        else {
+            if ($requnits == '{') {
+                $requnits = $requnits . $requnitid;
+            }//endif
+            else {
+                $requnits = $requnits . ' and ' . $requnitid;
+            }//endelse
+        }//endelse
 
-      $previousreqgroup = $reqgroup;
+        $previousreqgroup = $reqgroup;
           $previouscreditpoints=$creditpoints;
           $previousreqminimumlevel=$reqminimumlevel;
-      }//endfor
+    }//endfor
 
-      if ($previousreqgroup) {
+    if ($previousreqgroup) {
           $requnits = $requnits . ' subject-area';
           $temp = str_replace('{', '{At least ' . $creditpoints . ' credit points from ', $requnits);
           $temp = $temp . ' at GPA ' . $previousreqminimumlevel  . ' or above';
           $temp = $temp . '} ';
           $corequisitefinal = $corequisitefinal . $temp;
-      }//endif
+    }//endif
 
       //Category: credit point / level / subject-area
       //Corequisite
@@ -334,7 +334,7 @@
 
       $previousreqgroup = '';
       $requnits = '{';
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+    for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-012: ".mysqli_error($db));
 
           $reqgroup = $reqrow["reqgroup"];
@@ -344,7 +344,7 @@
           $reqminimumlevel = $reqrow["reqminimumlevel"];
           $reqmaximumlevel = $reqrow["reqmaximumlevel"];
 
-          if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
+        if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
               $requnits = 'program ' . $requnits;
               $temp = str_replace('{', '{At least ' . $previouscreditpoints . ' credit points from ', $requnits);
               $temp = $temp . '} ';
@@ -353,27 +353,27 @@
               $requnits = '{';
           }//endif
 
-          if ($optionality) {
-              if ($requnits == '{') {
+        if ($optionality) {
+            if ($requnits == '{') {
                   $requnits = $requnits . $requnitid;
-              }//endif
-              else {
+            }//endif
+            else {
                   $requnits = $requnits . ' or ' . $requnitid;
-              }//endelse
-          }//endif
+            }//endelse
+        }//endif
 
-      $previousreqgroup = $reqgroup;
+        $previousreqgroup = $reqgroup;
           $previouscreditpoints=$creditpoints;
           $previousreqminimumlevel=$reqminimumlevel;
           $previousreqmaximumlevel=$reqmaximumlevel;
-      }//endfor
+    }//endfor
 
-      if ($previousreqgroup) {
+    if ($previousreqgroup) {
           $requnits = 'program ' . $requnits;
           $temp = str_replace('{', '{At least ' . $creditpoints . ' credit points from ', $requnits);
           $temp = $temp . '} ';
           $corequisitefinal = $corequisitefinal . $temp;
-      }//endif
+    }//endif
 
       //Category: List
       $reqsql = "select *
@@ -389,7 +389,7 @@
 
       $previousreqgroup = '';
       $requnits = '{';
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+    for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-014: ".mysqli_error($db));
 
           $reqgroup = $reqrow["reqgroup"];
@@ -397,67 +397,78 @@
           $optionality = $reqrow["optionality"];
           $creditpoints = $reqrow["creditpoints"];
 
-          if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
+        if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
               $requnits = str_replace('{', '{At least ' . $creditpoints . ' credit points from ', $requnits);
               $requnits = $requnits . '} ';
 
               $corequisitefinal = $corequisitefinal . $requnits;
 
               $requnits = '{';
-          }//endif
+        }//endif
 
           $previousreqgroup = $reqgroup;
 
-          if ($optionality) {
-              if ($requnits == '{') {
+        if ($optionality) {
+            if ($requnits == '{') {
                   $requnits = $requnits . $requnitid;
-              }//endif
-              else {
+            }//endif
+            else {
                   $requnits = $requnits . ' or ' . $requnitid;
-              }//endelse
-          }//endif
-      else {
-          if ($requnits == '{') {
-              $requnits = $requnits . $requnitid;
-          }//endif
-          else {
-              $requnits = $requnits . ' and ' . $requnitid;
-          }//endelse
-      }//endelse
-      }//endfor
+            }//endelse
+        }//endif
+        else {
+            if ($requnits == '{') {
+                $requnits = $requnits . $requnitid;
+            }//endif
+            else {
+                $requnits = $requnits . ' and ' . $requnitid;
+            }//endelse
+        }//endelse
+    }//endfor
 
-      if ($requnits !== '{') {
+    if ($requnits !== '{') {
           $requnits = str_replace('{', '{At least ' . $creditpoints . ' credit points from ', $requnits);
           $requnits = $requnits . '} ';
 
           $corequisitefinal = $corequisitefinal . $requnits;
-      }//endif
+    }//endif
 
       //bracket type
-      if ($roundbracket) {
+    if ($roundbracket) {
           $corequisitefinal = str_replace('{', '(', $corequisitefinal);
           $corequisitefinal = str_replace('}', ')', $corequisitefinal);
-      }//endif
+    }//endif
 
       return $corequisitefinal;
   }//endfunction
-
-  function getExclusion($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid)
-  {
+  
+  /**
+   * Undocumented function
+   *
+   * @param [type] $unitid             Example
+   * @param [type] $roundbracket       Example
+   * @param [type] $csreq              Example 
+   * @param [type] $ignoreubsas        Example
+   * @param [type] $reqeffectivetermid Example
+   * 
+   * @return void
+   */
+function getExclusion($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid)
+{
       global $p, $db;
 
-      if (empty($csreq)) {
+    if (empty($csreq)) {
           $csreq = 'requisite';
-      }//endif
-      else {
+    }//endif
+    else {
           $csreq = 'csrequisite';
-      }//endelse
+    }//endelse
       $exrequisitefinal = '';
 
       $ubsassql = '';
-      if ($ignoreubsas) {
+    if ($ignoreubsas) {
           $ubsassql = ' and length(requnitid) > 6 ';
-      }//endif
+    }//endif
     
       $reqeffectivetermidsql = " and req.reqeffectivetermid =
                                   (select max(req1.reqeffectivetermid)
@@ -481,7 +492,7 @@
 
       $reqsql_ok = mysqli_query($db, $reqsql) or die(basename(__FILE__, '.php')."-015: ".mysqli_error($db));
 
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+    for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-016: ".mysqli_error($db));
 
           $requnitid = stripslashes($reqrow["requnitid"]);
@@ -529,45 +540,56 @@
               }//endelse
           }//endif
       else {
-          if ($requnits == '&lt;') {
-              $requnits = $requnits . $requnitid;
-          }//endif
-          else {
-              $requnits = $requnits . ' and ' . $requnitid;
-          }//endelse
-      }//endelse
-      }//endfor
+            if ($requnits == '&lt;') {
+                $requnits = $requnits . $requnitid;
+            }//endif
+            else {
+                $requnits = $requnits . ' and ' . $requnitid;
+            }//endelse
+         }//endelse
+        }//endfor
 
-      if ($requnits !== '&lt;') {
+    if ($requnits !== '&lt;') {
           $requnits = $requnits . '&gt; ';
           $exrequisitefinal = $exrequisitefinal . $requnits;
-      }//endif
+    }//endif
 
       //bracket type
-      if ($roundbracket) {
+    if ($roundbracket) {
           $exrequisitefinal = str_replace('&lt;', '(', $exrequisitefinal);
           $exrequisitefinal = str_replace('&gt;', ')', $exrequisitefinal);
-      }//endif
+    }//endif
 
       return $exrequisitefinal;
-  }//endfunction
+}//endfunction
 
-  function getPrerequisite($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid)
-  {
+  /**
+   * Undocumented function
+   *
+   * @param [type] $unitid             Unit ID
+   * @param [type] $roundbracket       Bracket
+   * @param [type] $csreq              Requisite
+   * @param [type] $ignoreubsas        Ignore
+   * @param [type] $reqeffectivetermid Term ID
+   * 
+   * @return void
+   */
+function getPrerequisite($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid)
+{
       global $p, $db;
 
-      if (empty($csreq)) {
+    if (empty($csreq)) {
           $csreq = 'requisite';
-      }//endif
-      else {
+    }//endif
+    else {
           $csreq = 'csrequisite';
-      }//endelse
+    }//endelse
+      
       $prerequisitefinal = '';
-
       $ubsassql = '';
-      if ($ignoreubsas) {
+    if ($ignoreubsas) {
           $ubsassql = ' and length(requnitid) > 6 ';
-      }//endif
+    }//endif
     
       $reqeffectivetermidsql = " and req.reqeffectivetermid =
                                   (select max(req1.reqeffectivetermid)
@@ -591,7 +613,7 @@
 
       $reqsql_ok = mysqli_query($db, $reqsql) or die(basename(__FILE__, '.php')."-019: ".mysqli_error($db));
 
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+        for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-020: ".mysqli_error($db));
 
           $requnitid = stripslashes($reqrow["requnitid"]);
@@ -640,14 +662,14 @@
           }//endif
       else {
           if ($requnits == '[') {
-              $requnits = $requnits . $requnitid;
+                $requnits = $requnits . $requnitid;
           }//endif
           else {
-              $requnits = $requnits . ' and ' . $requnitid;
+                $requnits = $requnits . ' and ' . $requnitid;
           }//endelse
       }//endelse
 
-      $previousreqgroup = $reqgroup;
+        $previousreqgroup = $reqgroup;
       }//endfor
 
       if ($requnits !== '[') {
@@ -765,27 +787,27 @@
                   $requnits = $requnits . ' or ' . $requnitid;
               }//endelse
           }//endif
-      else {
-          if ($requnits == '[') {
-              $requnits = $requnits . $requnitid;
-          }//endif
-          else {
-              $requnits = $requnits . ' and ' . $requnitid;
-          }//endelse
-      }//endelse
+        else {
+            if ($requnits == '[') {
+                $requnits = $requnits . $requnitid;
+            }//endif
+            else {
+                $requnits = $requnits . ' and ' . $requnitid;
+            }//endelse
+        }//endelse
 
-      $previousreqgroup = $reqgroup;
+        $previousreqgroup = $reqgroup;
           $previouscreditpoints=$creditpoints;
           $previousreqminimumlevel=$reqminimumlevel;
-      }//endfor
+    }//endfor
 
-      if ($previousreqgroup) {
+    if ($previousreqgroup) {
           $requnits = $requnits . ' subject-area';
           $temp = str_replace('[', '[At least ' . $creditpoints . ' credit points from ', $requnits);
           $temp = $temp . ' at GPA ' . $previousreqminimumlevel  . ' or above';
           $temp = $temp . '] ';
           $prerequisitefinal = $prerequisitefinal . $temp;
-      }//endif
+    }//endif
 
       //Category: credit point / level / subject-area
       //Prerequisite
@@ -816,14 +838,14 @@
               $requnits = $requnits . ' subject-area';
               $temp = str_replace('[', '[At least ' . $previouscreditpoints . ' credit points from ', $requnits);
               switch ($previousreqminimumlevel) {
-          case '':
-          case '#':
-          case '0':
-            $temp = $temp . ' at any level';
-            break;
-          default:
-            $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
-            break;
+            case '':
+            case '#':
+            case '0':
+                $temp = $temp . ' at any level';
+                break;
+            default:
+                $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
+                break;
         }//endswitch
               $temp = $temp . '] ';
               $prerequisitefinal = $prerequisitefinal . $temp;
@@ -831,22 +853,22 @@
               $requnits = '[';
           }//endif
 
-          if ($optionality) {
-              if ($requnits == '[') {
+        if ($optionality) {
+            if ($requnits == '[') {
                   $requnits = $requnits . $requnitid;
-              }//emdif
-              else {
+            }//emdif
+            else {
                   $requnits = $requnits . ' or ' . $requnitid;
-              }//endelse
-          }//endif
-      else {
-          if ($requnits == '[') {
-              $requnits = $requnits . $requnitid;
-          }//endif
-          else {
-              $requnits = $requnits . ' and ' . $requnitid;
-          }//endelse
-      }//endelse
+            }//endelse
+        }//endif
+        else {
+            if ($requnits == '[') {
+                $requnits = $requnits . $requnitid;
+            }//endif
+            else {
+                $requnits = $requnits . ' and ' . $requnitid;
+            }//endelse
+        }//endelse
 
       $previousreqgroup = $reqgroup;
           $previouscreditpoints=$creditpoints;
@@ -854,21 +876,21 @@
           $previousreqmaximumlevel=$reqmaximumlevel;
       }//endfor
 
-      if ($previousreqgroup) {
+    if ($previousreqgroup) {
           $requnits = $requnits . ' subject-area';
           $temp = str_replace('[', '[At least ' . $creditpoints . ' credit points from ', $requnits);
           switch ($reqminimumlevel) {
         case '':
         case '0':
-          $temp = $temp . ' at any level';
-        break;
+             $temp = $temp . ' at any level';
+            break;
         default:
-          $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
-          break;
-      }//endswitch
+             $temp = $temp . ' at ' . $previousreqminimumlevel * 1000 . '-' . $previousreqmaximumlevel . '999 level';
+            break;
+          }//endswitch
           $temp = $temp . '] ';
           $prerequisitefinal = $prerequisitefinal . $temp;
-      }//endif
+    }//endif
 
       //Category: credit point / program
       //Prerequisite
@@ -912,7 +934,7 @@
               }//endelse
           }//endif
 
-      $previousreqgroup = $reqgroup;
+        $previousreqgroup = $reqgroup;
           $previouscreditpoints=$creditpoints;
           $previousreqminimumlevel=$reqminimumlevel;
           $previousreqmaximumlevel=$reqmaximumlevel;
@@ -938,7 +960,7 @@
 
       $previousreqgroup = '';
       $requnits = '[';
-      for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
+    for ($reqi=0; $reqi < mysqli_num_rows($reqsql_ok); $reqi++) {
           $reqrow = mysqli_fetch_array($reqsql_ok) or die(basename(__FILE__, '.php')."-032: ".mysqli_error($db));
 
           $reqgroup = $reqrow["reqgroup"];
@@ -946,7 +968,7 @@
           $optionality = $reqrow["optionality"];
           $creditpoints = $reqrow["creditpoints"];
 
-          if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
+        if ($previousreqgroup && $reqgroup !== $previousreqgroup) {
               $requnits = str_replace('[', '[At least ' . $creditpoints . ' credit points from ', $requnits);
               $requnits = $requnits . '] ';
 
@@ -1021,7 +1043,7 @@
               }//endelse
           }//endif
 
-      $previousreqgroup = $reqgroup;
+         $previousreqgroup = $reqgroup;
       }//endfor
 
       if ($requnits !== '[') {
@@ -1038,8 +1060,18 @@
       return $prerequisitefinal;
   }//endfunction
 
-  function getRequisite($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid)
-  {
+/**
+ * Undocumented function
+ *
+ * @param [type] $unitid
+ * @param [type] $roundbracket
+ * @param [type] $csreq
+ * @param [type] $ignoreubsas
+ * @param [type] $reqeffectivetermid
+ * @return void
+ */
+function getRequisite($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid)
+{
       $requisitefinal = '';
 
       $requisitefinal = $requisitefinal . getPrerequisite($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid);
@@ -1049,4 +1081,4 @@
       $requisitefinal = $requisitefinal . getExclusion($unitid, $roundbracket, $csreq, $ignoreubsas, $reqeffectivetermid);
 
       return trim($requisitefinal);
-  }//endfunction
+}//endfunction
