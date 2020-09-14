@@ -1,10 +1,41 @@
+/**Class must start with a capital letter**/
+/** comments must be less than 85 characters */
+/** Camel caps format */
 <?php
-
+/**
+ * Php version 7.2.10
+ * 
+ * @category Login_Credentials
+ * @package  Pagelevel_Package
+ * @author   Federation University <example@email.com.au>
+ * @license  MIT https://federation.edu.au/
+ * @version  CVS: <cvs_id>
+ * @link     http://url.com
+ * 
+ * Require config for user access
+ */
 require_once 'host/config.php';
 
-class basePage
+/**
+ * Main basepage file for the theme
+ * 
+ * @category Login_Credentials
+ * @package  Pagelevel_Package
+ * @author   Federation University <example@email.com.au>
+ * @license  MIT https://federation.edu.au/
+ * @version  Release: 2.1.2
+ * @link     https://federation.edu.au/
+ * 
+ * Basepagefunction  class
+ * Shows the Htmlpage 
+ */
+class BasePage
 {
-
+    /**
+     * Function Basepagefunction
+     *
+     * @return void
+     */
     public function basePageFunction()
     {
         if (!isset($_SESSION['timeout'])) {
@@ -22,9 +53,15 @@ class basePage
         }
     }
 
-    public function admin_access_allowed($argAdminLevel)
+    /**
+     * Undocumented function
+     *
+     * @param [Var] $argAdminLevel Level of admin access
+     * 
+     * @return void
+     */
+    public function adminAccessAllowed($argAdminLevel)    
     {
-
         if (!empty($argAdminLevel)) {
             for ($idx = 0; $idx < strlen($argAdminLevel); $idx++) {
                 $argAdminLevelChar = substr($argAdminLevel, $idx, 1);
@@ -37,8 +74,18 @@ class basePage
         return false;
     }
 
-    public function access_denied($argAdminLevel, $argUserType, $argExtraAccess)
-    { // Check that we have come from a valid page. Note each can have multiple values e.g. admin may be passed AM where admin can be either 'A' or 'M'
+    /**
+     * Undocumented function
+     *
+     * @param [Char] $argAdminLevel  Level of admin access
+     * @param [Char] $argUserType    User type
+     * @param [Int]  $argExtraAccess Extra Access type
+     * 
+     * @return void
+     */
+    public function accessDenied($argAdminLevel, $argUserType, $argExtraAccess)
+    { 
+        // Check for valid page. Admin can be either 'A' or 'M'
 
         if (!$_SESSION["mrkusertype"] == 'Z' && (($_SERVER["SCRIPT_NAME"] !== "/unitdescription.php" && $_SERVER["SCRIPT_NAME"] !== "/" . $_SESSION[$_GET["trid"] . "sysname"] . "/unitdescription.php") && (!isset($_SESSION[$_GET["trid"] . "accessallowed"]) || $_SESSION[$_GET["trid"] . "accessallowed"] !== 'yes'))) {
             return true;
@@ -64,7 +111,7 @@ class basePage
                     return false;
                 }
 
-                if ($_SESSION["mrkusertype"] == 'Z' && $argUserTypeChar == 'Z') { //from fdlMarks
+                if ($_SESSION["mrkusertype"] == 'Z' && $argUserTypeChar == 'Z') { 
                     return false;
                 }
             }
@@ -77,25 +124,35 @@ class basePage
         return true;
     }
 
-    public function extra_access($arguserid, $argmenuitem)
+    /**
+     * Undocumented function
+     *
+     * @param [Int]     $arguserid   Identification
+     * @param [varchar] $argmenuitem Menu items
+     * 
+     * @return void N/A
+     */
+    public function extraAccess($arguserid, $argmenuitem)
     {
-
         reset($_SESSION[$_GET["trid"] . "useraccess"]);
-        while (list($menukey, $menuvalue) = each($_SESSION[$_GET["trid"] . "useraccess"])) {
+        while (list($menukey, $menuvalue) = ($_SESSION[$_GET["trid"] . "useraccess"])) {
             $menurow = $menuvalue;
 
             if ($menurow["userid"] == $arguserid && $menurow["menuitem"] == $argmenuitem) {
                 return true;
             }
-
         }
 
         return false;
     }
 
-    public function pdo_connect()
+    /**
+     * Pd_oconnect function
+     *
+     * @return void
+     */
+    public function pdoConnect()
     {
-        //Repetitive code (Reference 122)
         $server = $GLOBALS['fdlconfig']['mysql']['server'];
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
         $username = $GLOBALS['fdlconfig']['mysql']['username'];
@@ -110,16 +167,27 @@ class basePage
         return $conn;
     }
 
-    public function pdo_error($pdoerrorinfo)
+    /**
+     * Undocumented function
+     *
+     * @param [Char] $pdoerrorinfo Description of error
+     * 
+     * @return void
+     */
+    public function pdoError($pdoerrorinfo)
     {
         return $pdoerrorinfo[2];
     }
 
-    public function db_connect()
+    /**
+     * Function db_connect
+     *
+     * @return void
+     */
+    public function db_Connect()
     {
-
         global $db;
-        // Could fix something about this so that we dont have to retype it again.
+
         $server = $GLOBALS['fdlconfig']['mysql']['server'];
         $dbname = $GLOBALS['fdlconfig']['mysql']['dbname'];
         $username = $GLOBALS['fdlconfig']['mysql']['username'];
@@ -127,7 +195,7 @@ class basePage
 
         $db = mysqli_connect($server, $username, $password, $dbname);
 
-        if (mysqli_connect_error()) {
+        if (mysqli_Connect_Error()) {
             return false;
         }
 
@@ -136,10 +204,14 @@ class basePage
         return $db;
     }
 
-    // include css reference if css file exists for this page
-    public function load_page_css()
+    /**
+     * Undocumented function
+     * Include css reference if css file exists for this page
+     * 
+     * @return void
+     */
+    public function loadPageCss()
     {
-
         $self = $_SERVER['PHP_SELF'];
         preg_match('/\/(\w+)\.php/', $self, $matches);
 
@@ -152,10 +224,14 @@ class basePage
         }
     }
 
-    // include js if it exists for this page
-    public function load_page_js()
+    /**
+     * Function loadpagejs
+     * Include js if it exists for this page
+     * 
+     * @return void
+     */
+    public function loadPageJs()
     {
-
         $self = $_SERVER['PHP_SELF'];
         preg_match('/\/(\w+)\.php/', $self, $matches);
 
@@ -168,28 +244,44 @@ class basePage
         }
     }
 
-    public function display_html_header($argheading)
-    { // Set the page up.
+    /**
+     * Function Display_Html_Header
+     *
+     * @param [VarChar] $argheading Html base
+     * 
+     * @return void
+     */
+    public function displayHtmlHeader($argheading)
+    { 
+        // Set the page up.
+
         ?>
-  <!-- <!DOCTYPE HTML> -->
-  <html>
-    <head>
+<!-- <!DOCTYPE HTML> -->
+<html>
 
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-      <script src="/js/fns.js?t=<?php echo time(); ?>"></script>
-      <link rel="stylesheet" href="/css/common.css" />
+    <script src="/js/fns.js?t=<?php echo time(); ?>"></script>
+    <link rel="stylesheet" href="/css/common.css" />
 
-        <title><?= $argheading ?></title>
+    <title><?php $argheading ?></title>
 
-      <?php $this->load_page_css();?>
-      <?php $this->load_page_js();?>
+        <?php $this->loadpagecss();
+            $this->loadpagejs(); ?>
 
-  <?php
-}
-
-    public function display_html_footer()
-    { // Close the page off.
+        <?php
+    }
+    
+    /**
+     * Function Displayhtmlfooter
+     * 
+     * @return void
+     */
+    
+    public function displayHtmlFooter()
+    { 
+        // Close the page off.
         ?>
 
     <script>
@@ -198,53 +290,83 @@ class basePage
     </script>
 
     </body>
-  </html>
+    }
+</head>
 
-  <?php
-}
+</html>
 
-    public function cs_connect()
+        <?php
+        /**
+         * Function Initialisation
+         *
+         * @return void
+         */
+        
+        /**
+         * Function cs_connect
+         *
+         * @param[var] $csdb_password  Password storage
+         * @param[var] $csdb_username  Username storage
+         * @param[var] $csdb           Database 
+         * 
+         * @return mixed
+         */
+        function cs_connect($csdb_password, $csdb_username, $csdb)
+        {
+            try {
+                $csconn = oci_connect($csdb_username, $csdb_password, $csdb);
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+                echo 'Not connected due to ' . $error;
+                exit();
+            }
+            if (!$csconn) {
+                $e = oci_error();
+                echo 'Unable to connect to CS database' . "\n";
+                echo 'Error ' . htmlentities($e['message']) . "\n";
+                exit();
+            }
+            return $csconn;
+        }
+
+        /**
+         * Function Display_message
+         *
+         * @param [varchar] $action Wait, clear messages
+         * 
+         * @return void
+         */
+    }
+    // 304
+    /**
+     * Function Initialisation
+     *
+     * @return void
+     */
+    function Initialization()
     {
-
+        //Test
         //Obtain a connection to the database
         $csdb_username = $GLOBALS['fdlconfig']['csdb']['username'];
         $csdb_password = $GLOBALS['fdlconfig']['csdb']['password'];
 
-        //CSPROD connection
+        //Oracle CS Production connection
         $csdb = $GLOBALS['fdlconfig']['csdb']['connstr'];
-
         $csconn = false;
-        try {
-            $csconn = oci_connect($csdb_username, $csdb_password, $csdb);
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            echo 'Not connected due to ' . $error;
-            exit();
-
-        }
-        if (!$csconn) {
-            //If an error then display message and exit
-            $e = oci_error();
-            echo 'Unable to connect to CS database......exiting' . "\n";
-            echo 'Error ' . htmlentities($e['message']) . "\n";
-            exit();
-        }
-        return $csconn;
+        //Test
+        return array($csdb_username, $csdb_password, $csdb, $csconn);
     }
 
-    public function display_message($action)
+    function display_Message($action)
     {
-
         if ($action == "wait") {
-            $_SESSION[$_GET["trid"] . "message"] = 'PLEASE WAIT WHILE YOUR REQUEST IS PROCESSED';
-        }
+                $_SESSION[$_GET["trid"] . "message"] = 'PLEASE WAIT';
+        } 
 
         if ($action == "clear") {
-            $_SESSION[$_GET["trid"] . "message"] = '';
+                $_SESSION[$_GET["trid"] . "message"] = '';
         }
 
-        echo "<script language='javascript'> parent.fmeMessage.location.replace('message.php?trid=" . $_GET["trid"] . "')</script>";
+            echo "<script language='javascript'> parent.fmeMessage.location.replace('message.php?trid=" . $_GET["trid"] . "')</script>";
     }
-
 }
-
