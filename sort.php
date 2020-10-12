@@ -12,8 +12,8 @@
 /**
  * Undocumented function
  *
- * @param [type] $x 
- * @param [type] $y
+ * @param [in Array] $x funcion fot sorting
+ * @param [Array] $y
  * 
  * @return void
  */
@@ -102,8 +102,8 @@ function sorttask($x, $y)
     /**
      * Undocumented function
      *
-     * @param [type] $x jg;lkdfjg
-     * @param [type] $y
+     * @param [Varchar] $x 
+     * @param [Varchar] $y
      * 
      * @return void
      */
@@ -122,8 +122,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting Adminission
+ * @param [Varchar] $y
  * 
  * @return void
  */
@@ -143,8 +143,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting AdmissionValue
+ * @param [Varchar] $y
  * 
  * @return void
  */
@@ -163,8 +163,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting AdmitType
+ * @param [Varchar] $y
  * 
  * @return void
  */
@@ -183,8 +183,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting assesments 
+ * @param [Varchar] $y
+ * 
  * @return void
  */
     function sortAssessment($x, $y)
@@ -203,8 +204,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting ApplDayNew
+ * @param [Varchar] $y
+ * 
  * @return void
  */
     function sortApplDaysNew($x, $y)
@@ -222,8 +224,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param Varchar] $x Function for sorting ApplDaysOld
+ * @param [Varchar] $y
+ * 
  * @return void
  */
     function sortApplDaysOld($x, $y)
@@ -241,8 +244,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [varchar key] $x function for sorting applStrandID
+ * @param [Varchar Key] $y
+ * 
  * @return void
  */
     function sortApplStrandid($x, $y)
@@ -261,8 +265,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar Key] $x Function for sorting ApplStudentID
+ * @param [Varchar Key] $y
+ * 
  * @return void
  */
     function sortApplStudentid($x, $y)
@@ -280,8 +285,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting AttAttributeDetail
+ * @param [Varchar] $y
+ * 
  * @return void
  */
     function sortAttAttributeDetail($x, $y)
@@ -307,8 +313,9 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar $x Function for sorting AttAttribute
+ * @param [Varchar] $y
+ * 
  * @return void
  */
     function sortAttAttribute($x, $y)
@@ -326,8 +333,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [varchar] $x Function for sortig Attcategory
+ * @param [Varchar] $y
  * @return void
  */
     function sortAttCategory($x, $y)
@@ -345,8 +352,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting AttLevel
+ * @param [Varchar] $y
  * @return void
  */
     function sortAttLevel($x, $y)
@@ -364,8 +371,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting AttStandard
+ * @param [Varchar] $y
  * @return void
  */
     function sortAttStandard($x, $y)
@@ -383,8 +390,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting attunit
+ * @param [Varchar] $y
  * 
  * @return void
  */
@@ -403,8 +410,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting birthcountry
+ * @param [Varchar] $y
  * @return void
  */
     function sortBirthCountry($x, $y)
@@ -422,8 +429,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Binary] $x function for sorting citizenship
+ * @param [Binary] $y
  * @return void
  */
     function sortCitizenship($x, $y)
@@ -441,8 +448,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar key] $x functon for sorting classid
+ * @param [Varchar key] $y
  * @return void
  */
     function sortClassid($x, $y)
@@ -460,8 +467,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x Function for sorting COECode
+ * @param [Varchar] $y
  * @return void
  */
     function sortCOECode($x, $y)
@@ -479,8 +486,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x functio for sorting cohort
+ * @param [Varchar] $y
  * @return void
  */
     function sortCohort($x, $y)
@@ -498,8 +505,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar Key] $x function for sorting strandid
+ * @param [Varchar] $y
  * @return void
  */
     function sortStrandid($x, $y)
@@ -517,8 +524,8 @@ function sorttask($x, $y)
 /**
  * Undocumented function
  *
- * @param [type] $x
- * @param [type] $y
+ * @param [Varchar] $x function for sorting CSImportIndex
+ * @param [Varchar] $y
  * @return void
  */
     function sortCSImportIndex($x, $y)
@@ -533,7 +540,14 @@ function sorttask($x, $y)
             return 1;
         }//endelse
     }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar Key] $x function for sorting CSImportStudentID
+     * @param [Varchar Key] $y
+     * 
+     * @return void
+     */
 function sortCSImportStudentid($x, $y)
 {
     if ($x['studentid']==$y['studentid']) {
@@ -546,7 +560,14 @@ function sortCSImportStudentid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting CSImportUntiid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortCSImportUnitid($x, $y)
 {
     if ($x['unitid']==$y['unitid']) {
@@ -559,7 +580,14 @@ function sortCSImportUnitid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [date] $x function for sorting duedate
+     * @param [date] $y
+     * 
+     * @return void
+     */
 function sortDateDue($x, $y)
 {
     if ($x['sortduedate']==$y['sortduedate']) {
@@ -572,7 +600,14 @@ function sortDateDue($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [date] $x function for sorting datagiven
+     * @param [date] $y
+     * 
+     * @return void
+     */
 function sortDateGiven($x, $y)
 {
     if ($x['sortgivendate']==$y['sortgivendate']) {
@@ -585,7 +620,14 @@ function sortDateGiven($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting datelocationID
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortDateLocationid($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -598,7 +640,14 @@ function sortDateLocationid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting DateTaskid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortDateTaskid($x, $y)
 {
     if ($x['taskid']==$y['taskid']) {
@@ -611,7 +660,14 @@ function sortDateTaskid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting DateUnitId
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortDateUnitid($x, $y)
 {
     if ($x['unitid']==$y['unitid']) {
@@ -624,7 +680,14 @@ function sortDateUnitid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [int] $x function for sorting dayselapsed
+     * @param [int] $y
+     * 
+     * @return void
+     */
 function sortDayselapsed($x, $y)
 {
     if ($x['dayselapsed']==$y['dayselapsed']) {
@@ -637,7 +700,14 @@ function sortDayselapsed($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Binary] $x function for sorting enrolled
+     * @param [Binary] $y
+     * 
+     * @return void
+     */
 function sortEnrolled($x, $y)
 {
     if ($x['enrolled']==$y['enrolled']) {
@@ -650,7 +720,14 @@ function sortEnrolled($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Binary] $x function for sorting clash
+     * @param [binary] $y
+     * 
+     * @return void
+     */
 function sortExamClash($x, $y)
 {
     if ($x['clash']==$y['clash']) {
@@ -663,7 +740,14 @@ function sortExamClash($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar Key] $x Function for sorting Examstudentid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortExamStudentid($x, $y)
 {
     if ($x['studentid']==$y['studentid']) {
@@ -676,7 +760,14 @@ function sortExamStudentid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x  function for sorting ExamDay
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortExamDay($x, $y)
 {
     if ($x['day']==$y['day']) {
@@ -689,7 +780,14 @@ function sortExamDay($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting ExamSession
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortExamSession($x, $y)
 {
     if ($x['session']==$y['session']) {
@@ -702,7 +800,14 @@ function sortExamSession($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting file
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortFile($x, $y)
 {
     if ($x['type']==$y['type']) {
@@ -715,7 +820,14 @@ function sortFile($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Date] $x function for sorting fileDate
+     * @param [Date] $y
+     * 
+     * @return void
+     */
 function sortFileDate($x, $y)
 {
     if ($x['date']==$y['date']) {
@@ -728,7 +840,14 @@ function sortFileDate($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x 
+     * @param [Varchar] $y function for sorting fullnae
+     * 
+     * @return void
+     */
 function sortFullname($x, $y)
 {
     if ($x['fullname']==$y['fullname']) {
@@ -741,7 +860,14 @@ function sortFullname($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting fullnameLocationID
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortFullnameLocationid($x, $y)
 {
     if ($x['fullname']==$y['fullname']) {
@@ -754,7 +880,14 @@ function sortFullnameLocationid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting fullnameTermid 
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortFullnameTermid($x, $y)
 {
     if ($x['fullname']==$y['fullname']) {
@@ -767,7 +900,14 @@ function sortFullnameTermid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting fullnameUnitID
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortFullnameUnitid($x, $y)
 {
     if ($x['fullname']==$y['fullname']) {
@@ -780,7 +920,14 @@ function sortFullnameUnitid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting GGP
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortGPA($x, $y)
 {
     if ($x['gpa']==$y['gpa']) {
@@ -793,7 +940,14 @@ function sortGPA($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting grade
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortGrade($x, $y)
 {
     if ($x['grade']==$y['grade']) {
@@ -806,7 +960,14 @@ function sortGrade($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting highlightSerachField3
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortHighlightSearchField3($x, $y)
 {
     if ($x['field3']==$y['field3']) {
@@ -819,7 +980,14 @@ function sortHighlightSearchField3($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function fort sorting highlightSerachField2
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortHighlightSearchField2($x, $y)
 {
     if ($x['field2']==$y['field2']) {
@@ -832,7 +1000,14 @@ function sortHighlightSearchField2($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting highlighted
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortHighlighted($x, $y)
 {
     if ($x['highlighted']==$y['highlighted']) {
@@ -845,7 +1020,14 @@ function sortHighlighted($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting Sampled
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortSampled($x, $y)
 {
     if ($x['highlightedsample']==$y['highlightedsample']) {
@@ -858,7 +1040,14 @@ function sortSampled($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting InterLocation
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortInterLocation($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -871,7 +1060,14 @@ function sortInterLocation($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting InterStudents
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortInterStudents($x, $y)
 {
     if ($x['students']==$y['students']) {
@@ -884,7 +1080,14 @@ function sortInterStudents($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar Key] $x function for sorting iporganisationlocationid
+     * @param [Varchar Key] $y
+     * 
+     * @return void
+     */
 function sortIPOrganisationlocationid($x, $y)
 {
     if ($x['iporganisationlocationid']==$y['iporganisationlocationid']) {
@@ -897,7 +1100,14 @@ function sortIPOrganisationlocationid($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting category2
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortCategory2($x, $y)
 {
     if ($x['category2']==$y['category2']) {
@@ -910,7 +1120,14 @@ function sortCategory2($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting strategylastreviewed
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortStrategyLastReviewed($x, $y)
 {
     if ($x['strategylastreviewed']==$y['strategylastreviewed']) {
@@ -923,7 +1140,14 @@ function sortStrategyLastReviewed($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting laptype
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortLAPType($x, $y)
 {
     if ($x['laptype']==$y['laptype']) {
@@ -936,7 +1160,14 @@ function sortLAPType($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x Function for sorting locationid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortLocationid($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -949,7 +1180,14 @@ function sortLocationid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function fort sorting LocationName
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortLocationidName($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -962,7 +1200,14 @@ function sortLocationidName($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting LocationUnitID
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortLocationidUnitid($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -975,7 +1220,14 @@ function sortLocationidUnitid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x Function fort sorting LocationTermID
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortLocationidTermid($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -988,7 +1240,14 @@ function sortLocationidTermid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting Lock
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortLock($x, $y)
 {
     if ($x['lock']==$y['lock']) {
@@ -1001,7 +1260,14 @@ function sortLock($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Int] $x function for sorting Mark
+     * @param [Int] $y
+     * 
+     * @return void
+     */
 function sortMark($x, $y)
 {
     if ($x['mark']==$y['mark']) {
@@ -1014,7 +1280,14 @@ function sortMark($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Int] $x Function for sorting modAtotal
+     * @param [Int] $y
+     * 
+     * @return void
+     */
 function sortmodAtotal($x, $y)
 {
     if (in_array($_SESSION[$_GET["trid"] . "usertype"], array('C','S','X','T'))) {
@@ -1034,7 +1307,14 @@ function sortmodAtotal($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Int] $x function for sorting modBtotal
+     * @param [Int] $y
+     * 
+     * @return void
+     */
 function sortmodBtotal($x, $y)
 {
     if (in_array($_SESSION[$_GET["trid"] . "usertype"], array('C','S','X','T'))) {
@@ -1054,7 +1334,14 @@ function sortmodBtotal($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting name
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortName($x, $y)
 {
     if ($x['name']==$y['name']) {
@@ -1067,7 +1354,14 @@ function sortName($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting refresh
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortRefresh($x, $y)
 {
     if ($x['refresh']==$y['refresh']) {
@@ -1080,7 +1374,14 @@ function sortRefresh($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting result
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortResults($x, $y)
 {
     if ($x['index']==$y['index']) {
@@ -1093,7 +1394,14 @@ function sortResults($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting ResultsSubbdisiplieid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortResultssubdisciplineid($x, $y)
 {
     if ($x['subdisciplineid']==$y['subdisciplineid']) {
@@ -1106,7 +1414,14 @@ function sortResultssubdisciplineid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting role
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortRole($x, $y)
 {
     if ($x['role']==$y['role']) {
@@ -1119,7 +1434,14 @@ function sortRole($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sortig csprogram
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortCSProgram($x, $y)
 {
     if ($x['csprogram']==$y['csprogram']) {
@@ -1132,7 +1454,14 @@ function sortCSProgram($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting status 
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortStatus($x, $y)
 {
     if ($x['status']==$y['status']) {
@@ -1145,7 +1474,14 @@ function sortStatus($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting sequence
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortSequence($x, $y)
 {
     if ($x['sequence']==$y['sequence']) {
@@ -1158,7 +1494,14 @@ function sortSequence($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting studentid 
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortStudentid($x, $y)
 {
     if ($x['studentid']==$y['studentid']) {
@@ -1171,7 +1514,14 @@ function sortStudentid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting noteletter
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortNoteLetter($x, $y)
 {
     if ($x['noteletter']==$y['noteletter']) {
@@ -1184,7 +1534,14 @@ function sortNoteLetter($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x Function for sorting termid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortTermid($x, $y)
 {
     if ($x['termid']==$y['termid']) {
@@ -1197,7 +1554,14 @@ function sortTermid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sortig termDesc
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortTermidDesc($x, $y)
 {
     if ($x['termid']==$y['termid']) {
@@ -1210,7 +1574,14 @@ function sortTermidDesc($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Int] $x function for sorting total 
+     * @param [Int] $y
+     * 
+     * @return void
+     */
 function sortTotal($x, $y)
 {
     if (in_array($_SESSION[$_GET["trid"] . "usertype"], array('C','S','X','T'))) {
@@ -1230,7 +1601,14 @@ function sortTotal($x, $y)
         return -1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting taskid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortTaskid($x, $y)
 {
     if ($x['taskid']==$y['taskid']) {
@@ -1243,7 +1621,14 @@ function sortTaskid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting category1
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortCategory1($x, $y)
 {
     if ($x['category1']==$y['category1']) {
@@ -1256,7 +1641,14 @@ function sortCategory1($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting ImportCampus 
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortImportCampus($x, $y)
 {
     if ($x['campus']==$y['campus']) {
@@ -1269,7 +1661,14 @@ function sortImportCampus($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for soting ImportLocationid
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortImportLocationid($x, $y)
 {
     if ($x['locationid']==$y['locationid']) {
@@ -1282,7 +1681,14 @@ function sortImportLocationid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting ImportTermid
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortImportTermid($x, $y)
 {
     if ($x['termid']==$y['termid']) {
@@ -1295,7 +1701,14 @@ function sortImportTermid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sortig ImportUnitid
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortImportUnitid($x, $y)
 {
     if ($x['unitid']==$y['unitid']) {
@@ -1308,7 +1721,14 @@ function sortImportUnitid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting UBASid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortUBSASid($x, $y)
 {
     if ($x['ubsasid']==$y['ubsasid']) {
@@ -1321,7 +1741,14 @@ function sortUBSASid($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting modulecode
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortModulecode($x, $y)
 {
     if ($x['modulecode']==$y['modulecode']) {
@@ -1334,7 +1761,14 @@ function sortModulecode($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar] $x function for sorting modulename
+     * @param [Varchar] $y
+     * 
+     * @return void
+     */
 function sortModulename($x, $y)
 {
     if ($x['modulename']==$y['modulename']) {
@@ -1347,7 +1781,14 @@ function sortModulename($x, $y)
         return 1;
     }//endelse
 }//endfunction
-
+    /**
+     * Undocumented function
+     *
+     * @param [Varchar key] $x function for sorting unitid
+     * @param [Varchar key] $y
+     * 
+     * @return void
+     */
 function sortUnitid($x, $y)
 {
     if ($x['unitid']==$y['unitid']) {
