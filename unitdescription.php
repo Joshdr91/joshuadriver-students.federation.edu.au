@@ -1,61 +1,89 @@
 <?php
+/**
+ * Unit description shows the description of the electives presented on study plan.
+ * https://www.php.net/manual/en/language.types.string.php#language.types.string.substr
+ * 
+ * @category Search/Analyse
+ * @package  Federation_University
+ * @author   Spencer Booth-Jeffs <boojeffs@gmail.com>
+ * @license  Kylie Turvile
+ * @link     "https://federation.edu.au/"
+ */
+require_once "basePage.php";
+require_once "utils.php";
+require_once "requisiteutils.php";
+require_once "vendor/autoload.php";
 
-include_once("basePage.php");
-include_once("utils.php");
-include_once("requisiteutils.php");
-include_once("vendor/autoload.php");
-
-class unitdescription_page extends basePage{
-    
-    function update_allowed($upto){//if upto is provided update is allowed up to that status
-        
-        if ($_SESSION[$_GET["trid"] . "udstatus"]=='' || $_SESSION[$_GET["trid"] . "udstatus"]==NULL || $_SESSION[$_GET["trid"] . "udstatus"]=='Q'){
+/**
+ * Unit Description class
+ * 
+ * @category Search/Analyse
+ * @package  Federation_University
+ * @author   Spencer Booth-Jeffs <boojeffs@gmail.com>
+ * @license  Kylie Turvile
+ * @link     "https://federation.edu.au/"
+ */
+class Unitdescription_Page extends basePage
+{  
+    /**
+     * updateAllowed  function
+     *
+     * @param [type] $upto Grade
+     * 
+     * @return void
+     */
+    function update_Allowed($upto)
+    {
+        //if upto is provided update is allowed up to that status
+        if ($_SESSION[$_GET["trid"] . "udstatus"]=='' || $_SESSION[$_GET["trid"] . "udstatus"]==null || $_SESSION[$_GET["trid"] . "udstatus"]=='Q') {
             return true;
         }//endif
         
-        if ($upto == 'R' && $_SESSION[$_GET["trid"] . "udstatus"]=='R'){//Ready to approve
+        if ($upto == 'R' && $_SESSION[$_GET["trid"] . "udstatus"]== 'R') {//Ready to approve
             return true;
         }//endif
         
-        if ($upto == 'A' && ($_SESSION[$_GET["trid"] . "udstatus"]=='R' || $_SESSION[$_GET["trid"] . "udstatus"]=='A')){//Unit level approved
+        if ($upto == 'A' && ($_SESSION[$_GET["trid"] . "udstatus"]=='R' || $_SESSION[$_GET["trid"] . "udstatus"] == 'A')) {//Unit level approved
             return true;
         }//endif
         
-        if ($upto == 'P' && ($_SESSION[$_GET["trid"] . "udstatus"]=='R' || $_SESSION[$_GET["trid"] . "udstatus"]=='A'  || $_SESSION[$_GET["trid"] . "udstatus"]=='P')){//Unit level published
+        if ($upto == 'P' && ($_SESSION[$_GET["trid"] . "udstatus"]=='R' || $_SESSION[$_GET["trid"] . "udstatus"]=='A'  || $_SESSION[$_GET["trid"] . "udstatus"]=='P')) {//Unit level published
             return true;
         }//endif
-        
         return false;
-        
     }//endfunction
     
-    function display_page(){
-        
+    function display_Page()
+    {
+            
         global $p, $db, $subdisciplineid, $locationid, $termid, $unitid, $unitname, $unitlevel, $unitcreditpoint, $unitasced, $unitgradingbasis, $unitprofessionalengagement, $nosupplementary;
-        
         $title = trim($unitname);
         
-        if (isset($_POST["btnPDF"])){
+        /**
+         * Undocumented function
+         *
+         * @param [type] $_POST      Post 
+         * @param [type] $unitid     Unit Identification
+         * @param [type] $locationid Location ID
+         * @param [type] $termid     Term Identification
+         * @param [type] $_SESSION   Session connection between servers
+         * @param [type] $_GET       Get
+         * 
+         * @return void
+         */
+        function btnPDF($_POST, $unitid, $locationid, $termid, $_SESSION, $_GET) 
+        {
+            if (isset($_POST["btnPDF"])) {
             
-            $pdf=new PDF(['mode' => 'utf-8','format' => 'A4','default_font_size' => 10,'default_font' => 'arial','margin_left' => 15,'margin_right' => 15,'margin_top' => 20,'margin_bottom' => 15,'margin_header' => 8,'margin_footer' => 8,'orientation' => 'P']);
+                $pdf=new PDF(['mode' => 'utf-8','format' => 'A4','default_font_size' => 10,'default_font' => 'arial','margin_left' => 15,'margin_right' => 15,'margin_top' => 20,'margin_bottom' => 15,'margin_header' => 8,'margin_footer' => 8,'orientation' => 'P']);
             
-            $file = 'COURSEDESC_' . $unitid . '_' . str_replace(' ','_',$locationid) .  '_' . substr($termid,0,4) . '-' . substr($termid,5,2) . '.pdf';
-            //$pdf->pdfHeaderTitle = strtoupper($unitid . ' ' . $title);
-            $pdf->pdfHeaderTitle = strtoupper($unitid);
+                $file = 'COURSEDESC_' . $unitid . '_' . str_replace(' ', '_', $locationid) .  '_' . substr($termid, 0, 4) . '-' . substr($termid, 5, 2) . '.pdf';
+                $pdf->pdfHeaderTitle = strtoupper($unitid . ' ' . $title);
+                $pdf->pdfHeaderTitle = strtoupper($unitid);
             
-            $a = $_SESSION[$_GET["trid"] . "sysname"] . ' UD_' . $unitid . '_'. $termid . date("_Y-m-d H:i:s");
-            $b = 'CRICOS Provider Number: '. $_SESSION[$_GET["trid"] . "syscricosprovider"];
-            //       $footer = '
-            //           <table width="100%" style="vertical-align: bottom; font-size: 6pt;">
-            //           <tr><td colspan="3"><img src="image/img_band.jpg" width="99.5%" height="6px"/></td></tr>
-            //           <tr>
-            //           <td width="33%">'.$a.'</td>
-            //           <td width="33%" align="center">'.$b.'</td>
-            //           <td width="33%" style="text-align: right;">{PAGENO} /{nb}</td>
-            //           </tr>
-            //           </table>';
-            
-            $footer = '
+                $a = $_SESSION[$_GET["trid"] . "sysname"] . ' UD_' . $unitid . '_'. $termid . date("_Y-m-d H:i:s");
+                $b = 'CRICOS Provider Number: '. $_SESSION[$_GET["trid"] . "syscricosprovider"];
+                $footer = '
           <table width="100%" style="vertical-align: bottom; font-size: 6pt;">
           <tr>
           <td width="33%">'.$a.'</td>
@@ -64,15 +92,13 @@ class unitdescription_page extends basePage{
           </tr>
           </table>';
             
-            $pdf->setHTMLFooter($footer);
-            
-            
-            $pdf->AddPageByArray(array('margin_left' => 15,'margin_right' => 15,'margin_top' => 20,'margin_bottom' => 15,'margin_header' => 8,'margin_footer' => 8));
+                $pdf->setHTMLFooter($footer);
+                $pdf->addPageByArray(array('margin_left' => 15,'margin_right' => 15,'margin_top' => 20,'margin_bottom' => 15,'margin_header' => 8,'margin_footer' => 8));
             
         }//endif
         
-        if (!isset($_POST["btnPDF"])){
-            echo '<script language="javascript">
+            if (!isset($_POST["btnPDF"])) {
+                echo '<script language="javascript">
                 
       window.onerror = blockError;
                 
@@ -131,8 +157,10 @@ class unitdescription_page extends basePage{
             span.boldred{font-weight: bold;}
             span.tiny{font-family: Arial; font-size: 11;}
             td{font-family: Arial; font-size: 14;}
-          </style>  ';
-        }//endif
+          </style>';
+            }//endif
+            return array($file);
+        }
         
         $effectivetermid = '';
         
@@ -142,10 +170,10 @@ class unitdescription_page extends basePage{
             from csunit
             where csunitid = '$unitid'";
         
-        $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-001: ".mysqli_error($db));
+        $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-001: ".mysqli_error($db));
         
         if (mysqli_num_rows($sql_ok) > 0){
-            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-002: ".mysqli_error($db));
+            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-002: ".mysqli_error($db));
             
             $formername = $row["unitid"];
         }//endif
@@ -156,7 +184,7 @@ class unitdescription_page extends basePage{
         //check to see if current user is involved in this course. if not no update allowed.
         $allowupdate = true;
         $userid = $_SESSION[$_GET["trid"] . 'userid'];
-        if (!in_array($_SESSION[$_GET["trid"] . "admin"], array('Z','S','M','P')) && !$p->extra_access($_SESSION[$_GET["trid"] . 'userid'],"udstatus")){
+        if (!in_array($_SESSION[$_GET["trid"] . "admin"], array('Z','S','M','P')) && !$p->extra_access($_SESSION[$_GET["trid"] . 'userid'],"udstatus")) {
             $sql = "select *
               from unituser
               where locationid = '$locationid'
@@ -164,14 +192,14 @@ class unitdescription_page extends basePage{
               and unitid = '$unitid'
               and userid = '$userid'";
             
-            $uusql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-003: ".mysqli_error($db));
+            $uusql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-003: ".mysqli_error($db));
             
             if (mysqli_num_rows($uusql_ok) == 0){
                 $allowupdate = false;
             }//endif
         }//endif
         
-        if ($_SESSION["mrkssysacaddivlabel"]){
+        if ($_SESSION["mrkssysacaddivlabel"]) {
             $acaddivlabel = $_SESSION["mrkssysacaddivlabel"];
         }//endif
         else {
@@ -183,7 +211,7 @@ class unitdescription_page extends basePage{
             echo '<div class="noprint">';
             echo '<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">';
             echo '<tr><td align="center"><br>';
-            echo '<b>Location:</b>&nbsp;' . pad($locationid,20,"padright") . '<b>Term:</b>&nbsp;'. pad($termid,20,"padright") . '<b>Course:</b>&nbsp;' . $unitid . '<br><br>';
+            echo '<b>Location:</b>&nbsp;' . pad($locationid, 20, "padright") . '<b>Term:</b>&nbsp;'. pad($termid, 20, "padright") . '<b>Course:</b>&nbsp;' . $unitid . '<br><br>';
             echo '</td></tr>';
             echo '</table>';
             
@@ -191,13 +219,13 @@ class unitdescription_page extends basePage{
             echo '<tr>';
             
             echo '<td align="center" colspan="10"><br>';
-            if (empty($_GET["type"]) || $_GET["type"]!=='Z'){
+            if (empty($_GET["type"]) || $_GET["type"]!=='Z') {
                 echo '<span class="hlp"><a href="javascript:help()" title=" Help ">?</a></span>';
-                echo str_repeat('&nbsp;',3);
+                echo str_repeat('&nbsp;', 3);
             }//endif
             
             echo '<input type="submit" name="btnPDF" value="PDF">';
-            echo str_repeat('&nbsp;',3);
+            echo str_repeat('&nbsp;', 3);
             echo '<input type="submit" name="btnCancel" value="Cancel">';
             
             echo '<br><br>';
@@ -211,31 +239,31 @@ class unitdescription_page extends basePage{
             echo '<br><table align="center" width="100%" border="0" bordercolor="#0000FF" cellpadding="6" cellspacing="0">';
             
             switch ($_SESSION[$_GET["trid"] . "udstatus"]){
-                case NULL:
-                case '':
+            case null:
+            case '':
                     $udstatus = 'Draft';
                     $udstatuscolor='black';
-                    break;
-                case 'Q':
+                break;
+            case 'Q':
                     $udstatus = 'Resources Required';
                     $udstatuscolor='olive';
-                    break;
-                case 'R':
+                break;
+            case 'R':
                     $udstatus = 'Ready for Approval';
                     $udstatuscolor='green';
-                    break;
-                case 'A':
+                break;
+            case 'A':
                     $udstatus = 'Approved';
                     $udstatuscolor='green';
-                    break;
-                case 'P':
+                break;
+            case 'P':
                     $udstatus = 'PUBLISHED';
                     $udstatuscolor='red';
-                    break;
+                break;
             }//endcase
             
             if ($_SESSION[$_GET["trid"] . "usertype"]!=='Z'){//Student doesn't need to see status
-                if ($allowupdate && (($p->admin_access_allowed('MSZ') || $p->extra_access($_SESSION[$_GET["trid"] . 'userid'],"udstatus") || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('R','U','O')) && $p->update_allowed('A'))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                if ($allowupdate && (($p->admin_access_allowed('MSZ') || $p->extra_access($_SESSION[$_GET["trid"] . 'userid'], "udstatus") || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('R','U','O')) && $p->update_allowed('A'))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))) {
                     echo '<tr><td width="15%"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'status\',1,0,2)">Status:</a></td>';
                 }//endif
                 else {
@@ -251,11 +279,11 @@ class unitdescription_page extends basePage{
               and termid = '$termid'
               and unitid = '$unitid'";
             
-            $ulsql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-004: ".mysqli_error($db));
+            $ulsql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-004: ".mysqli_error($db));
             
             $udprotected = 'No';
             if (mysqli_num_rows($ulsql_ok) > 0){
-                $ulrow = mysqli_fetch_array($ulsql_ok) or die(basename(__FILE__,'.php')."-005: ".mysqli_error($db));
+                $ulrow = mysqli_fetch_array($ulsql_ok) or die(basename(__FILE__, '.php')."-005: ".mysqli_error($db));
                 
                 if ($ulrow["udprotected"]){
                     $udprotected = 'Yes';
@@ -286,37 +314,37 @@ class unitdescription_page extends basePage{
         }//endif
         else {
             $pdf->SetX(15);
-            $pdf->SetFont('','B',10);
-            $pdf->Cell('',10,'School',0,0,'L',0);
-            $pdf->SetFont('','',10);
+            $pdf->SetFont('', 'B', 10);
+            $pdf->Cell('', 10 , 'School', 0, 0, 'L', 0);
+            $pdf->SetFont('', '', 10);
             $pdf->SetX(69);
-            $pdf->Cell('',10,$acaddiv,0,1,'L',0);
-            $pdf->SetFont('','B',10);
-            $pdf->Cell('',10,'Course Title',0,0,'L',0);
-            $pdf->SetFont('','',10);
+            $pdf->Cell('', 10,$acaddiv, 0, 1, 'L', 0);
+            $pdf->SetFont('', 'B', 10);
+            $pdf->Cell('', 10, 'Course Title', 0, 0, 'L', 0);
+            $pdf->SetFont('', '', 10);
             $pdf->SetX(69);
-            $pdf->Cell('',10,$title,0,1,'L',0);
+            $pdf->Cell('', 10, $title, 0, 1, 'L', 0);
             if ($formername){
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Formerly',0,0,'L',0);
-                $pdf->SetFont('','',10);
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Formerly', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->Cell('',10,$formername,0,1,'L',0);
+                $pdf->Cell('', 10,$formername, 0, 1, 'L', 0);
             }//endif
-            $pdf->SetFont('','B',10);
-            $pdf->Cell('',10,'Course ID',0,0,'L',0);
+            $pdf->SetFont('', 'B', 10);
+            $pdf->Cell('', 10, 'Course ID', 0, 0, 'L', 0);
             $pdf->SetX(69);
-            $pdf->SetFont('','',10);
-            $pdf->Cell('',10,$unitid,0,1,'L',0);
+            $pdf->SetFont('', '', 10);
+            $pdf->Cell('', 10, $unitid, 0, 1, 'L', 0);
         }//endelse
         //Credit points
         $credit = $unitcreditpoint;//Retrieved from getUnit
         if (isset($_POST["btnPDF"])){
-            $pdf->SetFont('','B',10);
-            $pdf->Cell('',10,'Credit Points',0,0,'L',0);
-            $pdf->SetFont('','',10);
+            $pdf->SetFont('', 'B', 10);
+            $pdf->Cell('', 10, 'Credit Points', 0, 0, 'L', 0);
+            $pdf->SetFont('', '', 10);
             $pdf->SetX(69);
-            $pdf->Cell('',10,$credit,0,1,'L',0);
+            $pdf->Cell('', 10, $credit, 0, 1, 'L', 0);
         }//endif
         else {
             echo '<tr><td><b>Credit Points: </b></td><td>'. $credit .'</td></tr>';
@@ -324,11 +352,11 @@ class unitdescription_page extends basePage{
         
         //Teaching period
         if (isset($_POST["btnPDF"])){
-            $pdf->SetFont('','B',10);
-            $pdf->Cell('',10,'Teaching Period',0,0,'L',0);
-            $pdf->SetFont('','',10);
+            $pdf->SetFont('', 'B', 10);
+            $pdf->Cell('', 10,'Teaching Period', 0, 0, 'L', 0);
+            $pdf->SetFont('', '', 10);
             $pdf->SetX(69);
-            $pdf->Cell('',10,$termid,0,1,'L',0);
+            $pdf->Cell('', 10, $termid, 0, 1, 'L', 0);
         }//endif
         else {
             echo '<tr><td><b>Teaching Period: </b></td><td>'. $termid .'</td></tr>';
@@ -342,19 +370,19 @@ class unitdescription_page extends basePage{
             and unitid = '$unitid'
             and udtype='auth'";
         
-        $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-006: ".mysqli_error($db));
+        $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-006: ".mysqli_error($db));
         
         if (mysqli_num_rows($sql_ok)){
-            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-007: ".mysqli_error($db));
+            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-007: ".mysqli_error($db));
             
             $unitdescdetailkey = $row["unitdescdetailkey"];
             $author = stripslashes($row["content"]);
             if (isset($_POST["btnPDF"])){
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Author',0,0,'L',0);
-                $pdf->SetFont('','',10);
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Author', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->Cell('',10,$author,0,1,'L',0);
+                $pdf->Cell('', 10, $author, 0, 1, 'L', 0);
             }//endif
             else {
                 if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
@@ -367,14 +395,14 @@ class unitdescription_page extends basePage{
         }//endif
         else {
             if (isset($_POST["btnPDF"])){
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Author',0,0,'L',0);
-                $pdf->SetFont('','',10);
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Author', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->Cell('',10,$author,0,1,'L',0);
+                $pdf->Cell('', 10, $author, 0, 1, 'L', 0);
             }//endif
             else {
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J') ) )) {
                     echo '<tr><td><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'auth\',1,0,1)">Author</a></td><td>&nbsp;</td></tr>';
                 }//endif
             }//endelse
@@ -394,8 +422,8 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-008: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
-            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-009: ".mysqli_error($db));
+        if (mysqli_num_rows($sql_ok)) {
+            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-009: ".mysqli_error($db));
             
             $effectivetermid = $row["effectivetermid"];
             $unitoutlinekey = $row["unitoutlinekey"];
@@ -408,6 +436,7 @@ class unitdescription_page extends basePage{
         
         // Program Level
         if ($effectivetermid > '2013/00'){
+            $unitoutlinekey = "";
             $unitoutdetailkey = '\'\'';
             $sql = "select *
               from unitoutlinedetail
@@ -447,34 +476,34 @@ class unitdescription_page extends basePage{
             where unitoutlinekey = '$unitoutlinekey'
             and uotype='prereq'";
             
-            $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-012: ".mysqli_error($db));
+            $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-012: ".mysqli_error($db));
             
             if (mysqli_num_rows($sql_ok) > 0){
-                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-013: ".mysqli_error($db));
+                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-013: ".mysqli_error($db));
                 
                 $outlinerequisite = $row["content"];
             }//endif
             
-            $requisitecompare = str_replace('<span style="color: red;">OR</span>','OR',$requisitetemp);
+            $requisitecompare = str_replace('<span style="color: red;">OR</span>', 'OR',$requisitetemp);
             
-            if (trim($outlinerequisite) !== $requisitecompare){
+            if (trim($outlinerequisite) !== $requisitecompare) {
                 $warning = '<span class="boldred">&nbsp;!!! WARNING: Outline details differ - </span><span class="red">' . trim($outlinerequisite) . '</span>';
             }//endif
             
-            if (empty($warning)){
+            if (empty($warning)) {
                 $requisitetemp = $requisitedisplay;
             }//endif
             
-            if (isset($_POST["btnPDF"])){
+            if (isset($_POST["btnPDF"])) {
                 $temp = $requisitetemp . $warning;
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Pre-requisites',0,0,'L',0);
-                $pdf->SetFont('','',10);
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Pre-requisites', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->MultiCell('',10,$temp,0,'L',0);
+                $pdf->MultiCell('', 10, $temp, 0, 'L', 0);
             }//endif
             else {
-                if ($p->admin_access_allowed('SZ')){
+                if ($p->admin_access_allowed('SZ')) {
                     echo '<tr><td><a href="javascript:unitupdate(\'' . $unitid . '\',\''. $subdisciplineid .'\')">Pre-requisites:</a></td><td>'.$requisitetemp. $warning . '</td></tr>';
                 }//endif
                 else {
@@ -486,7 +515,7 @@ class unitdescription_page extends basePage{
             $requisitetemp = trim(getCorequisite($unitid, $roundbracket=true, $csreq=false, $ignoreubsas=false, $reqeffectivetermid=$termid));
             $requisitedisplay = trim(getCorequisite($unitid, $roundbracket=true, $csreq=false, $ignoreubsas=true, $reqeffectivetermid=$termid));
             
-            if (empty($requisitetemp)){
+            if (empty($requisitetemp)) {
                 $requisitetemp = 'Nil';
                 $requisitedisplay = 'Nil';
             }//endif
@@ -499,10 +528,10 @@ class unitdescription_page extends basePage{
             where unitoutlinekey = '$unitoutlinekey'
             and uotype='coreq'";
             
-            $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-014: ".mysqli_error($db));
+            $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-014: ".mysqli_error($db));
             
             if (mysqli_num_rows($sql_ok) > 0){
-                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-015: ".mysqli_error($db));
+                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__ ,'.php')."-015: ".mysqli_error($db));
                 
                 $outlinerequisite = $row["content"];
             }//endif
@@ -519,11 +548,11 @@ class unitdescription_page extends basePage{
             
             if (isset($_POST["btnPDF"])){
                 $temp = $requisitetemp . $warning;
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Co-requisites',0,0,'L',0);
-                $pdf->SetFont('','',10);
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Co-requisites', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->MultiCell('',10,$temp,0,'L',0);
+                $pdf->MultiCell('', 10, $temp, 0, 'L', 0);
             }//endif
             else {
                 if ($p->admin_access_allowed('SZ')){
@@ -551,15 +580,15 @@ class unitdescription_page extends basePage{
             where unitoutlinekey = '$unitoutlinekey'
             and uotype='exclus'";
             
-            $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-016: ".mysqli_error($db));
+            $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__, '.php')."-016: ".mysqli_error($db));
             
-            if (mysqli_num_rows($sql_ok) > 0){
-                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-017: ".mysqli_error($db));
+            if (mysqli_num_rows($sql_ok) > 0) {
+                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-017: ".mysqli_error($db));
                 
                 $outlinerequisite = $row["content"];
             }//endif
             
-            if (trim($outlinerequisite) !== $requisitetemp){
+            if (trim($outlinerequisite) !== $requisitetemp) {
                 $warning = '<span class="boldred">&nbsp;!!! WARNING: Outline details differ - </span><span class="red">' . trim($outlinerequisite) . '</span>';
             }//endif
             
@@ -567,16 +596,16 @@ class unitdescription_page extends basePage{
                 $requisitetemp = $requisitedisplay;
             }//endif
             
-            if (isset($_POST["btnPDF"])){
+            if (isset($_POST["btnPDF"])) {
                 $temp = $requisitetemp . $warning;
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Exclusions',0,0,'L',0);
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Exclusions', 0, 0, 'L', 0);
                 $pdf->SetFont('','',10);
                 $pdf->SetX(69);
-                $pdf->MultiCell('',10,$temp,0,'L',0);
+                $pdf->MultiCell('', 10, $temp, 0, 'L', 0);
             }//endif
             else {
-                if ($p->admin_access_allowed('SZ')){
+                if ($p->admin_access_allowed('SZ')) {
                     echo '<tr><td><a href="javascript:unitupdate(\'' . $unitid . '\',\''. $subdisciplineid .'\')">Exclusions:</a></td><td>'.$requisitetemp. $warning . '</td></tr>';
                 }//endif
                 else {
@@ -588,24 +617,24 @@ class unitdescription_page extends basePage{
             
             //ASCED
             $asced = $unitasced;//Retrived for getUnit
-            if (isset($_POST["btnPDF"])){
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'ASCED Code',0,0,'L',0);
-                $pdf->SetFont('','',10);
+            if (isset($_POST["btnPDF"])) {
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'ASCED Code', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->Cell('',10,$asced,0,1,'L',0);
+                $pdf->Cell('', 10, $asced, 0, 1, 'L', 0);
             }//endif
             else {
                 echo '<tr><td><b>ASCED Code: </b></td><td>'. $asced .'</td></tr>';
             }//endelse
             
             //Handbook summary
-            if (isset($_POST["btnPDF"])){
-                $pdf->SetFont('','B',10);
+            if (isset($_POST["btnPDF"])) {
+                $pdf->SetFont('', 'B', 10);
                 
                 $pdf->SetX(15);
                 //$pdf->MultiCell('',5,$supplementaryassessment,0,'L',0);
-                $pdf->Cell('',5,'Description of the Course for Handbook Entry:',0,1,'L',0);
+                $pdf->Cell('', 5, 'Description of the Course for Handbook Entry:', 0, 1, 'L', 0);
             }//endif
             else {
                 echo '<tr><td><b>Handbook Description:</b></td>';
@@ -616,16 +645,16 @@ class unitdescription_page extends basePage{
             where unitoutlinekey = '$unitoutlinekey'
             and uotype='summ'";
             
-            $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-018: ".mysqli_error($db));
+            $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-018: ".mysqli_error($db));
             
-            if (mysqli_num_rows($sql_ok)){
-                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-019: ".mysqli_error($db));
+            if (mysqli_num_rows($sql_ok)) {
+                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-019: ".mysqli_error($db));
                 $temp = stripslashes($row["content"]);
                 
-                if (isset($_POST["btnPDF"])){
+                if (isset($_POST["btnPDF"])) {
                     $pdf->SetX(15);
                     
-                    $temp = convert_for_html($temp,_tablesettingON,_striplinebreakOFF,_stripAtagOFF,_stripalllinefeedOFF);
+                    $temp = convert_for_html($temp, _tablesettingON, _striplinebreakOFF, _stripAtagOFF, _stripalllinefeedOFF);
                     
                     $html = '<div style="margin-left: 1mm; text-align: left;">'.$temp.'</div>';
                     $pdf->writeHTML($html);
@@ -638,23 +667,23 @@ class unitdescription_page extends basePage{
             //Grading basis
             $gradingbasis = $unitgradingbasis;//Retrieved from getUnit
             switch ($unitgradingbasis){
-                case 'G':
+            case 'G':
                     $gradingbasis = 'Graded (HD, D, C, P, MF, F)';
-                    break;
-                case 'G':
+                break;
+            case 'G':
                     $gradingbasis = 'Research Pass / Not Pass (O, P, F)';
-                    break;
-                case 'G':
+                break;
+            case 'G':
                     $gradingbasis = 'Ungraded (S, UN)';
-                    break;
+                break;
             }//endswitch
             
-            if (isset($_POST["btnPDF"])){
-                $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Grade Scheme',0,0,'L',0);
-                $pdf->SetFont('','',10);
+            if (isset($_POST["btnPDF"])) {
+                $pdf->SetFont('', 'B', 10);
+                $pdf->Cell('', 10, 'Grade Scheme', 0, 0, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(69);
-                $pdf->Cell('',10,$gradingbasis,0,1,'L',0);
+                $pdf->Cell('', 10, $gradingbasis, 0, 1, 'L', 0);
             }//endif
             else {
                 echo '<tr><td><b>Grade Scheme: </b></td><td>'. $gradingbasis .'</td></tr>';
@@ -667,19 +696,19 @@ class unitdescription_page extends basePage{
               where unitoutlinekey = '$unitoutlinekey'
               and uotype='place'";
                 
-                $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-020: ".mysqli_error($db));
+                $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-020: ".mysqli_error($db));
                 
                 if (mysqli_num_rows($sql_ok)){
-                    $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-021: ".mysqli_error($db));
+                    $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-021: ".mysqli_error($db));
                     
                     $placementcomponent = stripslashes($row["content"]);
                     
-                    if (isset($_POST["btnPDF"])){
-                        $pdf->SetFont('','B',10);
-                        $pdf->Cell('',10,'Placement Component',0,0,'L',0);
-                        $pdf->SetFont('','',10);
+                    if (isset($_POST["btnPDF"])) {
+                        $pdf->SetFont('', 'B', 10);
+                        $pdf->Cell('', 10, 'Placement Component', 0, 0, 'L', 0);
+                        $pdf->SetFont('', '', 10);
                         $pdf->SetX(69);
-                        $pdf->Cell('',10,$placementcomponent,0,1,'L',0);
+                        $pdf->Cell('', 10, $placementcomponent, 0, 1, 'L', 0);
                     }//endif
                     else {
                         echo '<tr><td><b>Placement Component: </b></td><td>'. $placementcomponent .'</td></tr>';
@@ -687,12 +716,12 @@ class unitdescription_page extends basePage{
                     
                 }//endif
                 else {
-                    if (isset($_POST["btnPDF"])){
-                        $pdf->SetFont('','B',10);
-                        $pdf->Cell('',10,'Placement Component',0,0,'L',0);
-                        $pdf->SetFont('','',10);
+                    if (isset($_POST["btnPDF"])) {
+                        $pdf->SetFont('', 'B', 10);
+                        $pdf->Cell('', 10,'Placement Component', 0, 0, 'L', 0);
+                        $pdf->SetFont('', '', 10);
                         $pdf->SetX(69);
-                        $pdf->Cell('',10,'No',0,1,'L',0);
+                        $pdf->Cell('',10,'No', 0, 1, 'L', 0);
                     }//endif
                     else {
                         echo '<tr><td><b>Placement Component: </b></td><td>No</td></tr>';
@@ -701,34 +730,34 @@ class unitdescription_page extends basePage{
             }//endif
             
             //supplementary assessment
-            if ($termid >= '2019/03'){
+            if ($termid >= '2019/03') {
                 $sql = "select *
               from unitoutlinedetail
               where unitoutlinekey = '$unitoutlinekey'
               and uotype='supass'";
                 
-                $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-022: ".mysqli_error($db));
+                $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-022: ".mysqli_error($db));
                 
                 if (mysqli_num_rows($sql_ok)){
-                    $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-023: ".mysqli_error($db));
+                    $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-023: ".mysqli_error($db));
                     
                     $supplementaryassessment = stripslashes($row["content"]);
                     
-                    if (isset($_POST["btnPDF"])){
-                        $pdf->SetFont('','B',10);
-                        $pdf->Cell('',10,'Supplementary Assessment',0,0,'L',0);
-                        $pdf->SetFont('','',10);
+                    if (isset($_POST["btnPDF"])) {
+                        $pdf->SetFont('', 'B', 10);
+                        $pdf->Cell('', 10, 'Supplementary Assessment', 0, 0, 'L', 0);
+                        $pdf->SetFont('', '', 10);
                         $pdf->SetX(69);
-                        $pdf->Cell('',10,$supplementaryassessment,0,0,'L',0);
+                        $pdf->Cell('', 10, $supplementaryassessment, 0, 0,'L', 0);
                         $pdf->Ln();
-                        if ($supplementaryassessment == 'Yes'){
+                        if ($supplementaryassessment == 'Yes') {
                             $supplementaryassessment = "Where supplementary assessment is available a student must have failed overall in the course but gained a final mark of 45 per cent or above and submitted all major assessment tasks.";
                         }//endif
                         else {
                             $supplementaryassessment = "Supplementary assessment is not available to students who gain a fail grade in this course.";
                         }//endelse
                         $pdf->SetX(15);
-                        $pdf->MultiCell('',5,$supplementaryassessment,0,'L',0);
+                        $pdf->MultiCell('', 5, $supplementaryassessment, 0, 'L', 0);
                     }//endif
                     else {
                         echo '<tr><td><b>Supplementary Assessment: </b></td><td>'. $supplementaryassessment .'</td></tr>';
@@ -736,16 +765,16 @@ class unitdescription_page extends basePage{
                     
                 }//endif
                 else {
-                    if (isset($_POST["btnPDF"])){
-                        $pdf->SetFont('','B',10);
-                        $pdf->Cell('',10,'Supplementary Assessment',0,0,'L',0);
-                        $pdf->SetFont('','',10);
+                    if (isset($_POST["btnPDF"])) {
+                        $pdf->SetFont('', 'B', 10);
+                        $pdf->Cell('', 10, 'Supplementary Assessment', 0, 0, 'L', 0);
+                        $pdf->SetFont('', '', 10);
                         $pdf->SetX(69);
-                        $pdf->Cell('',10,'Yes',0,0,'L',0);
+                        $pdf->Cell('', 10, 'Yes', 0, 0, 'L', 0);
                         $pdf->Ln();
                         $supplementaryassessment = 'Where supplementary assessment is available a student must have failed overall in the course but gained a final mark of 45 per cent or above and submitted all major assessment tasks.';
                         $pdf->SetX(15);
-                        $pdf->MultiCell('',5,$supplementaryassessment,0,'L',0);
+                        $pdf->MultiCell('', 5, $supplementaryassessment, 0, 'L', 0);
                     }//endif
                     else {
                         echo '<tr><td><b>Supplementary Assessment: </b></td><td>Yes.&nbsp&nbspWhere supplementary assessment is available a student must have failed overall in the course but gained a final mark of 45 per cent or above and submitted all major assessment tasks.</td></tr>';
@@ -757,7 +786,7 @@ class unitdescription_page extends basePage{
             
             
             
-            //PROGRAM LEVEL ============================================================================================
+            //PROGRAM LEVEL 
             $sql = "select *
             from unitoutline as uo
             where uo.unitid = '$unitid'
@@ -768,10 +797,10 @@ class unitdescription_page extends basePage{
                  and uo1.effectivetermid <= '$termid'
                  and uo1.`status` in ('P','X'))";
             
-            $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-008: ".mysqli_error($db));
+            $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-008: ".mysqli_error($db));
             
-            if (mysqli_num_rows($sql_ok)){
-                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-009: ".mysqli_error($db));
+            if (mysqli_num_rows($sql_ok)) {
+                $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-009: ".mysqli_error($db));
                 
                 $effectivetermid = $row["effectivetermid"];
                 $unitoutlinekey = $row["unitoutlinekey"];
@@ -786,133 +815,135 @@ class unitdescription_page extends basePage{
                 echo '<tr><td><b>Program Level:</b></td></tr>';
             }//endelse
             
-            if (mysqli_num_rows($sql_ok) > 0){
-                if (isset($_POST["btnPDF"])){
-                    $pdf->SetFont('','B',10);
-                    $pdf->Cell('',10,'Program Level',0,1,'L',0);
+            if (mysqli_num_rows($sql_ok) > 0) {
+                if (isset($_POST["btnPDF"])) {
+                    $pdf->SetFont('', 'B', 10);
+                    $pdf->Cell('', 10, 'Program Level', 0, 1, 'L', 0);
                 }//endif
             }//endif
             
             if (mysqli_num_rows($sql_ok) > 0){
-                
+                $content = ""; 
+                $content_1 = "";
+                $content_2 = "";
                 list($intro1,$intro2,$intro3,$intro4,$intro5,$intro6) = explode('|', $content);
                 list($inter1,$inter2,$inter3,$inter4,$inter5,$inter6) = explode('|', $content_1);
                 list($advan1,$advan2,$advan3,$advan4,$advan5,$advan6) = explode('|', $content_2);
                 
-                if (isset($_POST["btnPDF"])){
+                if (isset($_POST["btnPDF"])) {
                     
-                    if (empty($intro1)){
+                    if (empty($intro1)) {
                         $intro1 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $intro1 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($intro2)){
+                    if (empty($intro2)) {
                         $intro2 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $intro2 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($intro3)){
+                    if (empty($intro3)) {
                         $intro3 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $intro3 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($intro4)){
+                    if (empty($intro4)) {
                         $intro4 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $intro4 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($intro5)){
+                    if (empty($intro5)) {
                         $intro5 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $intro5 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($intro6)){
+                    if (empty($intro6)) {
                         $intro6 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $intro6 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
                     
-                    if (empty($inter1)){
+                    if (empty($inter1)) {
                         $inter1 = '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $inter1 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($inter2)){
+                    if (empty($inter2)) {
                         $inter2= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $inter2 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($inter3)){
+                    if (empty($inter3)) {
                         $inter3= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $inter3 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($inter4)){
+                    if (empty($inter4)) {
                         $inter4= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $inter4 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($inter5)){
+                    if (empty($inter5)) {
                         $inter5= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $inter5 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($inter6)){
+                    if (empty($inter6)) {
                         $inter6= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $inter6 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
                     
-                    if (empty($advan1)){
+                    if (empty($advan1)) {
                         $advan1= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $advan1 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($advan2)){
+                    if (empty($advan2)) {
                         $advan2= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $advan2 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($advan3)){
+                    if (empty($advan3)) {
                         $advan3= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
-                    else {
+                    else {//endelse
                         $advan3 = '<img src="image/tick.jpg" height="10px"/>';
-                    }//endelse
-                    if (empty($advan4)){
+                    }
+                    if (empty($advan4)) {
                         $advan4= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $advan4 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($advan5)){
+                    if (empty($advan5)) {
                         $advan5= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $advan5 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
-                    if (empty($advan6)){
+                    if (empty($advan6)) {
                         $advan6= '<img src="image/nopicture.jpg" height="10px"/>';
                     }//endif
                     else {
                         $advan6 = '<img src="image/tick.jpg" height="10px"/>';
                     }//endelse
                     
-                    $pdf->SetFont('','B',10);
+                    $pdf->SetFont('', 'B', 10);
                     
                     $html = '
             <table width="100%" style="margin-left: 0;" border="1" cellspacing="0" cellpadding="3">
@@ -962,12 +993,22 @@ class unitdescription_page extends basePage{
             <td width="13%" align="center">'.$advan6.'</td>
             </tr>
             </table>';
-                    
-                    $pdf->SetX(15);
-                    $pdf->writeHTML($html);
-                    $pdf->Ln();
-                    
+                
+                      /**
+                       * Undocumented function
+                       *
+                       * @param [Char] $pdf  pdf Displays
+                       * @param [Char] $html HTML Display
+                       * 
+                       * @return void
+                       */
+                    function pdfFormat($pdf, $html) {
+                        $pdf->SetX(15);
+                        $pdf->writeHTML($html);
+                        $pdf->Ln();
+                    }
                 }//endif
+                
                 else {
                     
                     echo '<tr><td style="padding-left: 1.2cm" colspan="2">';
@@ -995,37 +1036,37 @@ class unitdescription_page extends basePage{
                     echo '</tr>';
                     
                     if (empty($intro1)){
-                        $intro1 = str_repeat('&nbsp;',8);
+                        $intro1 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $intro1 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($intro2)){
-                        $intro2 = str_repeat('&nbsp;',8);
+                        $intro2 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $intro2 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($intro3)){
-                        $intro3 = str_repeat('&nbsp;',8);
+                        $intro3 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $intro3 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($intro4)){
-                        $intro4 = str_repeat('&nbsp;',8);
+                        $intro4 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $intro4 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($intro5)){
-                        $intro5 = str_repeat('&nbsp;',8);
+                        $intro5 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $intro5 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($intro6)){
-                        $intro6 = str_repeat('&nbsp;',8);
+                        $intro6 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $intro6 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
@@ -1041,38 +1082,38 @@ class unitdescription_page extends basePage{
                     echo '<td align="center">'. $intro6 .'</td>';
                     echo '</tr>';
                     
-                    if (empty($inter1)){
-                        $inter1 = str_repeat('&nbsp;',8);
+                    if (empty($inter1)) {
+                        $inter1 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $inter1 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($inter2)){
-                        $inter2 = str_repeat('&nbsp;',8);
+                    if (empty($inter2)) {
+                        $inter2 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $inter2 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($inter3)){
-                        $inter3 = str_repeat('&nbsp;',8);
+                    if (empty($inter3)) {
+                        $inter3 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $inter3 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($inter4)){
-                        $inter4 = str_repeat('&nbsp;',8);
+                    if (empty($inter4)) {
+                        $inter4 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $inter4 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($inter5)){
-                        $inter5 = str_repeat('&nbsp;',8);
+                    if (empty($inter5)) {
+                        $inter5 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $inter5 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($inter6)){
-                        $inter6 = str_repeat('&nbsp;',8);
+                    if (empty($inter6)) {
+                        $inter6 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $inter6 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
@@ -1088,38 +1129,38 @@ class unitdescription_page extends basePage{
                     echo '<td align="center">'. $inter6 .'</td>';
                     echo '</tr>';
                     
-                    if (empty($advan1)){
-                        $advan1 = str_repeat('&nbsp;',8);
+                    if (empty($advan1)) {
+                        $advan1 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $advan1 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($advan2)){
-                        $advan2 = str_repeat('&nbsp;',8);
+                    if (empty($advan2)) {
+                        $advan2 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $advan2 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($advan3)){
-                        $advan3 = str_repeat('&nbsp;',8);
+                    if (empty($advan3)) {
+                        $advan3 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $advan3 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
-                    if (empty($advan4)){
-                        $advan4 = str_repeat('&nbsp;',8);
+                    if (empty($advan4)) {
+                        $advan4 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $advan4 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($advan5)){
-                        $advan5 = str_repeat('&nbsp;',8);
+                        $advan5 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $advan5 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
                     }//endelse
                     if (empty($advan6)){
-                        $advan6 = str_repeat('&nbsp;',8);
+                        $advan6 = str_repeat('&nbsp;', 8);
                     }//endif
                     else {
                         $advan6 = '<img src="image/tick.jpg" style="border: 0" width="20" height="20">';
@@ -1141,22 +1182,22 @@ class unitdescription_page extends basePage{
             
         }//endif
         else {
-            if ($unitlevel){//this if line has recently been introduced as part of AQF changes. No longer set an unit level but at unit outline time.
+            if ($unitlevel) {//this if line has recently been introduced as part of AQF changes. No longer set an unit level but at unit outline time.
                 switch ($unitlevel){
-                    case 'A':
+                case 'A':
                         $level = 'Advanced';
-                        break;
-                    case 'I':
+                    break;
+                case 'I':
                         $level = 'Introductory';
-                        break;
+                    break;
                 }//endcase
                 
-                if (isset($_POST["btnPDF"])){
-                    $pdf->SetFont('','B',10);
-                    $pdf->Cell('',10,'Level:',0,0,'L',0);
-                    $pdf->SetFont('','',10);
+                if (isset($_POST["btnPDF"])) {
+                    $pdf->SetFont('', 'B', 10);
+                    $pdf->Cell('', 10, 'Level:', 0, 0, 'L', 0);
+                    $pdf->SetFont('', '', 10);
                     $pdf->SetX(69);
-                    $pdf->Cell('',10,$level,0,1,'L',0);
+                    $pdf->Cell('', 10, $level, 0, 1, 'L', 0);
                 }//endif
                 else {
                     echo '<tr><td><b>Level: </b></td><td>'. $level .'</td></tr>';
@@ -1165,11 +1206,11 @@ class unitdescription_page extends basePage{
         }//endelse
         
         
-        if (!isset($_POST["btnPDF"])){
+        if (!isset($_POST["btnPDF"])) {
             echo '</table>';
         }//endif
         
-        //ENF OF PROGRAM LEVEL ================================================================================================================================
+        //END OF PROGRAM LEVEL
         
         
         
@@ -1179,10 +1220,10 @@ class unitdescription_page extends basePage{
         }//endif
         
         //Organisation heading
-        if (isset($_POST["btnPDF"])){
-            $pdf->SetFont('','B',12);
+        if (isset($_POST["btnPDF"])) {
+            $pdf->SetFont('', 'B', 12);
             $pdf->Ln();
-            $pdf->Cell('',10,'Organisation',0,1,'L',0);
+            $pdf->Cell('', 10, 'Organisation', 0, 1, 'L', 0);
         }//endif
         
         //Organisation - General
@@ -1193,43 +1234,35 @@ class unitdescription_page extends basePage{
             and unitid = '$unitid'
             and udtype='orggen'";
         
-        $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-024: ".mysqli_error($db));
+        $sql_ok = mysqli_query($db, $sql) or die(basename(__FILE__, '.php')."-024: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
-            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-025: ".mysqli_error($db));
-            
-            $unitdescdetailkey = $row["unitdescdetailkey"];
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                    echo '<tr><td><a href="javascript:unitdescriptionupdate('. $unitdescdetailkey . ',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'orggen\',5,0,1)">Organisation:</a></td></tr>';
-                }//endif
-                else {
-                    echo '<tr><td><b>Organisation:</b></td></tr>';
-                }//endelse
-            }//endelse
-            
+        //test ===============================================================================
+        list($row, $unitdescdetailkey, $temp, $html) = $this->example($sql_ok, $db, $row, $_POST, $allowupdate, $p, $_SESSION, $_GET, $unitdescdetailkey, $locationid, $termid, $unitid, $pdf, $temp, $html);
+        // ============================    
             $temp = stripslashes($row["content"]);
             
-            if (isset($_POST["btnPDF"])){
-                $pdf->SetFont('','',10);
+        if (isset($_POST["btnPDF"])) {
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(15);
                 
-                $temp = convert_for_html($temp,_tablesettingON,_striplinebreakOFF,_stripAtagOFF,_stripalllinefeedOFF);
+                $temp = convert_for_html($temp, _tablesettingON, _striplinebreakOFF, _stripAtagOFF, _stripalllinefeedOFF);
                 
                 $html = '<div style="margin-left: 0; text-align: left;">'.$temp.'</div>';
                 $pdf->writeHTML($html);
-            }//endif
-            else {
-                echo '<tr><td style="padding-left: 0.6cm; text-align: left">'. $temp .'</td></tr>';
-            }//endelse
         }//endif
         else {
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                    echo '<tr><td><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'orggen\',5,0,1)">Organisation:</a></td></tr>';
-                }//endif
-            }//endelse
+                echo '<tr><td style="padding-left: 0.6cm; text-align: left">'. $temp .'</td></tr>';
         }//endelse
+    }//endif
+        
+        
+    else {
+        if (!isset($_POST["btnPDF"])) {
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                echo '<tr><td><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'orggen\',5,0,1)">Organisation:</a></td></tr>'
+            }//endif
+        }
+    }//endelse
         
         //Delivery mode
         $sql = "select deliverymode
@@ -1240,46 +1273,45 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-026: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
+    if (mysqli_num_rows($sql_ok)){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-027: ".mysqli_error($db));
             
             $deliverymode = $row["deliverymode"];
             
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
                     echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' .  $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'deliv\',1,0,10)">Delivery Mode:</a> ';
-                }//endif
-                else {
-                    echo '<tr><td style="padding-left: 0.6cm"><b>Delivery Mode: </b>';
-                }//endelse
-            }//endelse
-            if ($row["deliverymode"] == 'R'){
-                $deliverymode = 'Regular semester';
             }//endif
             else {
-                $deliverymode = 'Block';
+                    echo '<tr><td style="padding-left: 0.6cm"><b>Delivery Mode: </b>';
             }//endelse
+        }//endelse
+        if ($row["deliverymode"] == 'R'){
+                $deliverymode = 'Regular semester';
+        }//endif
+        else {
+                $deliverymode = 'Block';
+        }//endelse
             
-            if (isset($_POST["btnPDF"])){
+        if (isset($_POST["btnPDF"])){
                 $pdf->SetX(15);
                 $pdf->SetFont('','B',10);
                 $pdf->Cell('',10,'Delivery Mode',0,1,'L',0);
                 $pdf->SetFont('','',10);
                 $pdf->SetX(15);
-                $pdf->MultiCell('',5,$deliverymode,0,'J',0);
-                
-            }//endif
-            else {
-                echo '<tr><td style="padding-left: 1.2cm">'.  $deliverymode .'</td></tr>';
-            }//endelse
+                $pdf->MultiCell('',5,$deliverymode,0,'J',0);           
         }//endif
         else {
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'deliv\',1,0,10)">Delivery Mode:</a> </td></tr>';
-                }//endif
-            }//endif
+                echo '<tr><td style="padding-left: 1.2cm">'.  $deliverymode .'</td></tr>';
         }//endelse
+    }//endif
+    else {
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'deliv\',1,0,10)">Delivery Mode:</a> </td></tr>';
+            }//endif
+        }//endif
+    }//endelse
         
         //Lecture / tutorials
         $sql = "select *
@@ -1291,26 +1323,26 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-028: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
+    if (mysqli_num_rows($sql_ok)){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-029: ".mysqli_error($db));
             
             $unitdescdetailkey = $row["unitdescdetailkey"];
             
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
                     echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate('. $unitdescdetailkey . ',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'struct\',8,0,1)">Structure (Lectures / Laboratories / Tutorials / Workshops / Field Trips / Excursions / Placements):</a> ';
-                }//endif
-                else {
+            }//endif
+            else {
                     echo '<tr><td style="padding-left: 0.6cm"><b>Structure (Lectures / Laboratories / Tutorials / Workshops / Field Trips / Excursions / Placements): </b>';
-                }//endelse
             }//endelse
+        }//endelse
             $temp = stripslashes($row["content"]);
             
-            if (isset($_POST["btnPDF"])){
+        if (isset($_POST["btnPDF"])){
                 $pdf->SetX(15);
                 $pdf->SetFont('','B',10);
-                $pdf->Cell('',10,'Structure',0,1,'L',0);
-                $pdf->SetFont('','',10);
+                $pdf->Cell('',10,'Structure', 0, 1, 'L', 0);
+                $pdf->SetFont('', '', 10);
                 $pdf->SetX(15);
                 
                 $temp = convert_for_html($temp,_tablesettingON,_striplinebreakOFF,_stripAtagOFF,_stripalllinefeedOFF);
@@ -1341,31 +1373,31 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-030: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
+    if (mysqli_num_rows($sql_ok)){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-031: ".mysqli_error($db));
             
             $unitdescdetailkey = $row["unitdescdetailkey"];
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
                     echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate('. $unitdescdetailkey . ',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'hard\',5,0,1)">Computer Hardware / Software:</a>&nbsp;<span style="color:red;">(to conduct the course)</span>';
-                }//endif
-                else {
+            }//endif
+            else {
                     echo '<tr><td style="padding-left: 0.6cm"><b>Computer Hardware / Software:</b>&nbsp;<span style="color:red;">(to conduct the course)</span>';
-                }//endelse
-            }//endelse
-            $temp = stripslashes($row["content"]);
-            
-            if (!isset($_POST["btnPDF"])){
-                echo '<tr><td style="padding-left: 1.2cm"><span class="gray">' . $temp .'</span></td></tr>';
-            }//endelse
-        }//endif
-        else {
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'hard\',5,0,1)">Computer Hardware / Software:</a>&nbsp;<span style="color:red;">(to conduct the course)</span></td></tr>';
-                }//endif
             }//endelse
         }//endelse
+            $temp = stripslashes($row["content"]);
+            
+        if (!isset($_POST["btnPDF"])){
+                echo '<tr><td style="padding-left: 1.2cm"><span class="gray">' . $temp .'</span></td></tr>';
+        }//endelse
+    }//endif
+    else {
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'hard\',5,0,1)">Computer Hardware / Software:</a>&nbsp;<span style="color:red;">(to conduct the course)</span></td></tr>';
+            }//endif
+        }//endelse
+    }//endelse
         
         //Technical Equipment
         $sql = "select *
@@ -1377,31 +1409,31 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-032: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
+    if (mysqli_num_rows($sql_ok)){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-033: ".mysqli_error($db));
             
             $unitdescdetailkey = $row["unitdescdetailkey"];
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
                     echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate('. $unitdescdetailkey . ',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'equip\',5,0,1)">Technical Equipment:</a>&nbsp;<span style="color:red;">(to conduct the course)</span>';
-                }//endif
-                else {
+            }//endif
+            else {
                     echo '<tr><td style="padding-left: 0.6cm"><b>Technical Equipment:</b>&nbsp;(to conduct the course)';
-                }//endelse
-            }//endelse
-            $temp = stripslashes($row["content"]);
-            
-            if (!isset($_POST["btnPDF"])){
-                echo '<tr><td style="padding-left: 1.2cm"><span class="gray">' . $temp .'</span></td></tr>';
-            }//endelse
-        }//endif
-        else {
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'equip\',5,0,1)">Technical Equipment:</a>&nbsp;<span style="color:red;">(to conduct the course)</span></td></tr>';
-                }//endif
             }//endelse
         }//endelse
+            $temp = stripslashes($row["content"]);
+            
+        if (!isset($_POST["btnPDF"])){
+                echo '<tr><td style="padding-left: 1.2cm"><span class="gray">' . $temp .'</span></td></tr>';
+        }//endelse
+    }//endif
+    else {
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'equip\',5,0,1)">Technical Equipment:</a>&nbsp;<span style="color:red;">(to conduct the course)</span></td></tr>';
+            }//endif
+        }//endelse
+    }//endelse
         
         //Lecturer experience
         $sql = "select *
@@ -1413,46 +1445,46 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-034: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
+    if (mysqli_num_rows($sql_ok)){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-035: ".mysqli_error($db));
             
             $unitdescdetailkey = $row["unitdescdetailkey"];
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+        if (!isset($_POST["btnPDF"])){
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
                     echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate('. $unitdescdetailkey . ',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'exp\',4,0,1)">Lecturer Experience / Knowledge:</a>&nbsp;<span style="color:red;">(to conduct the course)</span>';
-                }//endif
-                else {
+            }//endif
+            else {
                     echo '<tr><td style="padding-left: 0.6cm"><b>Lecturer Experience / Knowledge:</b>&nbsp;<span style="color:red;">(to conduct the course)';
-                }//endelse
             }//endelse
+        }//endelse
             $temp = stripslashes($row["content"]);
             
             if (!isset($_POST["btnPDF"])){
                 echo '<tr><td style="padding-left: 1.2cm"><span class="gray">' . $temp .'</span></td></tr>';
             }//endelse
         }//endif
-        else {
-            if (!isset($_POST["btnPDF"])){
-                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'exp\',4,0,1)">Lecturer Experience / Knowledge:</a>&nbsp;<span style="color:red;">(to conduct the course)</td></tr>';
-                }//endif
-            }//endelse
-        }//endelse
-        
-        //Staff
+    else {
         if (!isset($_POST["btnPDF"])){
-            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('C','X','U','O')) && $p->update_allowed('P'))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
-                echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'staff\',1,1,3)">Staff:</a></td></tr>';
+            if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                    echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'exp\',4,0,1)">Lecturer Experience / Knowledge:</a>&nbsp;<span style="color:red;">(to conduct the course)</td></tr>';
             }//endif
-            else {
-                echo '<tr><td style="padding-left: 0.6cm"><b>Staff:</b></td></tr>';
-            }//endelse
         }//endelse
+    }//endelse
+        
+    //Staff
+    if (!isset($_POST["btnPDF"])){
+        if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('C','X','U','O')) && $p->update_allowed('P'))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))){
+                echo '<tr><td style="padding-left: 0.6cm"><a href="javascript:unitdescriptionupdate(\'\',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'staff\',1,1,3)">Staff:</a></td></tr>';
+        }//endif
+        else {
+                echo '<tr><td style="padding-left: 0.6cm"><b>Staff:</b></td></tr>';
+        }//endelse
+    }//endelse
         
         //Check if staff info lives in unitdescriptiondetail. If not insert it from unituser
         
         //Course Coordinator
-        if ($_SESSION[$_GET["trid"] . "moderationtype"]=='U'){
+    if ($_SESSION[$_GET["trid"] . "moderationtype"]=='U'){
             $sql = "select *
               from unitdescriptiondetail
               where locationid = '$locationid'
@@ -1464,11 +1496,11 @@ class unitdescription_page extends basePage{
             $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-036: ".mysqli_error($db));
             
             $coursecoordinatorfound = false;
-            if (mysqli_num_rows($sql_ok) > 0){
+        if (mysqli_num_rows($sql_ok) > 0){
                 $coursecoordinatorfound = true;
             }//endif
             
-            if (mysqli_num_rows($sql_ok) == 0){//none found
+        if (mysqli_num_rows($sql_ok) == 0){//none found
                 $sql = "select usr.fullname, usr.room, usr.telephone, usr.email
                 from unituser as uu
                   inner join user as usr
@@ -1480,7 +1512,7 @@ class unitdescription_page extends basePage{
                 
                 $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-037: ".mysqli_error($db));
                 
-                for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
+            for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
                     $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-038: ".mysqli_error($db));
                     
                     $sequence = 1;
@@ -1494,11 +1526,11 @@ class unitdescription_page extends basePage{
                     
                     $seqsql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-039: ".mysqli_error($db));
                     
-                    if (mysqli_num_rows($seqsql_ok) > 0){
+                if (mysqli_num_rows($seqsql_ok) > 0){
                         $seqrow = mysqli_fetch_array($seqsql_ok) or die(basename(__FILE__,'.php')."-040: ".mysqli_error($db));
                         
                         $sequence = $seqrow["maxseq"] + 1;
-                    }//endif
+                }//endif
                     
                     $udtype = 'staff';
                     $content = 'O';
@@ -1513,14 +1545,13 @@ class unitdescription_page extends basePage{
                     $sql = "insert into unitdescriptiondetail
                   values (NULL, '$locationid','$termid','$unitid','$udtype', $sequence,'$content','$temp','$content_2','$content_3','$temp1','$content_5','$content_6','$content_7')";
                     
-                    $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-041: ".mysqli_error($db));
-                    
-                }//endfor
-            }//endif
+                    $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-041: ".mysqli_error($db));                 
+            }//endfor
         }//endif
+    }//endif
         
         //Uni Lecturer
-        if ($_SESSION[$_GET["trid"] . "moderationtype"]=='U'){
+    if ($_SESSION[$_GET["trid"] . "moderationtype"]=='U'){
             $sql = "select *
               from unitdescriptiondetail
               where locationid = '$locationid'
@@ -1531,7 +1562,7 @@ class unitdescription_page extends basePage{
             
             $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-042: ".mysqli_error($db));
             
-            if (mysqli_num_rows($sql_ok) == 0 && !$coursecoordinatorfound){//none found and course coordinator
+        if (mysqli_num_rows($sql_ok) == 0 && !$coursecoordinatorfound){//none found and course coordinator
                 $sql = "select usr.fullname, usr.room, usr.telephone, usr.email
                 from unituser as uu
                   inner join user as usr
@@ -1543,7 +1574,7 @@ class unitdescription_page extends basePage{
                 
                 $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-043: ".mysqli_error($db));
                 
-                for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
+            for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
                     $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-044: ".mysqli_error($db));
                     
                     $sequence = 1;
@@ -1557,11 +1588,11 @@ class unitdescription_page extends basePage{
                     
                     $seqsql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-045: ".mysqli_error($db));
                     
-                    if (mysqli_num_rows($seqsql_ok) > 0){
+                if (mysqli_num_rows($seqsql_ok) > 0){
                         $seqrow = mysqli_fetch_array($seqsql_ok) or die(basename(__FILE__,'.php')."-046: ".mysqli_error($db));
                         
                         $sequence = $seqrow["maxseq"] + 1;
-                    }//endif
+                }//endif
                     
                     $udtype = 'staff';
                     $content = 'U';
@@ -1577,10 +1608,9 @@ class unitdescription_page extends basePage{
                   values (NULL, '$locationid','$termid','$unitid','$udtype', $sequence,'$content','$temp','$content_2','$content_3','$temp1','$content_5','$content_6','$content_7')";
                     
                     $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-047: ".mysqli_error($db));
-                    
-                }//endfor
-            }//endif
+            }//endfor
         }//endif
+    }//endif
         
         //Coordinating Lecturer now Partner Lead Lecturer
         $sql = "select *
@@ -1593,7 +1623,7 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-048: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok) == 0){//none found
+    if (mysqli_num_rows($sql_ok) == 0){//none found
             $sql = "select usr.fullname, usr.room, usr.telephone, usr.email
               from unituser as uu
                   inner join user as usr
@@ -1605,7 +1635,7 @@ class unitdescription_page extends basePage{
             
             $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-049: ".mysqli_error($db));
             
-            for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
+        for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
                 $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-050: ".mysqli_error($db));
                 
                 $sequence = $i + 1;
@@ -1640,7 +1670,7 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-052: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok) == 0){//none found
+    if (mysqli_num_rows($sql_ok) == 0){//none found
             $sql = "select usr.fullname, usr.room, usr.telephone, usr.email
               from unituser as uu
                   inner join user as usr
@@ -1652,7 +1682,7 @@ class unitdescription_page extends basePage{
             
             $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-053: ".mysqli_error($db));
             
-            for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
+        for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
                 $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-054: ".mysqli_error($db));
                 
                 $sequence = $i + 1;
@@ -1672,7 +1702,7 @@ class unitdescription_page extends basePage{
                 
                 $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-055: ".mysqli_error($db));
                 
-            }//endfor
+        }//endfor
             
         }//endif
         
@@ -1687,7 +1717,7 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-056: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok) == 0){//none found
+    if (mysqli_num_rows($sql_ok) == 0){//none found
             $sql = "select usr.fullname, usr.room, usr.telephone, usr.email
               from unituser as uu
                   inner join user as usr
@@ -1699,7 +1729,7 @@ class unitdescription_page extends basePage{
             
             $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-057: ".mysqli_error($db));
             
-            for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
+        for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
                 $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-058: ".mysqli_error($db));
                 
                 $sequence = $i + 1;
@@ -1745,7 +1775,7 @@ class unitdescription_page extends basePage{
             
             $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-061: ".mysqli_error($db));
             
-            for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
+        for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
                 $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-062: ".mysqli_error($db));
                 
                 $sequence = $i + 1;
@@ -1765,9 +1795,9 @@ class unitdescription_page extends basePage{
                 
                 $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-063: ".mysqli_error($db));
                 
-            }//endfor
+        }//endfor
             
-        }//endif
+    }//endif
         
         $sql = "select *
             from unitdescriptiondetail
@@ -1779,13 +1809,13 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-064: ".mysqli_error($db));
         
-        if (isset($_POST["btnPDF"])){
+    if (isset($_POST["btnPDF"])){
             $pdf->SetFont('','B',10);
             $pdf->SetX(15);
             $pdf->Cell('',10,'Staff',0,1,'L',0);
-        }//endif
+    }//endif
         
-        if (isset($_POST["btnPDF"])){
+    if (isset($_POST["btnPDF"])){
             $html = '
             <table width="100%" style="margin-left: 0mm;" border="1" cellspacing="0" cellpadding="3">
             <thead>
@@ -1797,8 +1827,8 @@ class unitdescription_page extends basePage{
             <td width="*" style="background-color:#C0C0C0; font-weight: bold; text-align: center">Email</td>
             </tr>
             </thead>';
-        }//endif
-        else {
+    }//endif
+    else {
             echo '<tr><td style="padding-left: 1.2cm">';
             echo '<table width="100%" border="1" cellpadding="6" cellspacing="0">';
             echo '<tr><td width="1%" bgcolor="#C0C0C0" align="center">&nbsp;</td>';
@@ -1807,7 +1837,7 @@ class unitdescription_page extends basePage{
             echo '<td width="11%" bgcolor="#C0C0C0" align="center"><b>Room</b></td>';
             echo '<td width="15%" bgcolor="#C0C0C0" align="center"><b>Telephone</b></td>';
             echo '<td width="26%" bgcolor="#C0C0C0" align="center"><b>Email</b></td></tr>';
-        }//endif
+    }//endif
         
         for ($i=0; $i < mysqli_num_rows($sql_ok); $i++){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-065: ".mysqli_error($db));
@@ -2407,39 +2437,39 @@ class unitdescription_page extends basePage{
               <td>'.$temp.'</td>
               </tr>';
                     }//endif
-                    else {
+                else {
                         $html = $html . '
               <tr>
               <td colspan="2">'.$temp.'</td>
               </tr>';
-                    }//endelse
-                }//endif
-                else {
-                    echo '<tr><td style="padding-left: 1.2cm"><table width="100%"><tr><td style="vertical-align: top" width="1%">'. $nbr . '</td><td>' . $temp .'</td></tr></table></td></tr>';
                 }//endelse
+            }//endif
+            else {
+                    echo '<tr><td style="padding-left: 1.2cm"><table width="100%"><tr><td style="vertical-align: top" width="1%">'. $nbr . '</td><td>' . $temp .'</td></tr></table></td></tr>';
+            }//endelse
             }//endfor
             
-            if (isset($_POST["btnPDF"]) && mysqli_num_rows($sql_ok) > 0){
+        if (isset($_POST["btnPDF"]) && mysqli_num_rows($sql_ok) > 0){
                 $html = $html . '
             </table>';
                 $pdf->writeHTML($html);
-            }//endif
         }//endif
+    }//endif
         
         
         //Content heading
-        if (isset($_POST["btnPDF"])){
+    if (isset($_POST["btnPDF"])){
             $pdf->SetFont('','B',10);
             
             $pdf->SetX(15);
             $pdf->Cell('',10,'Content',0,1,'L',0);
-            //$pdf->SetX(20);
-            //$pdf->Cell('',10,'Scope:',0,1,'L',0);
-        }//endif
-        else {
+            $pdf->SetX(20);
+            $pdf->Cell('',10,'Scope:',0,1,'L',0);
+    }//endif
+    else {
             echo '<tr><td><b>Content:</b></td></tr>';
             echo '<tr><td style="Padding-left: 0.6cm"><b>Scope:</b></td></tr>';
-        }//endelse
+    }//endelse
         
         //Content - General
         $sql = "select *
@@ -2449,14 +2479,14 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-086: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok)){
+    if (mysqli_num_rows($sql_ok)){
             $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__,'.php')."-087: ".mysqli_error($db));
             
             $unitdescdetailkey = $row["unitdescdetailkey"];
             
             $temp = stripslashes($row["content"]);
             
-            if (isset($_POST["btnPDF"])){
+        if (isset($_POST["btnPDF"])){
                 $pdf->SetX(25);
                 
                 $temp = convert_for_html($temp,_tablesettingON,_striplinebreakOFF,_stripAtagOFF,_stripalllinefeedOFF);
@@ -2464,11 +2494,11 @@ class unitdescription_page extends basePage{
                 $html = '<div style="margin-left: 10mm; text-align: left;">'.$temp.'</div>';
                 $pdf->writeHTML($html);
                 $pdf->Ln();
-            }//endif
-            else {
-                echo '<tr><td style="padding-left: 1.2cm; text-align: left">'. $temp .'</td></tr>';
-            }//endelse
         }//endif
+        else {
+                echo '<tr><td style="padding-left: 1.2cm; text-align: left">'. $temp .'</td></tr>';
+        }//endelse
+    }//endif
         
         //Content - Items
         
@@ -2480,12 +2510,12 @@ class unitdescription_page extends basePage{
         
         $sql_ok = mysqli_query($db,$sql) or die(basename(__FILE__,'.php')."-088: ".mysqli_error($db));
         
-        if (mysqli_num_rows($sql_ok) > 0){
-            if (isset($_POST["btnPDF"])){
+    if (mysqli_num_rows($sql_ok) > 0){
+        if (isset($_POST["btnPDF"])){
                 $pdf->SetFont('','',10);
                 $pdf->SetX(15);
                 $pdf->Cell(40,5,'Topics may include:',0,1,'L');
-            }//endif
+        }//endif
             else {
                 echo '<tr><td style="padding-left: 1.2cm"></b>Topics may include:</b></td></tr>';
             }//endelse
@@ -2942,8 +2972,6 @@ class unitdescription_page extends basePage{
                     }//endelse
                     
                     
-                    
-                    
                     $pdf->writeHTML($html);
                     
                     
@@ -3041,7 +3069,7 @@ class unitdescription_page extends basePage{
                         echo ' graduate attributes (GA) are entrenched in the Higher Education Graduate Attributes Policy (LT1228). ';
                         echo  $_SESSION[$_GET["trid"] . "sysabbreviation"] . ' graduates develop these graduate attributes through their engagement in ';
                         echo 'explicit learning and teaching and assessment tasks that are embedded in all ';
-                        echo  $_SESSION[$_GET["trid"] . "sysabbreviation"] . ' programs. Graduate attribute attainment typically follows and incremental development';
+                        echo  $_SESSION[$_GET["trid"] . "sysabbreviation"] . ' programs. Graduate attribute attainment typically follows an incremental development';
                         echo 'process mapped through program progression. One or more graduate attributes must be evident in the specified learning outcomes and assessment for each FedUni course, and all attributes must be directly assessed in each program.';
                         echo '</td>
               </tr>
@@ -3352,24 +3380,21 @@ class unitdescription_page extends basePage{
                     $temp_2 = '&nbsp;';
                 }//endif
                 if (mysqli_num_rows($content3sql_ok) > 0){
-                    echo '<tr>' . '<td style="vertical-align: center">'. $temp_3 .'</td><td style="vertical-align: top;"><span class="gray">'. $temp_0 .'</span><td style="vertical-align: top"><span class="gray">'. $temp_1 .'</span></td><td width="10%" align="center" style="vertical-align: top"><span class="gray">'. $temp_2 .'</span></td></tr>';
+                    echo '<tr>' , '<td style="vertical-align: center">'. $temp_3 .'</td><td style="vertical-align: top;"><span class="gray">'. $temp_0 .'</span><td style="vertical-align: top"><span class="gray">'. $temp_1 .'</span></td><td width="10%" align="center" style="vertical-align: top"><span class="gray">'. $temp_2 .'</span></td></tr>';
                 }//endif
                 else {
-                    echo '<tr>' . '<td style="vertical-align: top;"><span class="gray">'. $temp_0 .'</span><td style="vertical-align: top"><span class="gray">'. $temp_1 .'</span></td><td width="10%" align="center" style="vertical-align: top"><span class="gray">'. $temp_2 .'</span></td></tr>';
+                    echo '<tr>' ,'<td style="vertical-align: top;"><span class="gray">'. $temp_0 .'</span><td style="vertical-align: top"><span class="gray">'. $temp_1 .'</span></td><td width="10%" align="center" style="vertical-align: top"><span class="gray">'. $temp_2 .'</span></td></tr>';
                 }//endelse
             }//endif
             else {
                 if (mysqli_num_rows($content3sql_ok) > 0){
-                    
                     $html = $html . '
-            <tr>
-            <td>'.$temp_3.'</td>
-            <td>'.$temp_0.'</td>
-            <td>'.$temp_1.'</td>
-            </tr>';
-                    
+                    <tr>
+                    <td>'.$temp_3.'</td>
+                    <td>'.$temp_0.'</td>
+                    <td>'.$temp_1.'</td>
+                     </tr>';    
                 }//endif
-                
             }//endelse
         }//endfor
         
@@ -3770,7 +3795,9 @@ class unitdescription_page extends basePage{
                         
                         $datedue = '';
                         reset($subtask);
-                        while (list($key,$value) = each($subtask)){
+                        foreach ($subtask as $key => $value)
+                        //Test
+                        // while (list($key,$value) = each($subtask)){
                             
                             $description = $description . "<br>     " . $value["subtaskdescription"];
                             
@@ -3821,10 +3848,11 @@ class unitdescription_page extends basePage{
                 }//endif
                 else {
                     if ($displaysubtask){
-                        
                         $datedue = '';
+                        //Test
                         reset($subtask);
-                        while (list($key,$value) = each($subtask)){
+                        foreach($subtask as $key => $value){
+                        //"while (list($key,$value) = each($subtask)){"
                             
                             $description = $description . "<br>     " . $value["subtaskdescription"];
                             
@@ -3883,7 +3911,8 @@ class unitdescription_page extends basePage{
                     echo $description;
                     
                     reset($subtask);
-                    while (list($key,$value) = each($subtask)){
+                    foreach ($subtask as $key => $value)
+                    //while (list($key,$value) = each($subtask)){
                         
                         echo '<br><br>';
                         echo str_repeat('&nbsp;',3);
@@ -3899,7 +3928,9 @@ class unitdescription_page extends basePage{
                     }//endif
                     
                     reset($subtask);
-                    while (list($key,$value) = each($subtask)){
+                    foreach($subtask as $key => $value)
+                    //test 
+                    //while (list($key,$value) = each($subtask)){
                         
                         if ($value["subtaskdatedue"] !== $value["subtaskdue"] && $value["subtaskdatedue"] !=='&nbsp;' && $value["subtaskdue"] !=='Other'){
                             $value["subtaskdatedue"] = $value["subtaskdatedue"] . ' <br><span class="tiny">(Week ' . $value["subtaskdue"] . ')</span>';
@@ -3932,7 +3963,7 @@ class unitdescription_page extends basePage{
                     
                     if ($_SESSION[$_GET["trid"] . "moderationtype"]!=='U'){
                         if (!empty($samplerequired)){
-                            echo '</td><td align="center">'. '*';
+                            echo '</td><td align="center">', '*';
                         }//endif
                         else {
                             echo '</td><td align="center">&nbsp;';
@@ -3965,7 +3996,7 @@ class unitdescription_page extends basePage{
                     
                     if ($_SESSION[$_GET["trid"] . "moderationtype"]!=='U'){
                         if (!empty($samplerequired)){
-                            echo '</td><td align="center">'. '*';
+                            echo '</td><td align="center">', '*';
                         }//endif
                         else {
                             echo '</td><td align="center">&nbsp;';
@@ -3975,6 +4006,7 @@ class unitdescription_page extends basePage{
                 
             }//endelse
         }//endfor
+        
         
         if (isset($_POST["btnPDF"])){
             $html = $html . '</table>';
@@ -5993,10 +6025,30 @@ class unitdescription_page extends basePage{
             else {
                 $file = $unitid . '-' . $unitname . '.pdf';
                 $pdf->Output($file,'D');
-            }//endif
-            
-    }//endfunction
+            }//endif 
+        } //endfunction
+    }
+
+    // Test (Students)
     
+    private adminAcesssGranted($sql_ok, $db, $row, $_POST, $allowupdate, $p, $_SESSION, $_GET, $unitdescdetailkey, $locationid, $termid, $unitid, $pdf, $temp, $html)
+    {
+        if (mysqli_num_rows($sql_ok)) {
+            $row = mysqli_fetch_array($sql_ok) or die(basename(__FILE__, '.php')."-025: ".mysqli_error($db));
+            
+            $unitdescdetailkey = $row["unitdescdetailkey"];
+            if (!isset($_POST["btnPDF"])) {
+                if ($allowupdate && (($p->admin_access_allowed('SZ') || (in_array($_SESSION[$_GET["trid"] . "usertype"], array('U','O')) && $p->update_allowed(''))) && !in_array($_SESSION[$_GET["trid"] . "admin"], array('D','B','J')))) {
+                    echo '<tr><td><a href="javascript:unitdescriptionupdate('. $unitdescdetailkey . ',\'' . $locationid . '\',\''. $termid . '\',\''. $unitid . '\',\'orggen\',5,0,1)">Organisation:</a></td></tr>';
+                }//endif
+                else {
+                    echo '<tr><td><b>Organisation:</b></td></tr>';
+                }//endelse
+            }//endelse
+        return array($row, $unitdescdetailkey, $temp, $html);
+        }
+    }
+
     function process_form(){
         
         global $p, $db, $subdisciplineid, $locationid, $termid, $unitid, $unitname, $unitlevel, $unitcreditpoint, $unitasced, $unitgradingbasis, $unitprofessionalengagement, $nosupplementary;
@@ -6228,7 +6280,6 @@ class unitdescription_page extends basePage{
     function __construct(){
         basePage::basePageFunction();
     }//endfunction
-    
 }//endclass
 
 class PDF extends \Mpdf\Mpdf{
@@ -6273,55 +6324,54 @@ class PDF extends \Mpdf\Mpdf{
         if ($this->pdfFirstPageTitlePrinted){
             $this->Image('image/img_logo_2019.jpg',6.8,15.2,55.5,14.6);
             //$this->Image('image/line_header.png',120,0,50,50);
-            $this->SetLeftMargin(10);
-            $this->SetFont('arial','',12);
-            $this->SetY(15);
-            $this->SetX(125);
-            $this->Cell('',10,'Course Description (Higher Education)',0,1,'L');
-            $this->SetFont('arial','',10);
-            $this->SetY(22);
-            $this->SetX(125);
+            $this->setleftMargin(10);
+            $this->setFont('arial','',12);
+            $this->setY(15);
+            $this->setX(125);
+            $this->cell('',10,'Course Description (Higher Education)',0,1,'L');
+            $this->setFont('arial','',10);
+            $this->setY(22);
+            $this->setX(125);
             if(strlen($this->pdfHeaderTitle) < 40){
-                $this->Cell('',10,$this->pdfHeaderTitle,0,0,'L');
+                $this->cell('',10,$this->pdfHeaderTitle,0,0,'L');
             }
             else {
-                $this->MultiCell('',4,$this->pdfHeaderTitle,0,0,'L');
+                $this->multiCell('',4,$this->pdfHeaderTitle,0,0,'L');
             }
             
             $this->Ln(3);
-            $this->SetLeftMargin(10);
-            $this->SetFont('','B',20);
+            $this->setLeftMargin(10);
+            $this->setFont('','B',20);
             
             
             if ($_SESSION[$_GET["trid"] . "udstatus"]!=='P'){
-                
-                $this->SetFont('','B',10);
-                $this->SetTextColor(255,192,203);
-                $this->SetX(20);
-                $this->SetY(30);
-                $this->Cell('',10,'Course Description Incomplete - Preview use only',0,1,'L');
+                $this->setFont('','B',10);
+                $this->setTextColor(255,192,203);
+                $this->setX(20);
+                $this->setY(30);
+                $this->cell('',10,'Course Description Incomplete - Preview use only',0,1,'L');
             }//endif
             else {
-                $this->SetFont('','B',16);
+                $this->setFont('','B',16);
             }//endelse
         }//endif
         
-        $this->SetLeftMargin(10);
-        $this->SetFont('','B',20);
+        $this->setLeftMargin(10);
+        $this->setFont('','B',20);
         
-        $this->SetX(10);
+        $this->setX(10);
         
         $this->pdfFirstPageTitlePrinted = true;
-        $this->Ln();
+        $this->ln();
         
-        $this->SetLeftMargin($oldleftmargin);
+        $this->setLeftMargin($oldleftmargin);
         
     }//endfunction
     
 }//endclass
 
-// MAIN
-$p = new unitdescription_page();
+// main.php
+$p = new unitDescription_Page();
 
 //Usertype Z coming from fdlMarks
 if ($_GET["type"]=='Z'){
